@@ -1,0 +1,15 @@
+{
+  "name": "TargetiX SL1",
+  "version": "2.7",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "firmware/bootloader.bin", "offset": 4096 },
+        { "path": "firmware/partitions.bin", "offset": 32768 },
+        { "path": "firmware/firmware_sl1_v2.7.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}

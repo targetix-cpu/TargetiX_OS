@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TargetiX OS — Прошивка пристрою</title>
+
+  <!-- Скрипт миттєвого встановлення теми -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      const theme = savedTheme ? savedTheme : (systemPrefersLight ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233b82f6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='m12 8 4 4-4 4'/><path d='M8 12h8'/></svg>">
+
+  <!-- Шрифт Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* Сучасні токени UI */
+    :root[data-theme="dark"] {
+      --bg: #030712;
+      --card-bg: rgba(15, 23, 42, 0.65);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-border-hover: rgba(59, 130, 246, 0.5);
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --primary-glow: rgba(59, 130, 246, 0.35);
+      --input-bg: rgba(15, 23, 42, 0.85);
+      --dropdown-hover: rgba(59, 130, 246, 0.15);
+      --shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.8);
+      --inner-card-bg: rgba(15, 23, 42, 0.5);
+      --device-bg: radial-gradient(circle at center, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%);
+      --status-success: #10b981;
+      --status-error: #ef4444;
+      --scrollbar-thumb: rgba(255, 255, 255, 0.15);
+      --scrollbar-thumb-hover: rgba(255, 255, 255, 0.3);
+    }
+
+    :root[data-theme="light"] {
+      --bg: #f8fafc;
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --card-border: rgba(226, 232, 240, 0.9);
+      --card-border-hover: rgba(37, 99, 235, 0.4);
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-glow: rgba(37, 99, 235, 0.25);
+      --input-bg: #ffffff;
+      --dropdown-hover: rgba(37, 99, 235, 0.08);
+      --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+      --inner-card-bg: rgba(241, 245, 249, 0.8);
+      --device-bg: radial-gradient(circle at center, #ffffff 0%, #e2e8f0 100%);
+      --status-success: #059669;
+      --status-error: #dc2626;
+      --scrollbar-thumb: rgba(0, 0, 0, 0.15);
+      --scrollbar-thumb-hover: rgba(0, 0, 0, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      padding: 20px;
+    }
+
+    .bg-glow-1 {
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, var(--primary) 0%, rgba(59, 130, 246, 0) 70%);
+      filter: blur(120px);
+      opacity: 0.18;
+      top: -150px;
+      left: -150px;
+      border-radius: 50%;
+      z-index: 0;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    .bg-glow-2 {
+      position: absolute;
+      width: 650px;
+      height: 650px;
+      background: radial-gradient(circle, #8b5cf6 0%, rgba(139, 92, 246, 0) 70%);
+      filter: blur(120px);
+      opacity: 0.15;
+      bottom: -150px;
+      right: -150px;
+      border-radius: 50%;
+      z-index: 0;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    .main-container {
+      max-width: 1100px;
+      width: 100%;
+      height: 100%;
+      max-height: 880px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .card {
+      position: relative;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      padding: 32px 40px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      color: var(--primary);
+      filter: drop-shadow(0 0 16px var(--primary-glow));
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    .brand-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .theme-toggle-btn {
+      background: var(--inner-card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 10px 18px;
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--primary-glow);
+    }
+
+    .theme-toggle-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--primary);
+      fill: none;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 32px;
+      align-items: stretch;
+      flex: 1;
+      min-height: 0;
+    }
+
+    @media (max-width: 900px) {
+      body { height: auto; }
+      .main-container { height: auto; max-height: none; }
+      .card-grid { grid-template-columns: 1fr; }
+    }
+
+    .left-col {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      height: 100%;
+      justify-content: space-between;
+    }
+
+    /* ФУТУРИСТИЧНИЙ БЛОК ПРИСТРОЮ ТА USB СТАНУ (ОПТИМІЗОВАНИЙ ДЛЯ GPU) */
+    .device-stage {
+      position: relative;
+      border-radius: 24px;
+      border: 1px solid var(--card-border);
+      background: var(--device-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      flex: 1;
+      min-height: 250px;
+      overflow: hidden;
+      transition: border-color 0.4s ease, box-shadow 0.4s ease;
+      will-change: transform, border-color, box-shadow;
+      transform: translate3d(0,0,0);
+    }
+
+    .scanner-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--status-success), transparent);
+      box-shadow: 0 0 15px var(--status-success);
+      opacity: 0;
+      z-index: 5;
+      will-change: transform, opacity;
+      transform: translate3d(0, -20px, 0);
+    }
+
+    .device-stage.connected .scanner-line {
+      animation: scan 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      opacity: 0.85;
+    }
+
+    @keyframes scan {
+      0% { transform: translate3d(0, 0, 0); }
+      50% { transform: translate3d(0, 260px, 0); }
+      100% { transform: translate3d(0, 0, 0); }
+    }
+
+    .device-stage.connected {
+      border-color: rgba(16, 185, 129, 0.4);
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.15), inset 0 0 30px rgba(16, 185, 129, 0.05);
+    }
+
+    .device-stage.disconnected {
+      border-color: rgba(239, 68, 68, 0.2);
+    }
+
+    .device-img-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    .device-img {
+      max-width: 85%;
+      max-height: 180px;
+      object-fit: contain;
+      border-radius: 16px;
+      opacity: 0;
+      transition: opacity 0.4s ease, filter 0.4s ease;
+      position: relative;
+      z-index: 2;
+      filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.45));
+      will-change: transform, filter;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .device-stage.loaded .device-img {
+      opacity: 1;
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .device-stage.connected .device-img {
+      filter: drop-shadow(0 15px 30px rgba(16, 185, 129, 0.35));
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate3d(0, 0px, 0) rotate(0deg); }
+      50% { transform: translate3d(0, -6px, 0) rotate(0.5deg); }
+    }
+
+    .data-cable-connector {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 0;
+      background: linear-gradient(to top, var(--primary), var(--status-success));
+      box-shadow: 0 0 10px var(--status-success);
+      transition: height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+      z-index: 3;
+      will-change: height;
+    }
+
+    .device-stage.connected .data-cable-connector {
+      height: 38px;
+    }
+
+    .usb-status-card {
+      background: var(--inner-card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 16px 20px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .usb-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .usb-icon-box svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--text-muted);
+      transition: all 0.3s ease;
+    }
+
+    .status-connected .usb-icon-box {
+      background: rgba(16, 185, 129, 0.12);
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .status-connected .usb-icon-box svg {
+      stroke: var(--status-success);
+      filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.6));
+    }
+
+    .status-disconnected .usb-icon-box {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: rgba(239, 68, 68, 0.2);
+    }
+
+    .status-disconnected .usb-icon-box svg {
+      stroke: var(--status-error);
+    }
+
+    .usb-info-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+    }
+
+    .usb-status-title {
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--text-muted);
+      position: relative;
+    }
+
+    .status-connected .status-dot {
+      background-color: var(--status-success);
+      box-shadow: 0 0 10px var(--status-success);
+    }
+
+    .status-connected .status-dot::after {
+      content: '';
+      position: absolute;
+      top: -3px; left: -3px; right: -3px; bottom: -3px;
+      border-radius: 50%;
+      border: 2px solid var(--status-success);
+      animation: pulse-ring 1.8s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    }
+
+    @keyframes pulse-ring {
+      0% { transform: scale(0.5); opacity: 1; }
+      80%, 100% { transform: scale(2.2); opacity: 0; }
+    }
+
+    .status-disconnected .status-dot {
+      background-color: var(--status-error);
+    }
+
+    .usb-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    .usb-hint strong {
+      color: var(--primary);
+    }
+
+    /* Права колонка */
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      justify-content: space-between;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 520px) {
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    .form-group {
+      text-align: left;
+      position: relative;
+    }
+
+    label {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    /* Кастомний селект */
+    .custom-select-wrapper {
+      position: relative;
+      user-select: none;
+    }
+
+    .custom-select-wrapper select {
+      display: none;
+    }
+
+    .custom-select-trigger {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      background: var(--input-bg);
+      color: var(--text-main);
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .custom-select-trigger:hover {
+      border-color: var(--card-border-hover);
+    }
+
+    .custom-select-wrapper.open .custom-select-trigger {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px var(--primary-glow);
+    }
+
+    .custom-select-trigger .arrow {
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-muted);
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .custom-select-wrapper.open .arrow {
+      transform: rotate(180deg);
+      stroke: var(--primary);
+    }
+
+    .custom-options {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0; right: 0;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(-8px);
+      transition: all 0.2s ease;
+      z-index: 50;
+      padding: 8px;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+
+    .custom-select-wrapper.open .custom-options {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .custom-option {
+      padding: 12px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.15s ease;
+    }
+
+    .custom-option:hover {
+      background: var(--dropdown-hover);
+    }
+
+    .custom-option.selected {
+      background: var(--primary-glow);
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .custom-option .check-icon {
+      width: 16px;
+      height: 16px;
+      opacity: 0;
+      stroke: var(--primary);
+    }
+
+    .custom-option.selected .check-icon {
+      opacity: 1;
+    }
+
+    /* CHANGELOG СТИЛЬ */
+    .changelog-card {
+      background: var(--inner-card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 22px 24px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex: 1;
+      min-height: 220px;
+      max-height: 360px;
+      overflow: hidden;
+    }
+
+    .changelog-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--card-border);
+      flex-shrink: 0;
+    }
+
+    .changelog-title-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .changelog-icon {
+      width: 18px;
+      height: 18px;
+      stroke: var(--primary);
+    }
+
+    .changelog-title {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .version-badge {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: var(--primary-glow);
+      color: var(--primary);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .changelog-body {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 8px;
+      transition: opacity 0.15s ease;
+    }
+
+    /* Webkit Scrollbar */
+    .changelog-body::-webkit-scrollbar {
+      width: 6px;
+    }
+    .changelog-body::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .changelog-body::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-thumb);
+      border-radius: 10px;
+    }
+    .changelog-body::-webkit-scrollbar-thumb:hover {
+      background: var(--scrollbar-thumb-hover);
+    }
+
+    /* Firefox Scrollbar */
+    .changelog-body {
+      scrollbar-width: thin;
+      scrollbar-color: var(--scrollbar-thumb) transparent;
+    }
+
+    .changelog-body.updating { opacity: 0; }
+
+    .changelog-section {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .changelog-section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .changelog-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .changelog-list-item {
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--text-main);
+      position: relative;
+      padding-left: 14px;
+    }
+
+    .changelog-list-item::before {
+      content: "•";
+      position: absolute;
+      left: 2px;
+      color: var(--text-muted);
+    }
+
+    .changelog-item {
+      font-size: 13px;
+      color: var(--text-main);
+      line-height: 1.4;
+    }
+
+    /* Кнопка прошивки */
+    esp-web-install-button {
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+
+    esp-web-install-button button {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+      color: #ffffff;
+      border: none;
+      padding: 16px 24px;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: inherit;
+      border-radius: 16px;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.25s ease;
+      box-shadow: 0 10px 30px var(--primary-glow);
+      letter-spacing: -0.01em;
+    }
+
+    esp-web-install-button button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px var(--primary-glow);
+      filter: brightness(1.08);
+    }
+
+    esp-web-install-button button:active {
+      transform: translateY(0);
+    }
+
+    .unsupported-msg {
+      color: var(--status-error);
+      font-size: 13px;
+      display: block;
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+      opacity: 0.8;
+      padding-top: 8px;
+    }
+  </style>
+
+  <script
+    type="module"
+    src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"
+  ></script>
+</head>
+<body>
+
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+
+  <div class="main-container">
+    <div class="card">
+      
+      <!-- Хедер -->
+      <div class="card-header">
+        <div class="brand-title">
+          <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><path d="m12 8 4 4-4 4"/><path d="M8 12h8"/>
+          </svg>
+          <div>
+            <h1>TargetiX OS</h1>
+            <div class="brand-subtitle">Підключіть пристрій через USB для завантаження ПЗ</div>
+          </div>
+        </div>
+
+        <button class="theme-toggle-btn" id="theme-toggle" title="Змінити тему">
+          <svg id="theme-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+          <span id="theme-text">Темна</span>
+        </button>
+      </div>
+
+      <!-- Головна сітка -->
+      <div class="card-grid">
+        
+        <!-- Ліва колонка -->
+        <div class="left-col">
+          <!-- Футуристичний сценічний блок пристрою -->
+          <div class="device-stage disconnected" id="device-stage">
+            <div class="scanner-line"></div>
+            <div class="device-img-wrapper">
+              <img src="device_dev.png" alt="TargetiX Device" class="device-img" id="device-img">
+            </div>
+            <div class="data-cable-connector"></div>
+          </div>
+
+          <!-- Картка USB статусу -->
+          <div class="usb-status-card status-disconnected" id="usb-status-card">
+            <div class="usb-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v8M12 22v-4M8 6h8M6 10h12M10 18h4"/>
+              </svg>
+            </div>
+            <div class="usb-info-text">
+              <div class="usb-status-title">
+                <span class="status-dot"></span>
+                <span id="usb-status-text">Пристрій не знайдено</span>
+              </div>
+              <p class="usb-hint" id="usb-hint">
+                Затисніть <strong>BOOT</strong> при підключенні USB.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Права колонка -->
+        <div class="right-col">
+          
+          <div class="form-row">
+            <!-- Вибір моделі -->
+            <div class="form-group">
+              <label id="device-label">Модель</label>
+              <div class="custom-select-wrapper" id="device-select-wrapper">
+                <select id="device-select" onchange="onDeviceChange()">
+                  <option value="dev" data-manifest="manifest_dev.json" data-img="device_dev.png">TargetiX_DEV</option>
+                  <option value="sl1" data-manifest="manifest_sl1.json" data-img="device_sl1.png">TargetiX_SL1</option>
+                  <option value="sl2" data-manifest="manifest_sl2.json" data-img="device_sl2.png">TargetiX_SL2</option>
+                  <option value="sl3" data-manifest="manifest_sl3.json" data-img="device_sl3.png">TargetiX_SL3</option>
+                  <option value="sl4" data-manifest="manifest_sl4.json" data-img="device_sl4.png">TargetiX_SL4</option>
+                  <option value="sl5" data-manifest="manifest_sl5.json" data-img="device_sl5.png">TargetiX_SL5</option>
+                </select>
+
+                <div class="custom-select-trigger" tabindex="0" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="device-label">
+                  <span class="selected-text">TargetiX_DEV</span>
+                  <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
+
+                <div class="custom-options" role="listbox"></div>
+              </div>
+            </div>
+
+            <!-- Вибір версії ПЗ -->
+            <div class="form-group">
+              <label id="version-label">Версія ПЗ</label>
+              <div class="custom-select-wrapper" id="version-select-wrapper">
+                <select id="version-select" onchange="updateManifest()"></select>
+
+                <div class="custom-select-trigger" tabindex="0" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="version-label">
+                  <span class="selected-text">Завантаження...</span>
+                  <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
+
+                <div class="custom-options" role="listbox"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Changelog Картка -->
+          <div class="changelog-card" id="changelog-card">
+            <div class="changelog-header">
+              <div class="changelog-title-group">
+                <svg class="changelog-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <path d="M12 18v-6"/>
+                  <path d="M9 15l3 3 3-3"/>
+                </svg>
+                <span class="changelog-title" id="changelog-title">Що нового</span>
+              </div>
+              <span class="version-badge" id="changelog-version-badge">v1.0.0</span>
+            </div>
+
+            <div class="changelog-body" id="changelog-content">
+              <!-- Динамічні зміни -->
+            </div>
+          </div>
+
+          <!-- Кнопка прошивки -->
+          <esp-web-install-button id="installer" manifest="manifest_dev.json">
+            <button slot="activate">Підключити та прошити</button>
+            <span slot="unsupported" class="unsupported-msg">
+              ⚠️ Потрібен Chrome, Edge або Brave на ПК (Web Serial API).
+            </span>
+          </esp-web-install-button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <footer>
+      TargetiX OS &copy; 2026 • Web Flasher
+    </footer>
+  </div>
+
+  <script>
+    let deviceVersions = {};
+
+    // -------------------------------------------------------------
+    // ЗВУКОВІ ЕФЕКТИ
+    // -------------------------------------------------------------
+    let audioCtx = null;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (AudioCtx) audioCtx = new AudioCtx();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playConnectSound() {
+      requestAnimationFrame(() => {
+        try {
+          const ctx = getAudioContext();
+          if (!ctx) return;
+
+          const now = ctx.currentTime;
+          const osc1 = ctx.createOscillator();
+          const osc2 = ctx.createOscillator();
+          const gain = ctx.createGain();
+
+          osc1.type = 'sine';
+          osc2.type = 'sine';
+
+          osc1.frequency.setValueAtTime(659.25, now);
+          osc1.frequency.exponentialRampToValueAtTime(987.77, now + 0.08);
+
+          osc2.frequency.setValueAtTime(987.77, now);
+          osc2.frequency.exponentialRampToValueAtTime(1318.51, now + 0.1);
+
+          gain.gain.setValueAtTime(0.001, now);
+          gain.gain.linearRampToValueAtTime(0.18, now + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.3);
+
+          osc1.connect(gain);
+          osc2.connect(gain);
+          gain.connect(ctx.destination);
+
+          osc1.start(now);
+          osc2.start(now);
+          osc1.stop(now + 0.3);
+          osc2.stop(now + 0.3);
+        } catch (e) {
+          console.warn('Помилка відтворення звуку:', e);
+        }
+      });
+    }
+
+    function playDisconnectSound() {
+      requestAnimationFrame(() => {
+        try {
+          const ctx = getAudioContext();
+          if (!ctx) return;
+
+          const now = ctx.currentTime;
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(783.99, now);
+          osc.frequency.exponentialRampToValueAtTime(523.25, now + 0.12);
+
+          gain.gain.setValueAtTime(0.001, now);
+          gain.gain.linearRampToValueAtTime(0.15, now + 0.015);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+
+          osc.start(now);
+          osc.stop(now + 0.22);
+        } catch (e) {
+          console.warn('Помилка відтворення звуку:', e);
+        }
+      });
+    }
+
+    // 1. ДИНАМІЧНЕ ЗАВАНТАЖЕННЯ ВЕРСІЙ
+    async function loadDynamicVersions() {
+      try {
+        const res = await fetch('versions.json?t=' + Date.now());
+        if (!res.ok) throw new Error('Файл versions.json не знайдено');
+        deviceVersions = await res.json();
+      } catch (e) {
+        console.warn('Резервна конфігурація версій...');
+        setFallbackVersions();
+      } finally {
+        restoreSavedDevice();
+        onDeviceChange();
+      }
+    }
+
+    function setFallbackVersions() {
+      const devInDev = [{
+        value: 'dev',
+        label: 'В розробці',
+        changes: [
+          { type: 'dev', text: 'Прошивка перебуває в процесі активної розробки.' },
+          { type: 'dev', text: 'Слідкуйте за оновленнями в офіційному репозиторії!' }
+        ]
+      }];
+
+      deviceVersions = {
+        dev: devInDev, sl1: devInDev, sl2: devInDev,
+        sl3: devInDev, sl4: devInDev, sl5: devInDev
+      };
+    }
+
+    function restoreSavedDevice() {
+      const deviceSelect = document.getElementById('device-select');
+      const savedDevice = localStorage.getItem('selected_device');
+      if (savedDevice && deviceSelect.querySelector(`option[value="${savedDevice}"]`)) {
+        deviceSelect.value = savedDevice;
+      }
+    }
+
+    // 2. ОБРОБКА ІНДИКАТОРА ЗАВАНТАЖЕННЯ ФОТО
+    const deviceStage = document.getElementById('device-stage');
+    const deviceImg = document.getElementById('device-img');
+
+    function handleImageLoad() {
+      deviceStage.classList.add('loaded');
+    }
+
+    if (deviceImg.complete) {
+      handleImageLoad();
+    } else {
+      deviceImg.addEventListener('load', handleImageLoad);
+      deviceImg.addEventListener('error', handleImageLoad);
+    }
+
+    // 3. ПЕРЕМИКАЧ ТЕМИ
+    const themeBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeText = document.getElementById('theme-text');
+    const htmlEl = document.documentElement;
+
+    const sunIcon = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
+    const moonIcon = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
+
+    function updateThemeUI(theme) {
+      if (theme === 'light') {
+        themeIcon.innerHTML = moonIcon;
+        themeText.textContent = 'Темна';
+      } else {
+        themeIcon.innerHTML = sunIcon;
+        themeText.textContent = 'Світла';
+      }
+    }
+
+    updateThemeUI(htmlEl.getAttribute('data-theme'));
+
+    themeBtn.addEventListener('click', () => {
+      const currentTheme = htmlEl.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      htmlEl.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeUI(newTheme);
+    });
+
+    // 4. ІНІЦІАЛІЗАЦІЯ ДРОПДАУНУ
+    function initCustomSelect(wrapper) {
+      const realSelect = wrapper.querySelector('select');
+      const optionsContainer = wrapper.querySelector('.custom-options');
+      
+      optionsContainer.innerHTML = '';
+
+      Array.from(realSelect.options).forEach((opt, index) => {
+        const optionEl = document.createElement('div');
+        optionEl.classList.add('custom-option');
+        optionEl.setAttribute('role', 'option');
+        if (index === realSelect.selectedIndex) {
+          optionEl.classList.add('selected');
+          optionEl.setAttribute('aria-selected', 'true');
+        } else {
+          optionEl.setAttribute('aria-selected', 'false');
+        }
+        
+        optionEl.innerHTML = `
+          <span>${opt.textContent}</span>
+          <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        `;
+
+        optionEl.addEventListener('click', (e) => {
+          e.stopPropagation();
+          realSelect.selectedIndex = index;
+          syncCustomSelect(wrapper);
+          closeDropdown(wrapper);
+          realSelect.dispatchEvent(new Event('change'));
+        });
+
+        optionsContainer.appendChild(optionEl);
+      });
+
+      syncCustomSelect(wrapper);
+    }
+
+    function syncCustomSelect(wrapper) {
+      const realSelect = wrapper.querySelector('select');
+      const triggerText = wrapper.querySelector('.selected-text');
+      const optionsContainer = wrapper.querySelector('.custom-options');
+      
+      if (!realSelect || !realSelect.options.length) return;
+
+      const selectedOption = realSelect.options[realSelect.selectedIndex] || realSelect.options[0];
+      if (triggerText) triggerText.textContent = selectedOption.textContent;
+
+      const customOptions = optionsContainer.querySelectorAll('.custom-option');
+      customOptions.forEach((optEl, idx) => {
+        if (idx === realSelect.selectedIndex) {
+          optEl.classList.add('selected');
+          optEl.setAttribute('aria-selected', 'true');
+        } else {
+          optEl.classList.remove('selected');
+          optEl.setAttribute('aria-selected', 'false');
+        }
+      });
+    }
+
+    function openDropdown(wrapper) {
+      const trigger = wrapper.querySelector('.custom-select-trigger');
+      wrapper.classList.add('open');
+      trigger.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeDropdown(wrapper) {
+      const trigger = wrapper.querySelector('.custom-select-trigger');
+      wrapper.classList.remove('open');
+      trigger.setAttribute('aria-expanded', 'false');
+    }
+
+    // 5. ОПТИМІЗОВАНИЙ ІНДИКАТОР ПІДКЛЮЧЕННЯ USB
+    function initUSBTracking() {
+      const statusCard = document.getElementById('usb-status-card');
+      const statusText = document.getElementById('usb-status-text');
+      const usbHint = document.getElementById('usb-hint');
+      const deviceStage = document.getElementById('device-stage');
+
+      if (!('serial' in navigator)) {
+        statusCard.className = 'usb-status-card status-disconnected';
+        statusText.textContent = 'API не підтримується';
+        usbHint.textContent = 'Використовуйте Chrome або Edge на комп\'ютері.';
+        return;
+      }
+
+      async function checkPorts() {
+        try {
+          const ports = await navigator.serial.getPorts();
+          if (ports.length > 0) {
+            let matchedName = "TargetiX Device";
+            
+            try {
+              const info = ports[0].getInfo();
+              if (info.usbVendorId) {
+                matchedName = "TargetiX Device";
+              }
+            } catch(e) {}
+
+            setConnectedState(matchedName, false);
+          } else {
+            setDisconnectedState(false);
+          }
+        } catch (e) {
+          console.warn('Помилка перевірки портів:', e);
+        }
+      }
+
+      function setConnectedState(deviceName = "TargetiX Device", playSound = true) {
+        requestAnimationFrame(() => {
+          statusCard.className = 'usb-status-card status-connected';
+          deviceStage.className = 'device-stage connected loaded';
+          statusText.textContent = `${deviceName} підключено`;
+          usbHint.innerHTML = 'Пристрій готовий до роботи. Затисніть <strong>BOOT</strong> при збоях.';
+
+          if (playSound) playConnectSound();
+        });
+      }
+
+      function setDisconnectedState(playSound = true) {
+        requestAnimationFrame(() => {
+          statusCard.className = 'usb-status-card status-disconnected';
+          deviceStage.className = 'device-stage disconnected loaded';
+          statusText.textContent = 'Пристрій не знайдено';
+          usbHint.innerHTML = 'Затисніть кнопку <strong>BOOT</strong> при підключенні USB.';
+          if (playSound) playDisconnectSound();
+        });
+      }
+
+      navigator.serial.addEventListener('connect', () => {
+        setConnectedState("TargetiX Device", true);
+      });
+
+      navigator.serial.addEventListener('disconnect', () => {
+        setDisconnectedState(true);
+      });
+      
+      checkPorts();
+    }
+
+    // 6. ПОДІЇ ТА ІНІЦІАЛІЗАЦІЯ
+    document.addEventListener('DOMContentLoaded', () => {
+      const wrappers = document.querySelectorAll('.custom-select-wrapper');
+
+      wrappers.forEach(wrapper => {
+        const trigger = wrapper.querySelector('.custom-select-trigger');
+        const realSelect = wrapper.querySelector('select');
+
+        trigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = wrapper.classList.contains('open');
+          wrappers.forEach(w => closeDropdown(w));
+          if (!isOpen) openDropdown(wrapper);
+        });
+
+        trigger.addEventListener('keydown', (e) => {
+          if (['ArrowDown', 'ArrowUp', 'Enter', 'Space', 'Escape'].includes(e.code)) {
+            e.preventDefault();
+          }
+
+          if (e.code === 'Escape') {
+            closeDropdown(wrapper);
+            return;
+          }
+
+          if (e.code === 'Enter' || e.code === 'Space') {
+            if (wrapper.classList.contains('open')) {
+              closeDropdown(wrapper);
+            } else {
+              wrappers.forEach(w => closeDropdown(w));
+              openDropdown(wrapper);
+            }
+            return;
+          }
+
+          if (e.code === 'ArrowDown' || e.code === 'ArrowUp') {
+            if (!wrapper.classList.contains('open')) {
+              openDropdown(wrapper);
+            }
+            const count = realSelect.options.length;
+            if (count === 0) return;
+
+            let nextIdx = realSelect.selectedIndex + (e.code === 'ArrowDown' ? 1 : -1);
+            if (nextIdx < 0) nextIdx = 0;
+            if (nextIdx >= count) nextIdx = count - 1;
+
+            realSelect.selectedIndex = nextIdx;
+            syncCustomSelect(wrapper);
+            realSelect.dispatchEvent(new Event('change'));
+          }
+        });
+
+        initCustomSelect(wrapper);
+      });
+
+      document.addEventListener('click', (e) => {
+        wrappers.forEach(wrapper => {
+          if (!wrapper.contains(e.target)) closeDropdown(wrapper);
+        });
+      });
+
+      initUSBTracking();
+      loadDynamicVersions();
+    });
+
+    // 7. ЗМІНА МОДЕЛІ ПРИСТРОЮ
+    function onDeviceChange() {
+      const deviceSelect = document.getElementById('device-select');
+      const deviceWrapper = document.getElementById('device-select-wrapper');
+      const versionSelect = document.getElementById('version-select');
+      const versionWrapper = document.getElementById('version-select-wrapper');
+
+      const selectedDevice = deviceSelect.value;
+      localStorage.setItem('selected_device', selectedDevice);
+
+      initCustomSelect(deviceWrapper);
+
+      const versions = deviceVersions[selectedDevice] || deviceVersions['dev'];
+
+      versionSelect.innerHTML = '';
+      if (versions) {
+        versions.forEach(v => {
+          const opt = document.createElement('option');
+          opt.value = v.value;
+          opt.textContent = v.label;
+          if (v.changelog) opt.setAttribute('data-changelog', v.changelog);
+          if (v.manifest) opt.setAttribute('data-manifest', v.manifest);
+          versionSelect.appendChild(opt);
+        });
+      }
+
+      initCustomSelect(versionWrapper);
+      updateManifest();
+    }
+
+    // 8. ОБНОВЛЕННЯ МАНІФЕСТУ ТА CHANGELOG
+    function updateManifest() {
+      const deviceSelect = document.getElementById('device-select');
+      const versionSelect = document.getElementById('version-select');
+      const installer = document.getElementById('installer');
+      
+      const changelogTitle = document.getElementById('changelog-title');
+      const changelogBadge = document.getElementById('changelog-version-badge');
+      const changelogContent = document.getElementById('changelog-content');
+
+      const selectedDeviceOpt = deviceSelect.options[deviceSelect.selectedIndex];
+      const selectedVersionOpt = versionSelect.options[versionSelect.selectedIndex];
+
+      if (!selectedDeviceOpt || !selectedVersionOpt) return;
+
+      const versionManifest = selectedVersionOpt.getAttribute('data-manifest');
+      const deviceManifest = selectedDeviceOpt.getAttribute('data-manifest');
+      const manifestPath = versionManifest || deviceManifest || 'manifest_dev.json';
+
+      installer.setAttribute('manifest', manifestPath);
+
+      const newImgSrc = selectedDeviceOpt.getAttribute('data-img');
+      if (newImgSrc && deviceImg.getAttribute('src') !== newImgSrc) {
+        deviceStage.classList.remove('loaded');
+        deviceImg.src = newImgSrc;
+      }
+
+      changelogContent.classList.add('updating');
+
+      setTimeout(() => {
+        const selectedDevice = deviceSelect.value;
+        const selectedVersionVal = versionSelect.value;
+        
+        const versions = deviceVersions[selectedDevice] || [];
+        const currentVersionObj = versions.find(v => v.value === selectedVersionVal);
+
+        if (selectedVersionVal === 'dev') {
+          changelogTitle.textContent = 'Розробка';
+          changelogBadge.textContent = 'DEV';
+          changelogBadge.style.display = 'inline-block';
+          installer.style.display = 'none';
+        } else {
+          changelogTitle.textContent = `🆕 Що нового у версії ${selectedVersionVal}`;
+          changelogBadge.textContent = `v${selectedVersionVal}`;
+          changelogBadge.style.display = 'inline-block';
+          installer.style.display = 'block';
+        }
+
+        changelogContent.innerHTML = '';
+
+        if (currentVersionObj && Array.isArray(currentVersionObj.changes)) {
+          const categories = {
+            feat: { title: '🚀 Нові можливості', items: [] },
+            fix:  { title: '🐛 Виправлення помилок', items: [] },
+            impr: { title: '🎨 UI/UX покращення', items: [] },
+            tech: { title: '🔧 Технічні покращення', items: [] },
+            dev:  { title: 'ℹ️ Інформація', items: [] }
+          };
+
+          currentVersionObj.changes.forEach(change => {
+            if (categories[change.type]) {
+              categories[change.type].items.push(change.text);
+            } else {
+              categories.impr.items.push(change.text);
+            }
+          });
+
+          Object.keys(categories).forEach(catKey => {
+            const cat = categories[catKey];
+            if (cat.items.length > 0) {
+              const section = document.createElement('div');
+              section.className = 'changelog-section';
+
+              let itemsHTML = cat.items
+                .map(text => `<li class="changelog-list-item">${text}</li>`)
+                .join('');
+
+              section.innerHTML = `
+                <div class="changelog-section-title">${cat.title}</div>
+                <ul class="changelog-list">${itemsHTML}</ul>
+              `;
+
+              changelogContent.appendChild(section);
+            }
+          });
+
+        } else {
+          const rawChangelog = selectedVersionOpt.getAttribute('data-changelog') || 'Опис відсутній.';
+          const item = document.createElement('div');
+          item.className = 'changelog-item';
+          item.innerHTML = `<span class="changelog-text-content">${rawChangelog}</span>`;
+          changelogContent.appendChild(item);
+        }
+
+        changelogContent.scrollTop = 0;
+        changelogContent.classList.remove('updating');
+      }, 100);
+    }
+  </script>
+
+</body>
+</html>
