@@ -1,0 +1,273 @@
+CP210x Custom Set-up Utility Release Notes
+Copyright (C) 2014-2022 Silicon Laboratories Inc.
+
+This release contains the following components:
+
+        * CustomUSBDriverWizard.exe
+        * ReleaseNotes.txt (this file)
+
+This release supports the following Windows operating systems:
+
+        * Windows 11
+        * Windows 10
+        * Windows 8.1
+        * Windows 8
+        * Windows 7
+ 
+This release supports the following devices:
+
+        * CP210x
+        * CP2130
+        * USBXpress
+        * C8051F32x
+        * C8051F34x
+
+KNOWN ISSUES AND LIMITATIONS
+----------------------------
+
+	1.) When using this utility, if any changes are made to the default values 
+	    then driver .inf files will need to be recertified through Microsoft.
+
+	2.) The DPInst installer will only install signed drivers. To use this utility
+            while testing your unsigned generated driver run the installer executable with
+            a /lm option
+
+
+RELEASE DATES
+-------------
+	CP210x Custom Set-up Utility v11.2.0.0 - Nov 04, 2022
+	CP210x Custom Set-up Utility v11.1.0.0 - May 17, 2022
+	CP210x Custom Set-up Utility v11.0.0.0 - Nov 17, 2021
+	CP210x Custom Set-up Utility v10.1.10.0 - Jan 13, 2021
+	CP210x Custom Set-up Utility v10.1.8.0 - June 26, 2019
+	CP210x Custom Set-up Utility v10.1.7.0 - March 28, 2019
+	CP210x Custom Set-up Utility v6.19.0.6 - March 20, 2019
+	CP210x Custom Set-up Utility v6.19.0.2 - June 26, 2017
+	CP210x Custom Set-up Utility v6.19.0.1 - Feb. 26, 2017
+	CP210x Custom Set-up Utility v6.19 - Dec. 7, 2017
+	CP210x Custom Set-up Utility v6.18 - Dec. 2, 2016
+
+
+REVISION HISTORY
+-----------------
+version v11.2.0.0
+	Updated to include version 11.2.0.167 of the VCP Driver in addition to the existing version 6.7.6.2130 of the VCP Drivers
+	Support Windows 11 driver, to select this, chose Driver package only -> Universal Windows 10 ( VCP v11.2).
+
+version v11.1.0.0
+	Updated to include version 11.1.0.53 of the VCP Driver in addition to the existing version 6.7.6.2130 of the VCP Drivers
+	Support Windows 11 driver, to select this, chose Driver package only -> Universal Windows 10 ( VCP v11.1).
+
+version v11.0.0.0
+	Updated to include version 11.0.0.509 of the VCP Driver in addition to the existing version 6.7.6.2130 of the VCP Drivers
+	
+version v10.1.10.0
+	Updated to include version 10.1.10.103 of the VCP Driver in addition to the existing version 6.7.6.2130 of the VCP Drivers
+
+version v10.1.8.0
+	Updated to include version 10.1.8.2466 of the VCP Driver in addition to the existing version 6.7.6.2130 of the VCP Drivers
+
+version v10.1.7.0
+	Updated to include version 10.1.7.2399 of the VCP Driver in addition to the existing version 6.7.6.2130 of the VCP Drivers
+
+version 6.19.0.6
+	Updated to include version 10.1.6.2388 of the VCP Driver in addition to the existing version 6.7.6.2130 of the VCP Drivers
+
+version 6.19.0.2
+	Updated to include version 10.1.3.2130 of the VCP Driver in addition to the existing version 6.7.6.2130 of the VCP Drivers
+
+version 6.19.0.1
+	Updated to include version 10.1.1.1951 of the VCP Driver in addition to the existing version 6.7.5 of the VCP Drivers
+
+version 6.19
+	Updated to include version 6.7.5 of the VCP Drivers
+
+version 6.18
+	Updated to include version 6.7.4 of the VCP Drivers
+
+version 6.17
+	Updated to include version 6.7.3 of the VCP Drivers
+
+version 6.16
+	Updated to include version 6.7.2 of the VCP Drivers
+	Updated to include version 6.7.2 of the "CP2130 over WinUSB" driver package
+	Updated to include version 6.7.2 of the USBXpress driver package
+	Windows 10 added to the set of supported Windows OSes.
+	Windows 2000, XP and Vista support removed from the set of supported Windows OSes.
+
+version 6.15
+	Updated to include version 6.7 of the VCP Drivers
+
+version 6.14
+	Updated to include official CP2130 support
+
+version 6.13
+	Updated to add CP210x Windows 8.1 support
+
+version 6.11
+	Updated to add USBXPress 4.0 WinUSB driver support
+	Updated to generate the multi-lanugage version of DPInst
+	Updated to include <legacyMode> key to enable uncertified installation on WinXP
+
+version 6.10
+	Updated to include VCP License Agreement
+
+version 6.9
+	Updated to include version 6.6.1 of the VCP Drivers
+	Updated to add <enableNotListedLanguages/> tag for the XML generation.
+
+version 6.8
+	Updated to include all languages in the DPInst installer XML file.
+
+version 6.7
+	Updated to include version 6.6 of the VCP Drivers for WinXP and up, including Win8
+	Updated to generate DPInst installer for version 6.6 of the VCP Drivers
+
+version 6.6
+	Updated to include version 6.5.3 of the VCP Drivers for WinXP and up
+
+version 6.5
+	Updated to include version 3.4 of the Driver Installer (which fixed a bug
+	that required Administrator access for driver installations on Vista and 7)
+	
+version 6.4
+	Updated to include version 6.5 of the VCP Drivers for Win XP and up
+
+version 6.3
+	Updated to include version 6.4 of the VCP Drivers for Win XP and up
+	Corrected a bug in the VID/PID limit for this customization tool
+
+version 6.2
+	Updated to include version 3.2 of the Driver Installer
+	Corrected bug in the version of the 3.3 USBXpress driver
+	in the INF file, adjusted to 2010 instead of 2009
+
+version 6.1
+	Updated to include version 6.3 of the VCP Drivers
+	Updated to include version 3.1 of the Driver Installer
+
+version 6.0.1
+	Corrected problem in USBXpress INF generation
+
+version 6.0
+	Updated to include version 6.2 of the VCP Drivers
+	Updated to include version 3.0 of the Driver Installer
+	Added a feature to support multiple VID/PID combinations in a
+	single installation package
+	
+version 5.2
+	Updated to include version 3.3 of the USBXpress Drivers
+	Corrected problem where Selective Suspend/Serial Enumeration weren't part of
+	customization for VCP if INF only was selected
+	Corrected problem where driver would not uninstall if the directory was missing
+	a trailing '\' character
+
+version 5.1
+	Updated to include version 6.1 of the VCP Drivers
+	Updated to include version 2.8 of the Driver Installer
+
+version 5.0.2
+	Updated to include version 2.7 of the Driver Installer.
+
+version 5.0.1
+	Corrected problem with Selective Suspend being disabled, the INF
+	registry entry had an extra character restricting driver installation
+
+version 5.0
+	Updated to include version 6.0 of the VCP Drivers.
+	Updated to include version 2.6 of the Driver Installer.
+	Added options for selective suspend and serial enumeration.
+
+version 4.9
+	Updated to unclude version 5.4.29 of the VCP Drivers.
+
+version 4.8
+	Updated to include version 3.2 of the USBXpress drivers.
+	Updated to include version 2.5 of the Driver Installer
+
+version 4.7
+	Updated to include version 5.4.24 of the VCP drivers.
+
+version 4.6
+	Updated to include version 5.4 of the VCP drivers.
+
+version 4.5
+	Updated to include version 5.3 of the VCP drivers.
+
+version 4.4
+	Updated to include version 5.2.2 of the VCP drivers.
+	Modified the VID/PID screen to correctly use VIDs and PIDs entered with less
+	than 4 cahracters (Ex. 9 instead of 0009)	
+
+version 4.3
+	Updated to include version 5.2.1 of the VCP drivers.
+
+version 4.2
+	Corrected generated INF strings such that the Provider and Manufacturer match,
+	and the device listed shows up without appended company strings.
+	Updated to include version 5.2 of the VCP drivers.
+	Updated to include version 2.4 of the DriverInstaller.
+
+version 4.1
+	Updated to include version 5.1 of the VCP drivers.
+	Updated to include version 2.2 of the DriverInstaller.
+
+version 4.0
+	Updated to include version 5.0 of the VCP drivers.
+	Updated to include version 2.1 of the DriverInstaller.
+
+version 3.8
+	Fixed bug in customized USBXpress INF file that causing services to conflict.
+
+version 3.7
+	Now includes support for Vista in both driver sets
+	Updated to include version 3.1 of the USBXpress drivers.
+	Updated to include version 4.40 of the VCP drivers.
+	Updated to include latest version of DriverInstaller (2.0).
+
+version 3.6
+	Updated to include version 3.0.5.2 of the USBXpress drivers.
+	Updated to include latest version of the DriverInstaller (1.5).
+
+version 3.5
+	Updated to include version 3.0.4 of the USBXpress drivers.
+	Updated to include latest version of the DriverInstaller (1.4).
+
+version 3.4.1
+	Updated to include latest version of the DriverInstaller (1.3).
+
+version 3.4
+	Updated to include version 4.38a of the VCP drivers.
+	Updated to include version 3.0 of the USBXpress drivers.
+	Removed WHQL prompt.
+	Updated and cleaned up overall user interface.
+
+version 3.3
+	Updated to include version 4.38 of the VCP drivers.
+	Added a prompt for WHQL certification which properly inserts the catalog file lin.
+
+version 3.2
+	Updated to not include the WinME installation file since it cannot be WHQL
+	certified with the drivers.
+	Changed .inf files to pass the latest WHQL specifications without errors,
+	this doesn't change any behavior in the driver installation or use.
+	
+version 3.1
+	Updated with most current version of VCP drivers.
+
+version 3.0
+	Changed name of executable to CustomUSBDriverWizard.exe.
+	Added support to create custom UXBXpress drivers in addition to VCP drivers.
+
+version 2.0
+	Issue when using quiet mode in preinstaller fixed.
+	Issue calling preinstaller from a directory which is not the current fixed.
+	Updated preinstaller to support Windows 98SE.
+	CP2102 Support added, and renamed to show support for "CP210x" devices.
+
+version 1.1
+	Preinstaller and Uninstaller for Windows XP/2000 Updated
+
+Version 1.0
+	Initial Release
+
