@@ -1,0 +1,7 @@
+TargetiX_SL1 +
+TargetiX_SL2 +
+TargetiX_SL3 +
+TargetiX_SL4 +
+TargetiX_SL5 + без кнопки
+TargetiX_SL6 +
+TargetiX_SL7 +
