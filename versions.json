@@ -1,0 +1,9 @@
+[
+  {
+    "version": "v3.1",
+    "name": "v3.1 (Стабільна)",
+    "bootloader": "firmware/v3.1/bootloader.bin",
+    "partitions": "firmware/v3.1/partitions.bin",
+    "app": "firmware/v3.1/firmware.bin"
+  }
+]
