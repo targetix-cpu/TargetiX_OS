@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TargetiX Firmware Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --border-color: #e2e8f0;
+      --border-hover: #cbd5e1;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-light: #eff6ff;
+      --success: #16a34a;
+      --success-hover: #15803d;
+      --success-light: #f0fdf4;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 24px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 560px;
+    }
+
+    .brand-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .brand-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      color: white;
+      border-radius: 14px;
+      margin-bottom: 16px;
+      box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.4);
+    }
+
+    .brand-logo svg {
+      width: 28px;
+      height: 28px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+
+    p.subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      background-color: #f1f5f9;
+      color: var(--text-muted);
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 24px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #94a3b8;
+    }
+
+    .status-badge.connected {
+      background-color: var(--success-light);
+      color: var(--success);
+    }
+
+    .status-badge.connected .status-dot {
+      background-color: var(--success);
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+
+    .select-wrapper {
+      position: relative;
+    }
+
+    select {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      background-color: #ffffff;
+      color: var(--text-main);
+      font-size: 15px;
+      font-weight: 500;
+      outline: none;
+      appearance: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    select:hover {
+      border-color: var(--border-hover);
+    }
+
+    select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+    }
+
+    .select-arrow {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: var(--text-muted);
+    }
+
+    .button-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: var(--radius-md);
+      border: none;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background-color: var(--primary-hover);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .btn-success {
+      background-color: var(--success);
+      color: #ffffff;
+      box-shadow: 0 2px 4px rgba(22, 163, 74, 0.2);
+    }
+
+    .btn-success:hover:not(:disabled) {
+      background-color: var(--success-hover);
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      background-color: #f1f5f9;
+      color: #94a3b8;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    button svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+    }
+
+    .progress-bar-container {
+      height: 6px;
+      width: 100%;
+      background-color: #e2e8f0;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #2563eb, #16a34a);
+      transition: width 0.3s ease;
+    }
+
+    .console-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .console-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .log-container {
+      background-color: #0f172a;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      height: 180px;
+      overflow-y: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #38bdf8;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .log-container::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .log-container::-webkit-scrollbar-thumb {
+      background-color: #334155;
+      border-radius: 3px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="brand-header">
+    <div class="brand-logo">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+      </svg>
+    </div>
+    <h1>TargetiX Firmware</h1>
+    <p class="subtitle">Центр оновлення прошивки пристроїв TargetiX</p>
+  </div>
+
+  <div class="card">
+    <div id="statusBadge" class="status-badge">
+      <span class="status-dot"></span>
+      <span id="statusText">Пристрій не підключено</span>
+    </div>
+
+    <div class="form-group">
+      <label for="versionSelect">Версія прошивки</label>
+      <div class="select-wrapper">
+        <select id="versionSelect">
+          <option value="">Завантаження версій...</option>
+        </select>
+        <div class="select-arrow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="button-stack">
+      <button id="connectBtn" class="btn-primary">
+        <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+        1. Підключити TargetiX
+      </button>
+
+      <button id="flashBtn" class="btn-success" disabled>
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+        2. Прошити пристрій
+      </button>
+    </div>
+
+    <div id="progressContainer" class="progress-bar-container">
+      <div id="progressBar" class="progress-bar"></div>
+    </div>
+
+    <div class="console-header">
+      <span class="console-title">Консоль</span>
+    </div>
+    <div id="log" class="log-container">Готовий до роботи. Натисніть «Підключити TargetiX».</div>
+  </div>
+
+  <footer>
+    &copy; TargetiX System. Всі права захищено.
+  </footer>
+</div>
+
+<script type="module">
+  import { ESPLoader, Transport } from 'https://unpkg.com/esptool-js/bundle.js';
+
+  let device = null;
+  let transport = null;
+  let esploader = null;
+  let availableVersions = [];
+
+  const logElement = document.getElementById('log');
+  const connectBtn = document.getElementById('connectBtn');
+  const flashBtn = document.getElementById('flashBtn');
+  const versionSelect = document.getElementById('versionSelect');
+  const statusBadge = document.getElementById('statusBadge');
+  const statusText = document.getElementById('statusText');
+  const progressContainer = document.getElementById('progressContainer');
+  const progressBar = document.getElementById('progressBar');
+
+  function log(msg) {
+    logElement.textContent += msg + '\n';
+    logElement.scrollTop = logElement.scrollHeight;
+  }
+
+  function clearLog() {
+    logElement.textContent = '';
+  }
+
+  function setConnectedStatus(connected, text) {
+    statusText.textContent = text;
+    if (connected) {
+      statusBadge.classList.add('connected');
+    } else {
+      statusBadge.classList.remove('connected');
+    }
+  }
+
+  // Завантаження списку версій з JSON
+  async function loadVersions() {
+    try {
+      const response = await fetch('./versions.json');
+      if (!response.ok) {
+        throw new Error(`Не вдалося завантажити versions.json (Код ${response.status})`);
+      }
+      availableVersions = await response.json();
+      
+      versionSelect.innerHTML = '';
+      if (availableVersions.length === 0) {
+        versionSelect.innerHTML = '<option value="">Немає доступних версій</option>';
+        return;
+      }
+
+      availableVersions.forEach((item, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = item.name;
+        versionSelect.appendChild(option);
+      });
+
+      log("Конфігурація версій завантажена.");
+    } catch (err) {
+      log("Помилка завантаження версій: " + err.message);
+      versionSelect.innerHTML = '<option value="">Помилка завантаження</option>';
+    }
+  }
+
+  // Підключення до TargetiX
+  connectBtn.onclick = async () => {
+    try {
+      if (!('serial' in navigator)) {
+        alert("Ваш браузер не підтримує Web Serial API. Використовуйте Google Chrome або Microsoft Edge.");
+        return;
+      }
+
+      device = await navigator.serial.requestPort();
+      transport = new Transport(device);
+
+      esploader = new ESPLoader({
+        transport: transport,
+        baudrate: 115200,
+        terminal: {
+          clean: () => { clearLog(); },
+          writeLine: (data) => log(data),
+          write: (data) => log(data)
+        }
+      });
+
+      log("Ініціалізація з'єднання з TargetiX...");
+      await esploader.main();
+      
+      log("Пристрій TargetiX успішно підключено!");
+      setConnectedStatus(true, "TargetiX підключено");
+
+      flashBtn.disabled = false;
+      connectBtn.disabled = true;
+    } catch (err) {
+      log("Помилка підключення: " + err.message);
+      setConnectedStatus(false, "Помилка підключення");
+    }
+  };
+
+  // Завантаження бінарного файлу
+  async function fetchBinaryFile(url) {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Не вдалося завантажити файл ${url} (Код ${response.status})`);
+    }
+    const blob = await response.blob();
+    const arrayBuffer = await blob.arrayBuffer();
+    return new Uint8Array(arrayBuffer);
+  }
+
+  // Запис прошивки TargetiX
+  flashBtn.onclick = async () => {
+    const selectedIndex = versionSelect.value;
+    if (selectedIndex === "" || !availableVersions[selectedIndex]) {
+      alert("Будь ласка, оберіть версію прошивки.");
+      return;
+    }
+
+    const versionConfig = availableVersions[selectedIndex];
+
+    try {
+      flashBtn.disabled = true;
+      progressContainer.style.display = 'block';
+      progressBar.style.width = '0%';
+
+      log(`Підготовка до оновлення TargetiX до ${versionConfig.name}...`);
+
+      log("Завантаження Bootloader...");
+      const bootloaderData = await fetchBinaryFile(versionConfig.bootloader);
+
+      log("Завантаження Partition Table...");
+      const partitionsData = await fetchBinaryFile(versionConfig.partitions);
+
+      log("Завантаження Основної прошивки...");
+      const appData = await fetchBinaryFile(versionConfig.app);
+
+      const fileArray = [
+        { data: bootloaderData, address: 0x1000 },
+        { data: partitionsData, address: 0x8000 },
+        { data: appData, address: 0x10000 }
+      ];
+
+      log("Запис даних у пам'ять TargetiX...");
+      await esploader.writeFlash({
+        fileArray: fileArray,
+        flashSize: 'keep',
+        eraseAll: false,
+        compress: true,
+        reportProgress: (fileIndex, written, total) => {
+          const percentage = Math.round((written / total) * 100);
+          progressBar.style.width = `${percentage}%`;
+        }
+      });
+
+      log(`Успішно! Пристрій TargetiX прошито версією ${versionConfig.name}.`);
+      log("Перезавантаження TargetiX...");
+      await esploader.hardReset();
+      
+      setConnectedStatus(true, "Прошивку успішно оновлено");
+    } catch (err) {
+      log("Помилка прошивки: " + err.message);
+      progressBar.style.backgroundColor = '#ef4444';
+    } finally {
+      flashBtn.disabled = false;
+    }
+  };
+
+  loadVersions();
+</script>
+
+</body>
+</html>
