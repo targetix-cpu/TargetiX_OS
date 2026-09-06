@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>TargetiX Firmware Hub Ultimate Pro - Light Edition</title>
+  <title>TargetiX Firmware Hub - User Light Edition</title>
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,27 +15,25 @@
 
   <style>
     :root {
-      --bg-color: #f1f5f9;
-      --card-bg: rgba(255, 255, 255, 0.85);
-      --card-border: rgba(226, 232, 240, 0.9);
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --card-border: #e2e8f0;
       --text-main: #0f172a;
       --text-muted: #64748b;
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
-      --primary-glow: rgba(37, 99, 235, 0.15);
+      --primary-light: #eff6ff;
+      --primary-glow: rgba(37, 99, 235, 0.12);
       --success: #10b981;
       --success-hover: #059669;
-      --success-glow: rgba(16, 185, 129, 0.15);
+      --success-light: #f0fdf4;
       --danger: #ef4444;
       --danger-hover: #dc2626;
-      --warning: #f59e0b;
-      --input-bg: #ffffff;
-      --log-bg: #f8fafc;
-      --log-text: #0f172a;
-      --log-border: #e2e8f0;
-      --radius-lg: 16px;
-      --radius-md: 10px;
-      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+      --danger-light: #fef2f2;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
     }
 
     * {
@@ -44,7 +42,6 @@
       padding: 0;
     }
 
-    /* ЗАХИСТ ВІД СКРОЛІНГУ СТОРІНКИ (Zero Scroll Layout) */
     html, body {
       width: 100%;
       height: 100vh;
@@ -53,8 +50,8 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
       background-color: var(--bg-color);
       background-image: 
-        radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.08) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.08) 0px, transparent 50%);
+        radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.05) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.05) 0px, transparent 50%);
       color: var(--text-main);
       -webkit-font-smoothing: antialiased;
     }
@@ -63,13 +60,12 @@
       display: grid;
       grid-template-rows: auto 1fr;
       height: 100vh;
-      padding: 16px 20px;
+      padding: 20px;
       gap: 16px;
-      max-width: 1600px;
+      max-width: 1400px;
       margin: 0 auto;
     }
 
-    /* Хедер */
     header {
       display: flex;
       align-items: center;
@@ -89,9 +85,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, var(--primary), #1d4ed8);
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
       color: white;
       border-radius: 12px;
       box-shadow: 0 4px 12px var(--primary-glow);
@@ -109,7 +105,6 @@
       font-size: 18px;
       font-weight: 700;
       letter-spacing: -0.02em;
-      line-height: 1.2;
       color: var(--text-main);
     }
 
@@ -124,55 +119,85 @@
     }
 
     .pill {
-      background: rgba(255, 255, 255, 0.8);
+      background: #ffffff;
       border: 1px solid var(--card-border);
-      padding: 4px 10px;
+      padding: 6px 12px;
       border-radius: 20px;
       font-size: 11px;
+      font-weight: 600;
       color: var(--text-muted);
-      font-family: 'JetBrains Mono', monospace;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
     }
 
-    /* Двоколоночна сітка контролера */
     .dashboard-grid {
       display: grid;
-      grid-template-columns: 420px 1fr;
+      grid-template-columns: 440px 1fr;
       gap: 16px;
-      height: calc(100vh - 84px);
+      height: calc(100vh - 90px);
       min-height: 0;
     }
 
     .card {
       background: var(--card-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--card-border);
       border-radius: var(--radius-lg);
-      padding: 18px;
+      padding: 20px;
       box-shadow: var(--shadow);
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
       min-height: 0;
-      overflow: hidden;
+      overflow-y: auto;
     }
 
-    /* Статус підключення */
+    .card::-webkit-scrollbar {
+      width: 4px;
+    }
+    .card::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    /* Подсказка для пользователя */
+    .user-guide-box {
+      background: var(--primary-light);
+      border: 1px solid #bfdbfe;
+      border-radius: var(--radius-md);
+      padding: 12px;
+      font-size: 12px;
+      color: #1e40af;
+      line-height: 1.5;
+    }
+
+    .user-guide-box summary {
+      font-weight: 700;
+      cursor: pointer;
+      outline: none;
+      user-select: none;
+    }
+
+    .user-guide-box ol {
+      margin-top: 8px;
+      margin-left: 18px;
+    }
+
+    .user-guide-box li {
+      margin-bottom: 4px;
+    }
+
+    /* Статус устройства */
     .status-badge {
       padding: 12px;
-      background: #ffffff;
+      background: #f8fafc;
       border: 1px solid var(--card-border);
       border-radius: var(--radius-md);
       transition: all 0.3s ease;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     }
 
     .status-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 8px;
     }
 
     .status-info {
@@ -193,7 +218,7 @@
 
     .status-badge.connected {
       border-color: rgba(16, 185, 129, 0.4);
-      background: rgba(240, 253, 244, 0.6);
+      background: var(--success-light);
     }
 
     .status-badge.connected .status-dot {
@@ -213,8 +238,8 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 6px;
       padding-top: 8px;
+      margin-top: 8px;
       border-top: 1px dashed var(--card-border);
-      font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       color: var(--text-muted);
     }
@@ -224,13 +249,13 @@
       font-weight: 600;
     }
 
-    /* Таби для джерела файлів */
+    /* Переключатель источника */
     .source-tabs {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 4px;
-      background: #e2e8f0;
-      padding: 3px;
+      background: #f1f5f9;
+      padding: 4px;
       border-radius: var(--radius-md);
     }
 
@@ -241,7 +266,7 @@
       color: var(--text-muted);
       font-size: 12px;
       font-weight: 600;
-      border-radius: 7px;
+      border-radius: 8px;
       cursor: pointer;
       transition: all 0.2s ease;
     }
@@ -249,43 +274,26 @@
     .tab-btn.active {
       background: #ffffff;
       color: var(--primary);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
     }
 
-    /* Форми та Поля */
+    /* Формы */
     .form-group {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 6px;
       position: relative;
     }
 
     label {
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 700;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
     }
 
-    select, input[type="text"] {
-      width: 100%;
-      padding: 8px 10px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--card-border);
-      background-color: var(--input-bg);
-      color: var(--text-main);
-      font-size: 12px;
-      outline: none;
-      transition: all 0.2s ease;
-    }
-
-    select:focus, input[type="text"]:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px var(--primary-glow);
-    }
-
-    /* Стилі для Custom Select (Кастомний випадаючий список) */
+    /* Кастомный выпадающий список (Custom Select) */
     .custom-select {
       position: relative;
       user-select: none;
@@ -293,12 +301,13 @@
 
     .custom-select-trigger {
       width: 100%;
-      padding: 8px 10px;
+      padding: 10px 12px;
       border-radius: var(--radius-md);
       border: 1px solid var(--card-border);
-      background-color: var(--input-bg);
+      background-color: #ffffff;
       color: var(--text-main);
-      font-size: 12px;
+      font-size: 13px;
+      font-weight: 500;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -306,13 +315,17 @@
       transition: all 0.2s ease;
     }
 
+    .custom-select-trigger:hover {
+      border-color: #cbd5e1;
+    }
+
     .custom-select-trigger:after {
       content: '';
       width: 0;
       height: 0;
-      border-left: 4px solid transparent;
-      border-right: 4px solid transparent;
-      border-top: 5px solid var(--text-muted);
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid var(--text-muted);
       transition: transform 0.2s ease;
     }
 
@@ -327,15 +340,15 @@
 
     .custom-options {
       position: absolute;
-      top: calc(100% + 4px);
+      top: calc(100% + 6px);
       left: 0;
       right: 0;
       background: #ffffff;
       border: 1px solid var(--card-border);
       border-radius: var(--radius-md);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
       z-index: 100;
-      max-height: 160px;
+      max-height: 200px;
       overflow-y: auto;
       display: none;
     }
@@ -345,29 +358,29 @@
     }
 
     .custom-option {
-      padding: 8px 10px;
-      font-size: 12px;
+      padding: 10px 12px;
+      font-size: 13px;
       color: var(--text-main);
       cursor: pointer;
       transition: background 0.15s ease;
     }
 
     .custom-option:hover {
-      background-color: #f1f5f9;
+      background-color: var(--primary-light);
       color: var(--primary);
     }
 
     .custom-option.selected {
-      background-color: #eff6ff;
+      background-color: var(--primary-light);
       color: var(--primary);
       font-weight: 600;
     }
 
-    /* Drag & Drop Секція */
+    /* Drag & Drop */
     .drop-zone {
       border: 2px dashed #cbd5e1;
       border-radius: var(--radius-md);
-      padding: 12px;
+      padding: 16px;
       text-align: center;
       background: #ffffff;
       cursor: pointer;
@@ -376,11 +389,11 @@
 
     .drop-zone:hover, .drop-zone.active {
       border-color: var(--primary);
-      background: #eff6ff;
+      background: var(--primary-light);
     }
 
     .drop-zone p {
-      font-size: 11px;
+      font-size: 12px;
       color: var(--text-muted);
     }
 
@@ -388,109 +401,68 @@
       display: none;
     }
 
-    /* Таблиця Flash Map (Внутрішній скрол) */
-    .flash-map-container {
+    .file-badge-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8fafc;
+      border: 1px solid var(--card-border);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* Выбор режима */
+    .mode-selector {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      max-height: 150px;
-      overflow-y: auto;
-      padding-right: 4px;
-    }
-
-    .flash-map-container::-webkit-scrollbar,
-    .custom-options::-webkit-scrollbar {
-      width: 4px;
-    }
-    .flash-map-container::-webkit-scrollbar-thumb,
-    .custom-options::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 4px;
-    }
-
-    .flash-row {
-      display: grid;
-      grid-template-columns: 90px 1fr 28px;
-      gap: 6px;
-      align-items: center;
-      background: #ffffff;
-      padding: 6px;
-      border-radius: 8px;
+      gap: 8px;
+      background: #f8fafc;
+      padding: 12px;
+      border-radius: var(--radius-md);
       border: 1px solid var(--card-border);
     }
 
-    .flash-row input[type="text"] {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      padding: 4px 6px;
-      text-align: center;
-    }
-
-    .flash-row .file-info {
-      font-size: 10px;
-      color: var(--text-muted);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .remove-row-btn {
-      color: var(--danger);
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      border-radius: 4px;
-    }
-
-    .remove-row-btn:hover {
-      background: #fef2f2;
-    }
-
-    .checkbox-group {
+    .radio-group {
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 11px;
-      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-main);
       cursor: pointer;
       user-select: none;
     }
 
-    .checkbox-group input {
+    .radio-group input {
       accent-color: var(--primary);
-      width: 14px;
-      height: 14px;
     }
 
-    /* Кнопки Дій */
+    /* Кнопки */
     .button-stack {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
       margin-top: auto;
+      padding-top: 10px;
     }
 
     .button-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
+      gap: 10px;
     }
 
     button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      padding: 10px 14px;
+      gap: 8px;
+      padding: 12px 16px;
       border-radius: var(--radius-md);
       border: none;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -501,7 +473,7 @@
     .btn-primary:hover:not(:disabled) { background-color: var(--primary-hover); box-shadow: 0 4px 12px var(--primary-glow); }
 
     .btn-success { background-color: var(--success); color: white; }
-    .btn-success:hover:not(:disabled) { background-color: var(--success-hover); box-shadow: 0 4px 12px var(--success-glow); }
+    .btn-success:hover:not(:disabled) { background-color: var(--success-hover); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
 
     .btn-secondary { background-color: #ffffff; color: var(--text-main); border: 1px solid var(--card-border); }
     .btn-secondary:hover:not(:disabled) { background-color: #f8fafc; border-color: #cbd5e1; }
@@ -510,13 +482,13 @@
     .btn-danger:hover:not(:disabled) { background-color: var(--danger); color: white; }
 
     button:disabled { opacity: 0.4; cursor: not-allowed; }
-    button svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+    button svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
 
-    /* Прогрес-бар */
+    /* Прогресс */
     .progress-section {
       display: none;
       background: #ffffff;
-      padding: 10px;
+      padding: 12px;
       border-radius: var(--radius-md);
       border: 1px solid var(--card-border);
     }
@@ -524,17 +496,17 @@
     .progress-header {
       display: flex;
       justify-content: space-between;
-      font-size: 11px;
+      font-size: 12px;
       margin-bottom: 6px;
       font-weight: 600;
       color: var(--text-muted);
     }
 
     .progress-bar-container {
-      height: 6px;
+      height: 8px;
       width: 100%;
       background-color: #e2e8f0;
-      border-radius: 3px;
+      border-radius: 4px;
       overflow: hidden;
     }
 
@@ -545,7 +517,7 @@
       transition: width 0.15s ease;
     }
 
-    /* Права Консоль / Монітор */
+    /* Монитор / Консоль */
     .console-card {
       display: flex;
       flex-direction: column;
@@ -565,7 +537,7 @@
       font-weight: 700;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -577,22 +549,22 @@
     }
 
     .console-actions button {
-      padding: 4px 8px;
-      font-size: 10px;
-      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 11px;
+      border-radius: var(--radius-sm);
     }
 
     .log-container {
       flex: 1;
-      background-color: var(--log-bg);
-      border: 1px solid var(--log-border);
+      background-color: #0f172a;
+      border: 1px solid var(--card-border);
       border-radius: var(--radius-md);
-      padding: 12px;
+      padding: 14px;
       overflow-y: auto;
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       line-height: 1.6;
-      color: var(--log-text);
+      color: #38bdf8;
       white-space: pre-wrap;
       word-break: break-all;
     }
@@ -601,19 +573,62 @@
       width: 6px;
     }
     .log-container::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: #334155;
       border-radius: 4px;
     }
 
-    .terminal-input-row {
+    /* Модалка */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.3);
+      backdrop-filter: blur(4px);
       display: flex;
-      gap: 8px;
-      margin-top: 8px;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
     }
 
-    .terminal-input-row input {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-box {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .modal-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .modal-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 6px;
     }
   </style>
 </head>
@@ -626,20 +641,32 @@
         <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
       </div>
       <div>
-        <h1>TargetiX Firmware Hub Pro</h1>
-        <p>Панель прошивки та онлайн-діагностики Web Serial</p>
+        <h1>TargetiX Firmware Hub</h1>
+        <p>Портал оновлення пристроїв TargetiX</p>
       </div>
     </div>
     <div class="header-pills">
-      <div class="pill">Web Serial: OK</div>
-      <div class="pill" id="protocolVer">ESPLoader v0.4.0</div>
+      <div class="pill">Режим: Користувач</div>
+      <div class="pill">Web Serial API</div>
     </div>
   </header>
 
   <div class="dashboard-grid">
-    <!-- ЛІВА ПАНЕЛЬ: Керування -->
+    <!-- ЛЕВАЯ ПАНЕЛЬ -->
     <div class="card">
-      <!-- Статус підключення -->
+      
+      <!-- Инструкция -->
+      <details class="user-guide-box">
+        <summary>Як оновити пристрій?</summary>
+        <ol>
+          <li>Підключіть пристрій до ПК через кабель USB.</li>
+          <li>Натисніть кнопку <b>«Підключити пристрій»</b> і оберіть порт.</li>
+          <li>Оберіть серію вашого пристрою.</li>
+          <li>Натисніть <b>«Розпочати оновлення»</b>.</li>
+        </ol>
+      </details>
+
+      <!-- Статус -->
       <div id="statusBadge" class="status-badge">
         <div class="status-top">
           <div class="status-info">
@@ -648,92 +675,72 @@
           </div>
         </div>
         <div class="chip-details">
-          <div>Чип: <span id="chipModel">-</span></div>
-          <div>MAC: <span id="chipMac">-</span></div>
-          <div>Flash: <span id="chipFlash">-</span></div>
-          <div>Baud: <span id="currentBaud">-</span></div>
+          <div>Серія: <span id="chipModel">-</span></div>
+          <div>ID Пристрою: <span id="chipMac">-</span></div>
         </div>
       </div>
 
-      <!-- Варіант/Плата -->
+      <!-- Кастомный выпадающий список для серии устройства -->
       <div class="form-group">
-        <label for="boardVariantSelect">Архітектура плати</label>
-        <select id="boardVariantSelect">
-          <option value="auto">Auto Detect (Рекомендовано)</option>
-          <option value="esp32">ESP32 (WROOM / WROVER)</option>
-          <option value="esp32s3">ESP32-S3 (Dual-USB / OTG)</option>
-          <option value="esp32c3">ESP32-C3 (RISC-V)</option>
-          <option value="esp32c6">ESP32-C6 (Zigbee / Wi-Fi 6)</option>
-        </select>
+        <label>Серія вашого пристрою</label>
+        <div class="custom-select" id="customSeriesSelect">
+          <div class="custom-select-trigger" id="seriesSelectTrigger">
+            <span>Оберіть серію...</span>
+          </div>
+          <div class="custom-options" id="seriesCustomOptions">
+            <!-- Заполняется JS из manifest -->
+          </div>
+        </div>
       </div>
 
-      <!-- Таби джерела -->
+      <!-- Табы источника прошивки -->
       <div class="source-tabs">
-        <button id="tabCloud" class="tab-btn active">Хмарна прошивка</button>
-        <button id="tabLocal" class="tab-btn">Свої файли (.bin / .zip)</button>
+        <button id="tabCloud" class="tab-btn active">Хмарне оновлення</button>
+        <button id="tabLocal" class="tab-btn">Свій файл (.bin / .zip)</button>
       </div>
 
-      <!-- Хмарна Секція -->
+      <!-- Секция хмарного обновления -->
       <div id="cloudSection">
         <div class="form-group">
-          <label>Релізний білд</label>
-          <!-- Custom Select для версій прошивки -->
+          <label>Доступна версія прошивки</label>
           <div class="custom-select" id="customVersionSelect">
             <div class="custom-select-trigger" id="versionSelectTrigger">
-              <span>Завантаження релізів...</span>
+              <span>Оберіть серію вище</span>
             </div>
             <div class="custom-options" id="versionCustomOptions">
-              <!-- Динамічно заповнюється з JS -->
+              <!-- Заполняется динамически -->
             </div>
           </div>
-          <!-- Прихований оригінальний елемент для зсумісності -->
-          <select id="versionSelect" style="display: none;"></select>
         </div>
       </div>
 
-      <!-- Локальна Секція -->
+      <!-- Секция своего файла -->
       <div id="localSection" style="display: none;">
-        <div id="dropZone" class="drop-zone" style="margin-bottom: 8px;">
-          <p id="dropZoneText">Перетягніть .bin або .zip файл сюди</p>
-          <input type="file" id="localFileInput" accept=".bin,.zip" multiple>
+        <div id="dropZone" class="drop-zone">
+          <p> Натисніть або перетягніть файл .bin або .zip сюди</p>
+          <input type="file" id="localFileInput" accept=".bin,.zip">
         </div>
-
-        <label>Таблиця розподілу пам'яті (Flash Map)</label>
-        <div id="flashMapList" class="flash-map-container">
-          <!-- Динамічні рядки добавлених файлів -->
+        <div id="localFileInfo" style="display: none; margin-top: 8px;">
+          <!-- Имя файла -->
         </div>
       </div>
 
-      <!-- Налаштування Запису -->
-      <div class="button-row">
-        <div class="form-group" style="width: 100%;">
-          <label>Швидкість запису</label>
-          <!-- Custom Select для швидкості -->
-          <div class="custom-select" id="customBaudSelect">
-            <div class="custom-select-trigger" id="baudSelectTrigger">
-              <span>921600 (Ultra High)</span>
-            </div>
-            <div class="custom-options" id="baudCustomOptions">
-              <div class="custom-option" data-value="115200">115200 (Safe)</div>
-              <div class="custom-option" data-value="460800">460800 (Fast)</div>
-              <div class="custom-option selected" data-value="921600">921600 (Ultra High)</div>
-            </div>
-          </div>
-          <!-- Прихований оригінальний елемент для збереження стану -->
-          <select id="baudRateSelect" style="display: none;">
-            <option value="115200">115200 (Safe)</option>
-            <option value="460800">460800 (Fast)</option>
-            <option value="921600" selected>921600 (Ultra High)</option>
-          </select>
+      <!-- Режим установки -->
+      <div class="form-group">
+        <label>Режим встановлення</label>
+        <div class="mode-selector">
+          <label class="radio-group">
+            <input type="radio" name="flashMode" value="update" checked id="modeUpdate">
+            Оновлення (Зберегти всі налаштування)
+          </label>
+          <label class="radio-group">
+            <input type="radio" name="flashMode" value="clean" id="modeClean">
+            Чиста установка (Скинути до заводських)
+          </label>
         </div>
       </div>
 
-      <label class="checkbox-group">
-        <input type="checkbox" id="eraseFlashCheck">
-        Повне очищення Flash перед записом (Erase Flash)
-      </label>
-
-      <!-- Прогрес-бар -->
+      <!-- Прогресс -->
       <div id="progressSection" class="progress-section">
         <div class="progress-header">
           <span id="progressStatus">Запис...</span>
@@ -744,7 +751,7 @@
         </div>
       </div>
 
-      <!-- Кнопки Дій -->
+      <!-- Кнопки -->
       <div class="button-stack">
         <div class="button-row">
           <button id="connectBtn" class="btn-primary">
@@ -754,36 +761,38 @@
           <button id="disconnectBtn" class="btn-danger" disabled>Від'єднати</button>
         </div>
 
-        <div class="button-row">
-          <button id="flashBtn" class="btn-success" disabled>
-            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-            Прошити
-          </button>
-          <button id="monitorBtn" class="btn-secondary" disabled>Монітор UART</button>
-        </div>
+        <button id="flashBtn" class="btn-success" disabled>
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          Розпочати оновлення
+        </button>
       </div>
     </div>
 
-    <!-- ПРАВА ПАНЕЛЬ: Монітор і Консоль -->
+    <!-- ПРАВАЯ ПАНЕЛЬ -->
     <div class="card console-card">
       <div class="console-header">
-        <span class="console-title" id="consoleModeTitle">
-          <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-          Лог Системи
-        </span>
+        <span class="console-title">Журнал Оновлення</span>
         <div class="console-actions">
-          <button id="saveLogBtn" class="btn-secondary">Зберегти .txt</button>
           <button id="copyLogBtn" class="btn-secondary">Копіювати</button>
           <button id="clearLogBtn" class="btn-secondary">Очистити</button>
         </div>
       </div>
 
-      <div id="log" class="log-container">Очікування підключення пристрою TargetiX через Web Serial...</div>
+      <div id="log" class="log-container">Очікування підключення пристрою TargetiX...</div>
+    </div>
+  </div>
+</div>
 
-      <div class="terminal-input-row" id="terminalControls" style="display: none;">
-        <input type="text" id="terminalInput" placeholder="Введіть команду в Serial...">
-        <button id="terminalSendBtn" class="btn-primary">Надіслати</button>
-      </div>
+<!-- Модалка -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal-box">
+    <div class="modal-title">Підтвердження</div>
+    <div class="modal-desc" id="confirmModalDesc">
+      Ви впевнені, що бажаєте розпочати процес оновлення? Не від'єднуйте кабель під час процедури.
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" id="modalCancelBtn">Скасувати</button>
+      <button class="btn-success" id="modalConfirmBtn">Підтвердити</button>
     </div>
   </div>
 </div>
@@ -791,120 +800,123 @@
 <script type="module">
   import { ESPLoader, Transport } from 'https://unpkg.com/esptool-js/bundle.js';
 
-  // Глобальний стан додатку
+  // Состояние
   let device = null;
   let transport = null;
   let esploader = null;
-  let availableVersions = [];
-  let customFiles = []; 
-  let activeSourceTab = 'cloud';
-  let isMonitoring = false;
-  let monitorReader = null;
-  let monitorWriter = null;
-  let detectedFlashSize = 4194304; 
+  let manifestData = {};
+  let selectedSeries = null;
+  let selectedVersionData = null;
+  let customFileBuffer = null;
+  let activeTab = 'cloud';
 
-  // Елементи DOM
+  // Элементы
   const logElement = document.getElementById('log');
   const connectBtn = document.getElementById('connectBtn');
   const disconnectBtn = document.getElementById('disconnectBtn');
   const flashBtn = document.getElementById('flashBtn');
-  const monitorBtn = document.getElementById('monitorBtn');
   const clearLogBtn = document.getElementById('clearLogBtn');
   const copyLogBtn = document.getElementById('copyLogBtn');
-  const saveLogBtn = document.getElementById('saveLogBtn');
-  
+
   const tabCloud = document.getElementById('tabCloud');
   const tabLocal = document.getElementById('tabLocal');
   const cloudSection = document.getElementById('cloudSection');
   const localSection = document.getElementById('localSection');
-  
+
   const dropZone = document.getElementById('dropZone');
   const localFileInput = document.getElementById('localFileInput');
-  const flashMapList = document.getElementById('flashMapList');
-  const versionSelect = document.getElementById('versionSelect');
-  const baudRateSelect = document.getElementById('baudRateSelect');
-  const boardVariantSelect = document.getElementById('boardVariantSelect');
-  const eraseFlashCheck = document.getElementById('eraseFlashCheck');
+  const localFileInfo = document.getElementById('localFileInfo');
+  const modeClean = document.getElementById('modeClean');
 
   const statusBadge = document.getElementById('statusBadge');
   const statusText = document.getElementById('statusText');
   const chipModel = document.getElementById('chipModel');
   const chipMac = document.getElementById('chipMac');
-  const chipFlash = document.getElementById('chipFlash');
-  const currentBaud = document.getElementById('currentBaud');
 
   const progressSection = document.getElementById('progressSection');
   const progressBar = document.getElementById('progressBar');
   const progressPercent = document.getElementById('progressPercent');
   const progressStatus = document.getElementById('progressStatus');
 
-  const terminalControls = document.getElementById('terminalControls');
-  const terminalInput = document.getElementById('terminalInput');
-  const terminalSendBtn = document.getElementById('terminalSendBtn');
+  const confirmModal = document.getElementById('confirmModal');
+  const confirmModalDesc = document.getElementById('confirmModalDesc');
+  const modalCancelBtn = document.getElementById('modalCancelBtn');
+  const modalConfirmBtn = document.getElementById('modalConfirmBtn');
 
-  // Кастомні списки
-  const customBaudSelect = document.getElementById('customBaudSelect');
-  const baudSelectTrigger = document.getElementById('baudSelectTrigger');
-  const baudCustomOptions = document.getElementById('baudCustomOptions');
+  // Selects
+  const customSeriesSelect = document.getElementById('customSeriesSelect');
+  const seriesSelectTrigger = document.getElementById('seriesSelectTrigger');
+  const seriesCustomOptions = document.getElementById('seriesCustomOptions');
 
   const customVersionSelect = document.getElementById('customVersionSelect');
   const versionSelectTrigger = document.getElementById('versionSelectTrigger');
   const versionCustomOptions = document.getElementById('versionCustomOptions');
 
-  // Логіка перемикання та роботи Custom Select
+  // Локальный манифест (дефолтный fallback если versions.json не загружен)
+  const defaultManifest = {
+    "TargetiX_SL1": {
+      "chip": "esp32s3",
+      "versions": [
+        {
+          "name": "v3.1 Стабільна",
+          "bootloader": "./firmware/sl1/bootloader.bin",
+          "partitions": "./firmware/sl1/partitions.bin",
+          "app": "./firmware/sl1/firmware_v3.1.bin"
+        }
+      ]
+    }
+  };
+
+  // Настройка выпадающих списков
   function setupCustomSelects() {
-    // Закриття всіх списків при кліку поза ними
     document.addEventListener('click', (e) => {
-      if (!customBaudSelect.contains(e.target)) customBaudSelect.classList.remove('open');
+      if (!customSeriesSelect.contains(e.target)) customSeriesSelect.classList.remove('open');
       if (!customVersionSelect.contains(e.target)) customVersionSelect.classList.remove('open');
     });
 
-    // Toggle Baud Select
-    baudSelectTrigger.addEventListener('click', () => {
+    seriesSelectTrigger.addEventListener('click', () => {
       customVersionSelect.classList.remove('open');
-      customBaudSelect.classList.toggle('open');
+      customSeriesSelect.classList.toggle('open');
     });
 
-    // Вибір значення швидкості
-    baudCustomOptions.addEventListener('click', (e) => {
-      const option = e.target.closest('.custom-option');
-      if (!option) return;
-      
-      const val = option.getAttribute('data-value');
-      const text = option.textContent;
-
-      baudSelectTrigger.querySelector('span').textContent = text;
-      baudRateSelect.value = val;
-
-      Array.from(baudCustomOptions.children).forEach(opt => opt.classList.remove('selected'));
-      option.classList.add('selected');
-      customBaudSelect.classList.remove('open');
-    });
-
-    // Toggle Version Select
     versionSelectTrigger.addEventListener('click', () => {
-      customBaudSelect.classList.remove('open');
+      customSeriesSelect.classList.remove('open');
       customVersionSelect.classList.toggle('open');
     });
 
-    // Вибір версії
+    // Выбор серии
+    seriesCustomOptions.addEventListener('click', (e) => {
+      const option = e.target.closest('.custom-option');
+      if (!option) return;
+
+      const seriesKey = option.getAttribute('data-value');
+      selectedSeries = seriesKey;
+
+      seriesSelectTrigger.querySelector('span').textContent = option.textContent;
+      Array.from(seriesCustomOptions.children).forEach(opt => opt.classList.remove('selected'));
+      option.classList.add('selected');
+      customSeriesSelect.classList.remove('open');
+
+      updateVersionList(seriesKey);
+    });
+
+    // Выбор версии
     versionCustomOptions.addEventListener('click', (e) => {
       const option = e.target.closest('.custom-option');
       if (!option) return;
 
-      const val = option.getAttribute('data-value');
-      const text = option.textContent;
+      const index = option.getAttribute('data-index');
+      if (selectedSeries && manifestData[selectedSeries]) {
+        selectedVersionData = manifestData[selectedSeries].versions[index];
+      }
 
-      versionSelectTrigger.querySelector('span').textContent = text;
-      versionSelect.value = val;
-
+      versionSelectTrigger.querySelector('span').textContent = option.textContent;
       Array.from(versionCustomOptions.children).forEach(opt => opt.classList.remove('selected'));
       option.classList.add('selected');
       customVersionSelect.classList.remove('open');
     });
   }
 
-  // Логування в консоль
   function log(msg) {
     const timestamp = new Date().toLocaleTimeString();
     logElement.textContent += `[${timestamp}] ${msg}\n`;
@@ -912,23 +924,14 @@
   }
 
   clearLogBtn.onclick = () => logElement.textContent = '';
-  
   copyLogBtn.onclick = () => {
     navigator.clipboard.writeText(logElement.textContent);
-    alert("Логи скопійовано в буфер обміну!");
+    alert("Журнал скопійовано!");
   };
 
-  saveLogBtn.onclick = () => {
-    const blob = new Blob([logElement.textContent], { type: 'text/plain' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `targetix-log-${Date.now()}.txt`;
-    a.click();
-  };
-
-  // Перемикання Табів
+  // Табы
   tabCloud.onclick = () => {
-    activeSourceTab = 'cloud';
+    activeTab = 'cloud';
     tabCloud.classList.add('active');
     tabLocal.classList.remove('active');
     cloudSection.style.display = 'block';
@@ -936,407 +939,234 @@
   };
 
   tabLocal.onclick = () => {
-    activeSourceTab = 'local';
+    activeTab = 'local';
     tabLocal.classList.add('active');
     tabCloud.classList.remove('active');
     cloudSection.style.display = 'none';
     localSection.style.display = 'block';
   };
 
-  // Обробка Драг-енд-Дроп
+  // Drag & Drop
   dropZone.onclick = () => localFileInput.click();
   dropZone.ondragover = (e) => { e.preventDefault(); dropZone.classList.add('active'); };
   dropZone.ondragleave = () => dropZone.classList.remove('active');
   dropZone.ondrop = async (e) => {
     e.preventDefault();
     dropZone.classList.remove('active');
-    if (e.dataTransfer.files.length > 0) handleFiles(e.dataTransfer.files);
+    if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
   };
-
   localFileInput.onchange = (e) => {
-    if (e.target.files.length > 0) handleFiles(e.target.files);
+    if (e.target.files.length > 0) handleFile(e.target.files[0]);
   };
 
-  // Обробник файлів BIN / ZIP
-  async function handleFiles(files) {
-    for (const file of files) {
-      if (file.name.endsWith('.zip')) {
-        log(`[ZIP] Аналіз та розпакування архіву ${file.name}...`);
-        try {
-          const zip = await JSZip.loadAsync(file);
-          let extractedCount = 0;
-          
-          for (const filename of Object.keys(zip.files)) {
-            if (filename.endsWith('.bin') && !filename.startsWith('__MACOSX')) {
-              const content = await zip.files[filename].async('uint8array');
-              autoAddFileToMap(filename, content);
-              extractedCount++;
-            }
-          }
-          log(`[ZIP] Успішно витягнуто ${extractedCount} .bin файлів з архіву.`);
-        } catch (err) {
-          log(`[ПОМИЛКА ZIP] Не вдалося розпакувати архів: ${err.message}`);
-        }
-      } else if (file.name.endsWith('.bin')) {
-        const buffer = new Uint8Array(await file.arrayBuffer());
-        autoAddFileToMap(file.name, buffer);
-      }
-    }
+  async function handleFile(file) {
+    customFileBuffer = await file.arrayBuffer();
+    localFileInfo.style.display = 'block';
+    localFileInfo.innerHTML = `
+      <div class="file-badge-info">
+        <span> Файл: ${file.name}</span>
+        <span>${(file.size / 1024 / 1024).toFixed(2)} MB</span>
+      </div>
+    `;
+    log(`[ФАЙЛ] Завантажено локальний файл: ${file.name}`);
   }
 
-  // Автоматичне визначення Offset за назвою
-  function autoAddFileToMap(name, data) {
-    let defaultOffset = "0x10000";
-    const lowerName = name.toLowerCase();
-    const variant = boardVariantSelect.value;
-    
-    // Врахування особливостей offset для ESP32-S3/C3/C6
-    const isNewChip = (variant === 'esp32s3' || variant === 'esp32c3' || variant === 'esp32c6');
-
-    if (lowerName.includes("bootloader") || lowerName.includes("boot")) {
-      defaultOffset = isNewChip ? "0x0000" : "0x1000";
-    } else if (lowerName.includes("partition") || lowerName.includes("tables")) {
-      defaultOffset = "0x8000";
-    } else if (lowerName.includes("ota") || lowerName.includes("phy")) {
-      defaultOffset = "0xe000";
-    } else if (lowerName.includes("merged") || lowerName.includes("full")) {
-      defaultOffset = "0x0000";
-    }
-
-    customFiles.push({ name, data, address: defaultOffset });
-    renderFlashMap();
-    log(`[ФАЙЛ] Додано ${name} (${(data.length / 1024).toFixed(1)} KB) -> Адреса: ${defaultOffset}`);
-  }
-
-  function renderFlashMap() {
-    flashMapList.innerHTML = '';
-    customFiles.forEach((item, index) => {
-      const row = document.createElement('div');
-      row.className = 'flash-row';
-      row.innerHTML = `
-        <input type="text" value="${item.address}" onchange="window.updateFileOffset(${index}, this.value)">
-        <div class="file-info" title="${item.name}">${item.name} (${(item.data.length / 1024).toFixed(1)}KB)</div>
-        <button class="remove-row-btn" onclick="window.removeFileFromMap(${index})">✕</button>
-      `;
-      flashMapList.appendChild(row);
-    });
-  }
-
-  window.updateFileOffset = (index, val) => { customFiles[index].address = val; };
-  window.removeFileFromMap = (index) => { 
-    log(`[ФАЙЛ] Видалено ${customFiles[index].name}`);
-    customFiles.splice(index, 1); 
-    renderFlashMap(); 
-  };
-
-  function setConnectedStatus(connected, text, details = {}) {
-    statusText.textContent = text;
-    if (connected) {
-      statusBadge.classList.add('connected');
-      chipModel.textContent = details.model || 'ESP32';
-      chipMac.textContent = details.mac || 'N/A';
-      chipFlash.textContent = details.flash || 'Detected';
-      currentBaud.textContent = details.baud || '115200';
-    } else {
-      statusBadge.classList.remove('connected');
-      chipModel.textContent = '-';
-      chipMac.textContent = '-';
-      chipFlash.textContent = '-';
-      currentBaud.textContent = '-';
-    }
-  }
-
-  // Завантаження білдів з маніфесту
-  async function loadVersions() {
+  // Загрузка манифеста
+  async function loadManifest() {
     try {
       const response = await fetch('./versions.json');
-      if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
-      availableVersions = await response.json();
-      
-      versionSelect.innerHTML = '';
-      versionCustomOptions.innerHTML = '';
+      if (!response.ok) throw new Error();
+      manifestData = await response.json();
+      log("[СИСТЕМА] Офіційні прошивки завантажено.");
+    } catch (e) {
+      manifestData = defaultManifest;
+      log("[СИСТЕМА] Використовується конфігурація TargetiX_SL1.");
+    }
+    renderSeriesList();
+  }
 
-      availableVersions.forEach((item, index) => {
-        // Заповнення стандарного select
-        const option = document.createElement('option');
-        option.value = index;
-        option.textContent = item.name;
-        versionSelect.appendChild(option);
+  function renderSeriesList() {
+    seriesCustomOptions.innerHTML = '';
+    const seriesKeys = Object.keys(manifestData);
 
-        // Заповнення Custom Select
-        const customOpt = document.createElement('div');
-        customOpt.className = 'custom-option' + (index === 0 ? ' selected' : '');
-        customOpt.setAttribute('data-value', index);
-        customOpt.textContent = item.name;
-        versionCustomOptions.appendChild(customOpt);
-      });
+    seriesKeys.forEach((key, idx) => {
+      const option = document.createElement('div');
+      option.className = 'custom-option' + (idx === 0 ? ' selected' : '');
+      option.setAttribute('data-value', key);
+      option.textContent = key;
+      seriesCustomOptions.appendChild(option);
+    });
 
-      if (availableVersions.length > 0) {
-        versionSelectTrigger.querySelector('span').textContent = availableVersions[0].name;
-        versionSelect.value = 0;
-      }
-
-      log("[СИСТЕМА] Маніфест версій успішно завантажено.");
-    } catch (err) {
-      log("[СИСТЕМА] Файл versions.json не знайдено. Працює локальний режим.");
-      versionSelect.innerHTML = '<option value="">Локальний режим (Завантажте .bin)</option>';
-      versionCustomOptions.innerHTML = '<div class="custom-option" data-value="">Локальний режим (Завантажте .bin)</div>';
-      versionSelectTrigger.querySelector('span').textContent = 'Локальний режим (Завантажте .bin)';
+    if (seriesKeys.length > 0) {
+      selectedSeries = seriesKeys[0];
+      seriesSelectTrigger.querySelector('span').textContent = seriesKeys[0];
+      updateVersionList(seriesKeys[0]);
     }
   }
 
-  // Підключення до Serial
+  function updateVersionList(seriesKey) {
+    versionCustomOptions.innerHTML = '';
+    const seriesObj = manifestData[seriesKey];
+
+    if (seriesObj && seriesObj.versions && seriesObj.versions.length > 0) {
+      seriesObj.versions.forEach((ver, idx) => {
+        const option = document.createElement('div');
+        option.className = 'custom-option' + (idx === 0 ? ' selected' : '');
+        option.setAttribute('data-index', idx);
+        option.textContent = ver.name;
+        versionCustomOptions.appendChild(option);
+      });
+
+      selectedVersionData = seriesObj.versions[0];
+      versionSelectTrigger.querySelector('span').textContent = seriesObj.versions[0].name;
+    } else {
+      versionSelectTrigger.querySelector('span').textContent = 'Версії відсутні';
+      selectedVersionData = null;
+    }
+  }
+
+  // Подключение
   connectBtn.onclick = async () => {
     try {
       if (!('serial' in navigator)) {
-        alert("Ваш браузер не підтримує Web Serial API. Використовуйте Chrome, Edge або Opera.");
+        alert("Будь ласка, використовуйте Chrome або Edge браузер.");
         return;
       }
 
       device = await navigator.serial.requestPort();
       transport = new Transport(device);
 
-      const baudRate = parseInt(baudRateSelect.value);
-
       esploader = new ESPLoader({
         transport: transport,
-        baudrate: baudRate,
+        baudrate: 921600,
         terminal: { clean: () => {}, writeLine: log, write: log }
       });
 
-      log("[З'ЄДНАННЯ] Синхронізація з ROM-завантажником пристрою...");
+      log("[ПІДКЛЮЧЕННЯ] Пошук пристрою TargetiX...");
       const chip = await esploader.main();
-      
+
       let macAddr = "N/A";
-      try { 
-        macAddr = await esploader.chip.readMac(esploader); 
-      } catch(e) {
-        log("[З'ЄДНАННЯ] Не вдалося зчитати MAC адресу.");
-      }
+      try { macAddr = await esploader.chip.readMac(esploader); } catch(e){}
 
-      try {
-        const flashCode = await esploader.flashId();
-        const sizeID = flashCode >> 16;
-        detectedFlashSize = Math.pow(2, sizeID);
-      } catch(e) {
-        detectedFlashSize = 4194304; 
-      }
-
-      log(`[УСПІХ] Чіп ідентифіковано: ${chip}`);
-      setConnectedStatus(true, "TargetiX підключено", {
-        model: chip,
-        mac: macAddr,
-        flash: `${(detectedFlashSize / (1024*1024)).toFixed(0)}MB`,
-        baud: baudRate + " bps"
-      });
+      statusBadge.classList.add('connected');
+      statusText.textContent = "TargetiX підключено";
+      chipModel.textContent = chip;
+      chipMac.textContent = macAddr;
 
       flashBtn.disabled = false;
-      monitorBtn.disabled = false;
       disconnectBtn.disabled = false;
       connectBtn.disabled = true;
 
+      log(`[УСПІХ] Підключено: ${chip}`);
+
     } catch (err) {
-      log("[ПОМИЛКА] Помилка з'єднання: " + err.message);
-      setConnectedStatus(false, "Помилка підключення");
+      log("[ПОМИЛКА] Не вдалося підключитися. Затисніть BOOT та спробуйте знову.");
     }
   };
 
-  // Відключення
   disconnectBtn.onclick = async () => {
-    if (isMonitoring) await stopSerialMonitor();
     try { if (transport) await transport.disconnect(); } catch (e) {}
-    device = null; 
-    transport = null; 
-    esploader = null;
+    device = null; transport = null; esploader = null;
     
-    setConnectedStatus(false, "Пристрій відключено");
-    flashBtn.disabled = true; 
-    monitorBtn.disabled = true; 
-    disconnectBtn.disabled = true; 
+    statusBadge.classList.remove('connected');
+    statusText.textContent = "Пристрій відключено";
+    chipModel.textContent = "-";
+    chipMac.textContent = "-";
+
+    flashBtn.disabled = true;
+    disconnectBtn.disabled = true;
     connectBtn.disabled = false;
   };
 
+  // Прошивка
+  flashBtn.onclick = () => {
+    confirmModalDesc.textContent = modeClean.checked
+      ? "УВАГА: Обрано режим «Чиста установка». Всі ваші налаштування будуть повністю видалені!"
+      : "Розпочати оновлення пристрою? Не від'єднуйте кабель.";
+    confirmModal.classList.add('active');
+  };
+
+  modalCancelBtn.onclick = () => confirmModal.classList.remove('active');
+  modalConfirmBtn.onclick = async () => {
+    confirmModal.classList.remove('active');
+    await executeFlashing();
+  };
+
   async function fetchBinaryFile(url) {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Помилка завантаження ${url}: HTTP ${response.status}`);
-    return new Uint8Array(await response.arrayBuffer());
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Не вдалося завантажити ${url}`);
+    return new Uint8Array(await res.arrayBuffer());
   }
 
-  // Функція виконання Hard Reset
-  async function performHardReset() {
-    try {
-      if (esploader && typeof esploader.hardReset === 'function') {
-        await esploader.hardReset();
-      } else if (transport && typeof transport.setDTR === 'function') {
-        // Універсальний апаратний скид через DTR/RTS сигнальні лінії
-        await transport.setDTR(false);
-        await transport.setRTS(true);
-        await new Promise(r => setTimeout(r, 100));
-        await transport.setRTS(false);
-        log("[СИСТЕМА] Виконано Hardware Reset через Transport DTR/RTS.");
-      } else {
-        log("[УВАГА] Не вдалося виконати автоматичний Hard Reset. Натисніть кнопку EN/RST на платі.");
-      }
-    } catch (e) {
-      log("[УВАГА] Помилка при виконанні скиду: " + e.message + ". Натисніть кнопку EN/RST на платі.");
-    }
-  }
-
-  // Процес прошивки
-  flashBtn.onclick = async () => {
+  async function executeFlashing() {
     let fileArray = [];
 
     try {
-      if (isMonitoring) await stopSerialMonitor();
-
-      if (activeSourceTab === 'cloud') {
-        const selectedIndex = versionSelect.value;
-        if (selectedIndex === "" || !availableVersions[selectedIndex]) {
-          alert("Оберіть версію прошивки зі списку!");
+      if (activeTab === 'cloud') {
+        if (!selectedVersionData) {
+          alert("Оберіть версію прошивки!");
           return;
         }
-        const config = availableVersions[selectedIndex];
-        log(`[FLASH] Завантаження компонентів прошивки з хмари...`);
+
+        log("[ОНОВЛЕННЯ] Завантаження компонентів...");
         const [boot, part, app] = await Promise.all([
-          fetchBinaryFile(config.bootloader),
-          fetchBinaryFile(config.partitions),
-          fetchBinaryFile(config.app)
+          fetchBinaryFile(selectedVersionData.bootloader),
+          fetchBinaryFile(selectedVersionData.partitions),
+          fetchBinaryFile(selectedVersionData.app)
         ]);
 
         fileArray = [
-          { data: boot, address: parseInt(config.bootAddress || "0x1000", 16) },
-          { data: part, address: parseInt(config.partAddress || "0x8000", 16) },
-          { data: app, address: parseInt(config.appAddress || "0x10000", 16) }
+          { data: boot, address: 0x0 },
+          { data: part, address: 0x8000 },
+          { data: app, address: 0x10000 }
         ];
       } else {
-        if (customFiles.length === 0) {
-          alert("Додайте хоча б один .bin файл у Flash Map!");
+        if (!customFileBuffer) {
+          alert("Оберіть файл .bin або .zip!");
           return;
         }
-        
-        for (const item of customFiles) {
-          const addr = parseInt(item.address, 16);
-          if (isNaN(addr)) throw new Error(`Невірний Offset [${item.address}] для файлу ${item.name}`);
-          
-          if (addr + item.data.length > detectedFlashSize) {
-            throw new Error(`Файл ${item.name} перевищує розмір Flash пам'яті (${(detectedFlashSize/1024/1024)}MB)!`);
-          }
-          fileArray.push({ data: item.data, address: addr });
-        }
+        fileArray = [{ data: new Uint8Array(customFileBuffer), address: 0x0 }];
       }
 
       flashBtn.disabled = true;
       progressSection.style.display = 'block';
-      progressBar.style.backgroundColor = '';
 
-      if (eraseFlashCheck.checked) {
-        progressStatus.textContent = "Очищення Flash пам'яті...";
-        log("[FLASH] Виконується повне стирання (Erase Flash)...");
+      if (modeClean.checked) {
+        progressStatus.textContent = "Очищення пам'яті...";
+        log("[ОЧИЩЕННЯ] Видалення старих даних...");
         await esploader.eraseFlash();
       }
 
-      progressStatus.textContent = "Запис файлів...";
-      log("[FLASH] Запис секцій у фізичну пам'ять пристрою...");
+      progressStatus.textContent = "Запис...";
+      log("[ЗАПИС] Встановлення оновлення...");
 
       await esploader.writeFlash({
         fileArray: fileArray,
         flashSize: 'keep',
         compress: true,
-        reportProgress: (fileIndex, written, total) => {
-          const percentage = Math.round((written / total) * 100);
-          progressBar.style.width = `${percentage}%`;
-          progressPercent.textContent = `${percentage}%`;
+        reportProgress: (idx, written, total) => {
+          const pct = Math.round((written / total) * 100);
+          progressBar.style.width = `${pct}%`;
+          progressPercent.textContent = `${pct}%`;
         }
       });
 
-      progressStatus.textContent = "Завершено!";
-      log("[УСПІХ] Прошивка успішно завершена! Виконується перезапуск пристрою...");
+      progressStatus.textContent = "Успішно!";
+      log("[ГОТОВО] Оновлення успішно завершено! Перезапуск пристрою...");
       
-      await performHardReset();
+      try { await esploader.hardReset(); } catch(e){}
 
     } catch (err) {
-      log("[ПОМИЛКА FLASH] " + err.message);
-      progressStatus.textContent = "Помилка!";
+      log("[ПОМИЛКА] " + err.message);
+      progressStatus.textContent = "Збій!";
       progressBar.style.backgroundColor = 'var(--danger)';
     } finally {
       flashBtn.disabled = false;
     }
-  };
-
-  // Інтегрований UART Монітор
-  monitorBtn.onclick = async () => {
-    if (isMonitoring) await stopSerialMonitor();
-    else await startSerialMonitor();
-  };
-
-  async function startSerialMonitor() {
-    try {
-      if (transport) await transport.disconnect();
-      
-      const baud = parseInt(baudRateSelect.value);
-      await device.open({ baudRate: baud });
-      
-      isMonitoring = true;
-      monitorBtn.textContent = "Зупинити Монітор";
-      monitorBtn.classList.replace('btn-secondary', 'btn-danger');
-      document.getElementById('consoleModeTitle').innerHTML = `
-        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-        UART Монітор (${baud} Baud)
-      `;
-      terminalControls.style.display = 'flex';
-      log(`\n--- СТАРТ UART МОНІТОРА (${baud} BAUD) ---`);
-
-      const textDecoder = new TextDecoderStream();
-      device.readable.pipeTo(textDecoder.writable);
-      monitorReader = textDecoder.readable.getReader();
-
-      const textEncoder = new TextEncoderStream();
-      textEncoder.readable.pipeTo(device.writable);
-      monitorWriter = textEncoder.writable.getWriter();
-
-      while (isMonitoring) {
-        const { value, done } = await monitorReader.read();
-        if (done) break;
-        if (value) {
-          logElement.textContent += value;
-          logElement.scrollTop = logElement.scrollHeight;
-        }
-      }
-    } catch (err) {
-      log("[ПОМИЛКА МОНІТОРА] " + err.message);
-    }
   }
 
-  async function stopSerialMonitor() {
-    isMonitoring = false;
-    if (monitorReader) { try { await monitorReader.cancel(); } catch(e){} }
-    if (monitorWriter) { try { await monitorWriter.close(); } catch(e){} }
-    try { await device.close(); } catch(e){}
-    
-    monitorBtn.textContent = "Монітор UART";
-    monitorBtn.classList.replace('btn-danger', 'btn-secondary');
-    document.getElementById('consoleModeTitle').textContent = "Лог Системи";
-    terminalControls.style.display = 'none';
-    log("--- МОНІТОР ЗУПИНЕНО ---\n");
-  }
-
-  // Відправка даних у Serial
-  terminalSendBtn.onclick = async () => {
-    const text = terminalInput.value;
-    if (text && monitorWriter) {
-      await monitorWriter.write(text + "\r\n");
-      log(`[TX] > ${text}`);
-      terminalInput.value = '';
-    }
-  };
-
-  terminalInput.onkeydown = (e) => {
-    if (e.key === 'Enter') terminalSendBtn.click();
-  };
-
-  // Первинна ініціалізація
   setupCustomSelects();
-  loadVersions();
+  loadManifest();
 </script>
 </body>
 </html>

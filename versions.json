@@ -1,9 +1,13 @@
-[
-  {
-    "version": "v3.1",
-    "name": "v3.1 (Стабільна)",
-    "bootloader": "firmware/v3.1/bootloader.bin",
-    "partitions": "firmware/v3.1/partitions.bin",
-    "app": "firmware/v3.1/firmware.bin"
+{
+  "TargetiX_SL1": {
+    "chip": "esp32s3",
+    "versions": [
+      {
+        "name": "v3.1 Стабільна",
+        "bootloader": "./firmware/sl1/bootloader.bin",
+        "partitions": "./firmware/sl1/partitions.bin",
+        "app": "./firmware/sl1/firmware_v3.1.bin"
+      }
+    ]
   }
-]
+}
