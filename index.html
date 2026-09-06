@@ -257,6 +257,7 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
+      position: relative;
     }
 
     label {
@@ -282,6 +283,84 @@
     select:focus, input[type="text"]:focus {
       border-color: var(--primary);
       box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    /* Стилі для Custom Select (Кастомний випадаючий список) */
+    .custom-select {
+      position: relative;
+      user-select: none;
+    }
+
+    .custom-select-trigger {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--card-border);
+      background-color: var(--input-bg);
+      color: var(--text-main);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .custom-select-trigger:after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 5px solid var(--text-muted);
+      transition: transform 0.2s ease;
+    }
+
+    .custom-select.open .custom-select-trigger {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    .custom-select.open .custom-select-trigger:after {
+      transform: rotate(180deg);
+    }
+
+    .custom-options {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      z-index: 100;
+      max-height: 160px;
+      overflow-y: auto;
+      display: none;
+    }
+
+    .custom-select.open .custom-options {
+      display: block;
+    }
+
+    .custom-option {
+      padding: 8px 10px;
+      font-size: 12px;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .custom-option:hover {
+      background-color: #f1f5f9;
+      color: var(--primary);
+    }
+
+    .custom-option.selected {
+      background-color: #eff6ff;
+      color: var(--primary);
+      font-weight: 600;
     }
 
     /* Drag & Drop Секція */
@@ -319,10 +398,12 @@
       padding-right: 4px;
     }
 
-    .flash-map-container::-webkit-scrollbar {
+    .flash-map-container::-webkit-scrollbar,
+    .custom-options::-webkit-scrollbar {
       width: 4px;
     }
-    .flash-map-container::-webkit-scrollbar-thumb {
+    .flash-map-container::-webkit-scrollbar-thumb,
+    .custom-options::-webkit-scrollbar-thumb {
       background: #cbd5e1;
       border-radius: 4px;
     }
@@ -595,10 +676,18 @@
       <!-- Хмарна Секція -->
       <div id="cloudSection">
         <div class="form-group">
-          <label for="versionSelect">Релізний білд</label>
-          <select id="versionSelect">
-            <option value="">Завантаження релізів...</option>
-          </select>
+          <label>Релізний білд</label>
+          <!-- Custom Select для версій прошивки -->
+          <div class="custom-select" id="customVersionSelect">
+            <div class="custom-select-trigger" id="versionSelectTrigger">
+              <span>Завантаження релізів...</span>
+            </div>
+            <div class="custom-options" id="versionCustomOptions">
+              <!-- Динамічно заповнюється з JS -->
+            </div>
+          </div>
+          <!-- Прихований оригінальний елемент для зсумісності -->
+          <select id="versionSelect" style="display: none;"></select>
         </div>
       </div>
 
@@ -618,8 +707,20 @@
       <!-- Налаштування Запису -->
       <div class="button-row">
         <div class="form-group" style="width: 100%;">
-          <label for="baudRateSelect">Швидкість запису</label>
-          <select id="baudRateSelect">
+          <label>Швидкість запису</label>
+          <!-- Custom Select для швидкості -->
+          <div class="custom-select" id="customBaudSelect">
+            <div class="custom-select-trigger" id="baudSelectTrigger">
+              <span>921600 (Ultra High)</span>
+            </div>
+            <div class="custom-options" id="baudCustomOptions">
+              <div class="custom-option" data-value="115200">115200 (Safe)</div>
+              <div class="custom-option" data-value="460800">460800 (Fast)</div>
+              <div class="custom-option selected" data-value="921600">921600 (Ultra High)</div>
+            </div>
+          </div>
+          <!-- Прихований оригінальний елемент для збереження стану -->
+          <select id="baudRateSelect" style="display: none;">
             <option value="115200">115200 (Safe)</option>
             <option value="460800">460800 (Fast)</option>
             <option value="921600" selected>921600 (Ultra High)</option>
@@ -740,6 +841,68 @@
   const terminalControls = document.getElementById('terminalControls');
   const terminalInput = document.getElementById('terminalInput');
   const terminalSendBtn = document.getElementById('terminalSendBtn');
+
+  // Кастомні списки
+  const customBaudSelect = document.getElementById('customBaudSelect');
+  const baudSelectTrigger = document.getElementById('baudSelectTrigger');
+  const baudCustomOptions = document.getElementById('baudCustomOptions');
+
+  const customVersionSelect = document.getElementById('customVersionSelect');
+  const versionSelectTrigger = document.getElementById('versionSelectTrigger');
+  const versionCustomOptions = document.getElementById('versionCustomOptions');
+
+  // Логіка перемикання та роботи Custom Select
+  function setupCustomSelects() {
+    // Закриття всіх списків при кліку поза ними
+    document.addEventListener('click', (e) => {
+      if (!customBaudSelect.contains(e.target)) customBaudSelect.classList.remove('open');
+      if (!customVersionSelect.contains(e.target)) customVersionSelect.classList.remove('open');
+    });
+
+    // Toggle Baud Select
+    baudSelectTrigger.addEventListener('click', () => {
+      customVersionSelect.classList.remove('open');
+      customBaudSelect.classList.toggle('open');
+    });
+
+    // Вибір значення швидкості
+    baudCustomOptions.addEventListener('click', (e) => {
+      const option = e.target.closest('.custom-option');
+      if (!option) return;
+      
+      const val = option.getAttribute('data-value');
+      const text = option.textContent;
+
+      baudSelectTrigger.querySelector('span').textContent = text;
+      baudRateSelect.value = val;
+
+      Array.from(baudCustomOptions.children).forEach(opt => opt.classList.remove('selected'));
+      option.classList.add('selected');
+      customBaudSelect.classList.remove('open');
+    });
+
+    // Toggle Version Select
+    versionSelectTrigger.addEventListener('click', () => {
+      customBaudSelect.classList.remove('open');
+      customVersionSelect.classList.toggle('open');
+    });
+
+    // Вибір версії
+    versionCustomOptions.addEventListener('click', (e) => {
+      const option = e.target.closest('.custom-option');
+      if (!option) return;
+
+      const val = option.getAttribute('data-value');
+      const text = option.textContent;
+
+      versionSelectTrigger.querySelector('span').textContent = text;
+      versionSelect.value = val;
+
+      Array.from(versionCustomOptions.children).forEach(opt => opt.classList.remove('selected'));
+      option.classList.add('selected');
+      customVersionSelect.classList.remove('open');
+    });
+  }
 
   // Логування в консоль
   function log(msg) {
@@ -889,17 +1052,36 @@
       const response = await fetch('./versions.json');
       if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
       availableVersions = await response.json();
+      
       versionSelect.innerHTML = '';
+      versionCustomOptions.innerHTML = '';
+
       availableVersions.forEach((item, index) => {
+        // Заповнення стандарного select
         const option = document.createElement('option');
         option.value = index;
         option.textContent = item.name;
         versionSelect.appendChild(option);
+
+        // Заповнення Custom Select
+        const customOpt = document.createElement('div');
+        customOpt.className = 'custom-option' + (index === 0 ? ' selected' : '');
+        customOpt.setAttribute('data-value', index);
+        customOpt.textContent = item.name;
+        versionCustomOptions.appendChild(customOpt);
       });
+
+      if (availableVersions.length > 0) {
+        versionSelectTrigger.querySelector('span').textContent = availableVersions[0].name;
+        versionSelect.value = 0;
+      }
+
       log("[СИСТЕМА] Маніфест версій успішно завантажено.");
     } catch (err) {
       log("[СИСТЕМА] Файл versions.json не знайдено. Працює локальний режим.");
       versionSelect.innerHTML = '<option value="">Локальний режим (Завантажте .bin)</option>';
+      versionCustomOptions.innerHTML = '<div class="custom-option" data-value="">Локальний режим (Завантажте .bin)</div>';
+      versionSelectTrigger.querySelector('span').textContent = 'Локальний режим (Завантажте .bin)';
     }
   }
 
@@ -1153,6 +1335,7 @@
   };
 
   // Первинна ініціалізація
+  setupCustomSelects();
   loadVersions();
 </script>
 </body>
