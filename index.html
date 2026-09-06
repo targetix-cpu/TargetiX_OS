@@ -44,7 +44,7 @@
       padding: 0;
     }
 
-    /* ЗАХИСТ ВІД СКТРОЛЛІНГУ СТОРІНКИ (Zero Scroll Layout) */
+    /* ЗАХИСТ ВІД СКРОЛІНГУ СТОРІНКИ (Zero Scroll Layout) */
     html, body {
       width: 100%;
       height: 100vh;
@@ -980,6 +980,26 @@
     return new Uint8Array(await response.arrayBuffer());
   }
 
+  // Функція виконання Hard Reset
+  async function performHardReset() {
+    try {
+      if (esploader && typeof esploader.hardReset === 'function') {
+        await esploader.hardReset();
+      } else if (transport && typeof transport.setDTR === 'function') {
+        // Універсальний апаратний скид через DTR/RTS сигнальні лінії
+        await transport.setDTR(false);
+        await transport.setRTS(true);
+        await new Promise(r => setTimeout(r, 100));
+        await transport.setRTS(false);
+        log("[СИСТЕМА] Виконано Hardware Reset через Transport DTR/RTS.");
+      } else {
+        log("[УВАГА] Не вдалося виконати автоматичний Hard Reset. Натисніть кнопку EN/RST на платі.");
+      }
+    } catch (e) {
+      log("[УВАГА] Помилка при виконанні скиду: " + e.message + ". Натисніть кнопку EN/RST на платі.");
+    }
+  }
+
   // Процес прошивки
   flashBtn.onclick = async () => {
     let fileArray = [];
@@ -1048,8 +1068,9 @@
       });
 
       progressStatus.textContent = "Завершено!";
-      log("[УСПІХ] Прошивка успішно завершена! Виконується перезапуск пристрою (Hard Reset)...");
-      await esploader.hardReset();
+      log("[УСПІХ] Прошивка успішно завершена! Виконується перезапуск пристрою...");
+      
+      await performHardReset();
 
     } catch (err) {
       log("[ПОМИЛКА FLASH] " + err.message);
