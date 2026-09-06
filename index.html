@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>TargetiX Firmware Hub - User Light Edition</title>
+  <title>TargetiX Firmware Hub - Official Update Portal</title>
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -131,7 +131,7 @@
 
     .dashboard-grid {
       display: grid;
-      grid-template-columns: 440px 1fr;
+      grid-template-columns: 460px 1fr;
       gap: 16px;
       height: calc(100vh - 90px);
       min-height: 0;
@@ -158,7 +158,6 @@
       border-radius: 4px;
     }
 
-    /* Подсказка для пользователя */
     .user-guide-box {
       background: var(--primary-light);
       border: 1px solid #bfdbfe;
@@ -185,7 +184,7 @@
       margin-bottom: 4px;
     }
 
-    /* Статус устройства */
+    /* Статус */
     .status-badge {
       padding: 12px;
       background: #f8fafc;
@@ -233,7 +232,7 @@
       100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
     }
 
-    .chip-details {
+    .device-details {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 6px;
@@ -244,12 +243,40 @@
       color: var(--text-muted);
     }
 
-    .chip-details div span {
+    .device-details div span {
       color: var(--text-main);
       font-weight: 600;
     }
 
-    /* Переключатель источника */
+    /* Вкладки типы соединения */
+    .connection-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      background: #f1f5f9;
+      padding: 4px;
+      border-radius: var(--radius-md);
+    }
+
+    .conn-tab-btn {
+      padding: 8px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .conn-tab-btn.active {
+      background: #ffffff;
+      color: var(--primary);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Табы источника */
     .source-tabs {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -293,7 +320,25 @@
       letter-spacing: 0.04em;
     }
 
-    /* Кастомный выпадающий список (Custom Select) */
+    .text-input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--card-border);
+      background-color: #ffffff;
+      color: var(--text-main);
+      font-size: 13px;
+      font-weight: 500;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .text-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    /* Custom Select */
     .custom-select {
       position: relative;
       user-select: none;
@@ -517,7 +562,7 @@
       transition: width 0.15s ease;
     }
 
-    /* Монитор / Консоль */
+    /* Монитор */
     .console-card {
       display: flex;
       flex-direction: column;
@@ -577,7 +622,7 @@
       border-radius: 4px;
     }
 
-    /* Модалка */
+    /* Модальное окно */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -642,12 +687,12 @@
       </div>
       <div>
         <h1>TargetiX Firmware Hub</h1>
-        <p>Портал оновлення пристроїв TargetiX</p>
+        <p>Центр оновлення пристроїв TargetiX</p>
       </div>
     </div>
     <div class="header-pills">
-      <div class="pill">Режим: Користувач</div>
-      <div class="pill">Web Serial API</div>
+      <div class="pill">Режим Користувача</div>
+      <div class="pill">TargetiX Direct Engine</div>
     </div>
   </header>
 
@@ -655,16 +700,22 @@
     <!-- ЛЕВАЯ ПАНЕЛЬ -->
     <div class="card">
       
-      <!-- Инструкция -->
+      <!-- Подсказка -->
       <details class="user-guide-box">
-        <summary>Як оновити пристрій?</summary>
+        <summary>Як оновити пристрій TargetiX?</summary>
         <ol>
-          <li>Підключіть пристрій до ПК через кабель USB.</li>
-          <li>Натисніть кнопку <b>«Підключити пристрій»</b> і оберіть порт.</li>
-          <li>Оберіть серію вашого пристрою.</li>
-          <li>Натисніть <b>«Розпочати оновлення»</b>.</li>
+          <li>Оберіть метод оновлення: <b>USB-Кабель</b> або <b>Wi-Fi (ArduinoOTA)</b>.</li>
+          <li>Для USB: підключіть пристрій та натисніть <b>«Підключити»</b>.</li>
+          <li>Для Wi-Fi: вкажіть IP-адресу вашого TargetiX у мережі.</li>
+          <li>Оберіть серію пристрою та натисніть <b>«Розпочати оновлення»</b>.</li>
         </ol>
       </details>
+
+      <!-- Способ подключения -->
+      <div class="connection-tabs">
+        <button id="connUsb" class="conn-tab-btn active">USB Кабель</button>
+        <button id="connOta" class="conn-tab-btn">Wi-Fi (ArduinoOTA)</button>
+      </div>
 
       <!-- Статус -->
       <div id="statusBadge" class="status-badge">
@@ -674,32 +725,38 @@
             <span id="statusText">Пристрій не підключено</span>
           </div>
         </div>
-        <div class="chip-details">
-          <div>Серія: <span id="chipModel">-</span></div>
-          <div>ID Пристрою: <span id="chipMac">-</span></div>
+        <div class="device-details">
+          <div>Серія: <span id="targetixModel">-</span></div>
+          <div>ID Пристрою: <span id="targetixId">-</span></div>
         </div>
       </div>
 
-      <!-- Кастомный выпадающий список для серии устройства -->
+      <!-- Секция Wi-Fi ArduinoOTA -->
+      <div id="otaConfigSection" style="display: none;" class="form-group">
+        <label>IP-Адреса пристрою TargetiX (Wi-Fi)</label>
+        <input type="text" id="otaIpInput" class="text-input" placeholder="192.168.1.50 або targetix.local" value="192.168.1.50">
+      </div>
+
+      <!-- Кастомный выпадающий список: Серія TargetiX -->
       <div class="form-group">
         <label>Серія вашого пристрою</label>
         <div class="custom-select" id="customSeriesSelect">
           <div class="custom-select-trigger" id="seriesSelectTrigger">
-            <span>Оберіть серію...</span>
+            <span>Завантаження серій...</span>
           </div>
           <div class="custom-options" id="seriesCustomOptions">
-            <!-- Заполняется JS из manifest -->
+            <!-- Динамический список из manifest -->
           </div>
         </div>
       </div>
 
-      <!-- Табы источника прошивки -->
+      <!-- Источник прошивки -->
       <div class="source-tabs">
         <button id="tabCloud" class="tab-btn active">Хмарне оновлення</button>
-        <button id="tabLocal" class="tab-btn">Свій файл (.bin / .zip)</button>
+        <button id="tabLocal" class="tab-btn">Свій файл (.bin)</button>
       </div>
 
-      <!-- Секция хмарного обновления -->
+      <!-- Облако -->
       <div id="cloudSection">
         <div class="form-group">
           <label>Доступна версія прошивки</label>
@@ -714,28 +771,26 @@
         </div>
       </div>
 
-      <!-- Секция своего файла -->
+      <!-- Локальный файл -->
       <div id="localSection" style="display: none;">
         <div id="dropZone" class="drop-zone">
-          <p> Натисніть або перетягніть файл .bin або .zip сюди</p>
-          <input type="file" id="localFileInput" accept=".bin,.zip">
+          <p> Натисніть або перетягніть файл прошивки (.bin) сюди</p>
+          <input type="file" id="localFileInput" accept=".bin">
         </div>
-        <div id="localFileInfo" style="display: none; margin-top: 8px;">
-          <!-- Имя файла -->
-        </div>
+        <div id="localFileInfo" style="display: none; margin-top: 8px;"></div>
       </div>
 
-      <!-- Режим установки -->
-      <div class="form-group">
+      <!-- Режим -->
+      <div class="form-group" id="modeGroupSection">
         <label>Режим встановлення</label>
         <div class="mode-selector">
           <label class="radio-group">
             <input type="radio" name="flashMode" value="update" checked id="modeUpdate">
-            Оновлення (Зберегти всі налаштування)
+            Оновлення (Зберегти всі налаштування TargetiX)
           </label>
           <label class="radio-group">
             <input type="radio" name="flashMode" value="clean" id="modeClean">
-            Чиста установка (Скинути до заводських)
+            Чиста установка (Скинути до заводських налаштувань)
           </label>
         </div>
       </div>
@@ -743,7 +798,7 @@
       <!-- Прогресс -->
       <div id="progressSection" class="progress-section">
         <div class="progress-header">
-          <span id="progressStatus">Запис...</span>
+          <span id="progressStatus">Запис прошивки...</span>
           <span id="progressPercent">0%</span>
         </div>
         <div class="progress-bar-container">
@@ -751,9 +806,9 @@
         </div>
       </div>
 
-      <!-- Кнопки -->
+      <!-- Кнопки управления -->
       <div class="button-stack">
-        <div class="button-row">
+        <div class="button-row" id="usbButtonsRow">
           <button id="connectBtn" class="btn-primary">
             <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
             Підключити
@@ -763,7 +818,7 @@
 
         <button id="flashBtn" class="btn-success" disabled>
           <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-          Розпочати оновлення
+          Розпочати оновлення TargetiX
         </button>
       </div>
     </div>
@@ -771,24 +826,24 @@
     <!-- ПРАВАЯ ПАНЕЛЬ -->
     <div class="card console-card">
       <div class="console-header">
-        <span class="console-title">Журнал Оновлення</span>
+        <span class="console-title">Системний Журнал TargetiX</span>
         <div class="console-actions">
           <button id="copyLogBtn" class="btn-secondary">Копіювати</button>
           <button id="clearLogBtn" class="btn-secondary">Очистити</button>
         </div>
       </div>
 
-      <div id="log" class="log-container">Очікування підключення пристрою TargetiX...</div>
+      <div id="log" class="log-container">Система очікує підключення пристрою TargetiX...</div>
     </div>
   </div>
 </div>
 
-<!-- Модалка -->
+<!-- Диалог -->
 <div class="modal-overlay" id="confirmModal">
   <div class="modal-box">
-    <div class="modal-title">Підтвердження</div>
+    <div class="modal-title">Підтвердження оновлення TargetiX</div>
     <div class="modal-desc" id="confirmModalDesc">
-      Ви впевнені, що бажаєте розпочати процес оновлення? Не від'єднуйте кабель під час процедури.
+      Ви дійсно бажаєте розпочати процес оновлення? Не відключайте живлення пристрою під час процедури.
     </div>
     <div class="modal-actions">
       <button class="btn-secondary" id="modalCancelBtn">Скасувати</button>
@@ -808,15 +863,23 @@
   let selectedSeries = null;
   let selectedVersionData = null;
   let customFileBuffer = null;
-  let activeTab = 'cloud';
+  let activeTab = 'cloud'; 
+  let connectionMethod = 'usb'; // 'usb' | 'ota'
 
-  // Элементы
+  // DOM Элементы
   const logElement = document.getElementById('log');
   const connectBtn = document.getElementById('connectBtn');
   const disconnectBtn = document.getElementById('disconnectBtn');
   const flashBtn = document.getElementById('flashBtn');
   const clearLogBtn = document.getElementById('clearLogBtn');
   const copyLogBtn = document.getElementById('copyLogBtn');
+
+  const connUsb = document.getElementById('connUsb');
+  const connOta = document.getElementById('connOta');
+  const usbButtonsRow = document.getElementById('usbButtonsRow');
+  const otaConfigSection = document.getElementById('otaConfigSection');
+  const otaIpInput = document.getElementById('otaIpInput');
+  const modeGroupSection = document.getElementById('modeGroupSection');
 
   const tabCloud = document.getElementById('tabCloud');
   const tabLocal = document.getElementById('tabLocal');
@@ -830,8 +893,8 @@
 
   const statusBadge = document.getElementById('statusBadge');
   const statusText = document.getElementById('statusText');
-  const chipModel = document.getElementById('chipModel');
-  const chipMac = document.getElementById('chipMac');
+  const targetixModel = document.getElementById('targetixModel');
+  const targetixId = document.getElementById('targetixId');
 
   const progressSection = document.getElementById('progressSection');
   const progressBar = document.getElementById('progressBar');
@@ -852,22 +915,30 @@
   const versionSelectTrigger = document.getElementById('versionSelectTrigger');
   const versionCustomOptions = document.getElementById('versionCustomOptions');
 
-  // Локальный манифест (дефолтный fallback если versions.json не загружен)
+  // Манифест по умолчанию (TargetiX_SL1 и TargetiX_SL2)
   const defaultManifest = {
     "TargetiX_SL1": {
-      "chip": "esp32s3",
       "versions": [
         {
-          "name": "v3.1 Стабільна",
+          "name": "v3.1 (Стабільна)",
           "bootloader": "./firmware/sl1/bootloader.bin",
           "partitions": "./firmware/sl1/partitions.bin",
           "app": "./firmware/sl1/firmware_v3.1.bin"
         }
       ]
+    },
+    "TargetiX_SL2": {
+      "versions": [
+        {
+          "name": "v3.1 (Стабільна)",
+          "bootloader": "./firmware/sl2/bootloader.bin",
+          "partitions": "./firmware/sl2/partitions.bin",
+          "app": "./firmware/sl2/firmware_v3.1.bin"
+        }
+      ]
     }
   };
 
-  // Настройка выпадающих списков
   function setupCustomSelects() {
     document.addEventListener('click', (e) => {
       if (!customSeriesSelect.contains(e.target)) customSeriesSelect.classList.remove('open');
@@ -884,7 +955,7 @@
       customVersionSelect.classList.toggle('open');
     });
 
-    // Выбор серии
+    // Обработка выбора серии
     seriesCustomOptions.addEventListener('click', (e) => {
       const option = e.target.closest('.custom-option');
       if (!option) return;
@@ -897,10 +968,11 @@
       option.classList.add('selected');
       customSeriesSelect.classList.remove('open');
 
+      targetixModel.textContent = seriesKey;
       updateVersionList(seriesKey);
     });
 
-    // Выбор версии
+    // Обработка выбора версии
     versionCustomOptions.addEventListener('click', (e) => {
       const option = e.target.closest('.custom-option');
       if (!option) return;
@@ -926,10 +998,40 @@
   clearLogBtn.onclick = () => logElement.textContent = '';
   copyLogBtn.onclick = () => {
     navigator.clipboard.writeText(logElement.textContent);
-    alert("Журнал скопійовано!");
+    alert("Системний журнал скопійовано!");
   };
 
-  // Табы
+  // Переключение USB / Wi-Fi (ArduinoOTA)
+  connUsb.onclick = () => {
+    connectionMethod = 'usb';
+    connUsb.classList.add('active');
+    connOta.classList.remove('active');
+    usbButtonsRow.style.display = 'grid';
+    otaConfigSection.style.display = 'none';
+    modeGroupSection.style.display = 'flex';
+    
+    if (!device) {
+      flashBtn.disabled = true;
+      statusBadge.classList.remove('connected');
+      statusText.textContent = "Пристрій не підключено";
+    }
+  };
+
+  connOta.onclick = () => {
+    connectionMethod = 'ota';
+    connOta.classList.add('active');
+    connUsb.classList.remove('active');
+    usbButtonsRow.style.display = 'none';
+    otaConfigSection.style.display = 'flex';
+    modeGroupSection.style.display = 'none'; // В ArduinoOTA режим полной очистки flash недоступен
+    
+    flashBtn.disabled = false;
+    statusBadge.classList.add('connected');
+    statusText.textContent = "Готовий до оновлення через Wi-Fi (ArduinoOTA)";
+    targetixId.textContent = "Network TargetiX";
+  };
+
+  // Табы источника
   tabCloud.onclick = () => {
     activeTab = 'cloud';
     tabCloud.classList.add('active');
@@ -968,19 +1070,19 @@
         <span>${(file.size / 1024 / 1024).toFixed(2)} MB</span>
       </div>
     `;
-    log(`[ФАЙЛ] Завантажено локальний файл: ${file.name}`);
+    log(`[ФАЙЛ] Завантажено локальний файл прошивки: ${file.name}`);
   }
 
-  // Загрузка манифеста
+  // Загрузка файла конфигураций
   async function loadManifest() {
     try {
       const response = await fetch('./versions.json');
       if (!response.ok) throw new Error();
       manifestData = await response.json();
-      log("[СИСТЕМА] Офіційні прошивки завантажено.");
+      log("[СИСТЕМА] Базу даних прошивок TargetiX успішно завантажено.");
     } catch (e) {
       manifestData = defaultManifest;
-      log("[СИСТЕМА] Використовується конфігурація TargetiX_SL1.");
+      log("[СИСТЕМА] Використовується стандартний список серій TargetiX (SL1 / SL2).");
     }
     renderSeriesList();
   }
@@ -1000,6 +1102,7 @@
     if (seriesKeys.length > 0) {
       selectedSeries = seriesKeys[0];
       seriesSelectTrigger.querySelector('span').textContent = seriesKeys[0];
+      targetixModel.textContent = seriesKeys[0];
       updateVersionList(seriesKeys[0]);
     }
   }
@@ -1025,11 +1128,11 @@
     }
   }
 
-  // Подключение
+  // Подключение по USB
   connectBtn.onclick = async () => {
     try {
       if (!('serial' in navigator)) {
-        alert("Будь ласка, використовуйте Chrome або Edge браузер.");
+        alert("Будь ласка, використовуйте Google Chrome, Microsoft Edge або Brave.");
         return;
       }
 
@@ -1043,24 +1146,26 @@
       });
 
       log("[ПІДКЛЮЧЕННЯ] Пошук пристрою TargetiX...");
-      const chip = await esploader.main();
+      await esploader.main();
 
-      let macAddr = "N/A";
-      try { macAddr = await esploader.chip.readMac(esploader); } catch(e){}
+      let uniqueId = "TargetiX-Device";
+      try { 
+        const rawMac = await esploader.chip.readMac(esploader); 
+        uniqueId = "TX-" + rawMac.replace(/:/g, '').slice(-6).toUpperCase();
+      } catch(e){}
 
       statusBadge.classList.add('connected');
-      statusText.textContent = "TargetiX підключено";
-      chipModel.textContent = chip;
-      chipMac.textContent = macAddr;
+      statusText.textContent = "TargetiX підключено через USB";
+      targetixId.textContent = uniqueId;
 
       flashBtn.disabled = false;
       disconnectBtn.disabled = false;
       connectBtn.disabled = true;
 
-      log(`[УСПІХ] Підключено: ${chip}`);
+      log(`[УСПІХ] Ідентифіковано пристрій TargetiX (${uniqueId})`);
 
     } catch (err) {
-      log("[ПОМИЛКА] Не вдалося підключитися. Затисніть BOOT та спробуйте знову.");
+      log("[ПОМИЛКА] Не вдалося встановити зв'язок з TargetiX.");
     }
   };
 
@@ -1070,45 +1175,49 @@
     
     statusBadge.classList.remove('connected');
     statusText.textContent = "Пристрій відключено";
-    chipModel.textContent = "-";
-    chipMac.textContent = "-";
+    targetixId.textContent = "-";
 
     flashBtn.disabled = true;
     disconnectBtn.disabled = true;
     connectBtn.disabled = false;
   };
 
-  // Прошивка
+  // Старт прошивки
   flashBtn.onclick = () => {
-    confirmModalDesc.textContent = modeClean.checked
-      ? "УВАГА: Обрано режим «Чиста установка». Всі ваші налаштування будуть повністю видалені!"
-      : "Розпочати оновлення пристрою? Не від'єднуйте кабель.";
+    confirmModalDesc.textContent = (connectionMethod === 'usb' && modeClean.checked)
+      ? "УВАГА: Обрано режим «Чиста установка». Всі конфігурації TargetiX будуть повністю видалені!"
+      : "Розпочати оновлення TargetiX? Переконайтеся, що живлення стабільне.";
     confirmModal.classList.add('active');
   };
 
   modalCancelBtn.onclick = () => confirmModal.classList.remove('active');
   modalConfirmBtn.onclick = async () => {
     confirmModal.classList.remove('active');
-    await executeFlashing();
+    if (connectionMethod === 'usb') {
+      await executeUsbFlashing();
+    } else {
+      await executeOtaFlashing();
+    }
   };
 
   async function fetchBinaryFile(url) {
     const res = await fetch(url);
-    if (!res.ok) throw new Error(`Не вдалося завантажити ${url}`);
+    if (!res.ok) throw new Error(`Не вдалося завантажити файл прошивки: ${url}`);
     return new Uint8Array(await res.arrayBuffer());
   }
 
-  async function executeFlashing() {
+  // Оновлення через USB
+  async function executeUsbFlashing() {
     let fileArray = [];
 
     try {
       if (activeTab === 'cloud') {
         if (!selectedVersionData) {
-          alert("Оберіть версію прошивки!");
+          alert("Оберіть версію прошивки TargetiX!");
           return;
         }
 
-        log("[ОНОВЛЕННЯ] Завантаження компонентів...");
+        log("[ОНОВЛЕННЯ] Завантаження системних компонентів TargetiX...");
         const [boot, part, app] = await Promise.all([
           fetchBinaryFile(selectedVersionData.bootloader),
           fetchBinaryFile(selectedVersionData.partitions),
@@ -1122,7 +1231,7 @@
         ];
       } else {
         if (!customFileBuffer) {
-          alert("Оберіть файл .bin або .zip!");
+          alert("Оберіть файл прошивки .bin!");
           return;
         }
         fileArray = [{ data: new Uint8Array(customFileBuffer), address: 0x0 }];
@@ -1133,12 +1242,12 @@
 
       if (modeClean.checked) {
         progressStatus.textContent = "Очищення пам'яті...";
-        log("[ОЧИЩЕННЯ] Видалення старих даних...");
+        log("[ОЧИЩЕННЯ] Скидання системних даних TargetiX...");
         await esploader.eraseFlash();
       }
 
       progressStatus.textContent = "Запис...";
-      log("[ЗАПИС] Встановлення оновлення...");
+      log("[ЗАПИС] Встановлення оновлення TargetiX...");
 
       await esploader.writeFlash({
         fileArray: fileArray,
@@ -1152,7 +1261,7 @@
       });
 
       progressStatus.textContent = "Успішно!";
-      log("[ГОТОВО] Оновлення успішно завершено! Перезапуск пристрою...");
+      log("[ГОТОВО] Оновлення TargetiX успішно завершено! Перезапуск...");
       
       try { await esploader.hardReset(); } catch(e){}
 
@@ -1161,6 +1270,82 @@
       progressStatus.textContent = "Збій!";
       progressBar.style.backgroundColor = 'var(--danger)';
     } finally {
+      flashBtn.disabled = false;
+    }
+  }
+
+  // Оновлення через Wi-Fi (ArduinoOTA / Web HTTP Update)
+  async function executeOtaFlashing() {
+    const ip = otaIpInput.value.trim();
+    if (!ip) {
+      alert("Вкажіть IP-адресу пристрою TargetiX!");
+      return;
+    }
+
+    try {
+      let firmwareBlob = null;
+
+      if (activeTab === 'cloud') {
+        if (!selectedVersionData) {
+          alert("Оберіть версію прошивки TargetiX!");
+          return;
+        }
+        log(`[OTA] Завантаження хмарної прошивки ${selectedVersionData.name}...`);
+        const appBytes = await fetchBinaryFile(selectedVersionData.app);
+        firmwareBlob = new Blob([appBytes], { type: 'application/octet-stream' });
+      } else {
+        if (!customFileBuffer) {
+          alert("Оберіть файл прошивки .bin!");
+          return;
+        }
+        firmwareBlob = new Blob([customFileBuffer], { type: 'application/octet-stream' });
+      }
+
+      flashBtn.disabled = true;
+      progressSection.style.display = 'block';
+      progressBar.style.width = '20%';
+      progressPercent.textContent = '20%';
+      progressStatus.textContent = "Передача по Wi-Fi...";
+
+      log(`[OTA] Відправка оновлення на TargetiX (http://${ip}/update)...`);
+
+      const formData = new FormData();
+      formData.append("update", firmwareBlob, "firmware.bin");
+
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", `http://${ip}/update`, true);
+
+      xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable) {
+          const pct = Math.round((e.loaded / e.total) * 100);
+          progressBar.style.width = `${pct}%`;
+          progressPercent.textContent = `${pct}%`;
+        }
+      };
+
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          progressStatus.textContent = "Завершено!";
+          log("[OTA УСПІХ] Прошивка TargetiX успішно передана та активована!");
+        } else {
+          throw new Error(`Сервер повернув код: ${xhr.status}`);
+        }
+        flashBtn.disabled = false;
+      };
+
+      xhr.onerror = () => {
+        log("[OTA ПОМИЛКА] Не вдалося з'єднатися з пристроєм TargetiX. Перевірте IP та CORS.");
+        progressStatus.textContent = "Збій!";
+        progressBar.style.backgroundColor = 'var(--danger)';
+        flashBtn.disabled = false;
+      };
+
+      xhr.send(formData);
+
+    } catch (err) {
+      log("[OTA ПОМИЛКА] " + err.message);
+      progressStatus.textContent = "Збій!";
+      progressBar.style.backgroundColor = 'var(--danger)';
       flashBtn.disabled = false;
     }
   }
