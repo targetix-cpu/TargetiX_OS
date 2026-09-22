@@ -11,7 +11,10 @@
         content="Офіційний портал TargetiX UA. Прошивка, документація, керування та служба підтримки."
     >
 
-    <meta name="theme-color" content="#ffffff">
+    <meta
+        name="theme-color"
+        content="#ffffff"
+    >
 
     <style>
         *,
@@ -75,14 +78,9 @@
             max-width: 100%;
         }
 
-        button,
-        a {
+        a,
+        button {
             -webkit-tap-highlight-color: transparent;
-        }
-
-        section[id],
-        .hero[id] {
-            scroll-margin-top: 90px;
         }
 
         a:focus-visible {
@@ -90,18 +88,18 @@
             outline-offset: 3px;
         }
 
-        /* =========================================================
-           CONTAINER
-        ========================================================= */
+        section[id] {
+            scroll-margin-top: 90px;
+        }
 
         .container {
             width: min(calc(100% - 48px), var(--container));
             margin: 0 auto;
         }
 
-        /* =========================================================
+        /* =========================
            HEADER
-        ========================================================= */
+        ========================= */
 
         .header {
             position: sticky;
@@ -144,7 +142,7 @@
 
             border-radius: 11px;
 
-            color: #fff;
+            color: #ffffff;
             background: linear-gradient(
                 135deg,
                 var(--blue),
@@ -184,9 +182,9 @@
             background: #f1f5f9;
         }
 
-        /* =========================================================
+        /* =========================
            BUTTONS
-        ========================================================= */
+        ========================= */
 
         .button {
             min-height: 48px;
@@ -215,7 +213,7 @@
         }
 
         .button-primary {
-            color: #fff;
+            color: #ffffff;
             background: var(--blue);
 
             box-shadow:
@@ -231,7 +229,7 @@
 
         .button-secondary {
             color: #344054;
-            background: #fff;
+            background: #ffffff;
 
             border: 1px solid #dfe5ec;
         }
@@ -249,9 +247,9 @@
             transform: translateX(3px);
         }
 
-        /* =========================================================
+        /* =========================
            HERO
-        ========================================================= */
+        ========================= */
 
         .hero {
             padding: 90px 0 115px;
@@ -259,7 +257,7 @@
             background:
                 radial-gradient(
                     circle at 80% 20%,
-                    rgba(59, 130, 246, 0.1),
+                    rgba(59, 130, 246, 0.10),
                     transparent 35%
                 ),
                 radial-gradient(
@@ -267,7 +265,7 @@
                     rgba(99, 102, 241, 0.07),
                     transparent 35%
                 ),
-                #fff;
+                #ffffff;
         }
 
         .hero-grid {
@@ -280,8 +278,8 @@
         }
 
         .hero-content {
-            animation: fadeUp 0.7s ease both;
             min-width: 0;
+            animation: fadeUp 0.7s ease both;
         }
 
         .badge {
@@ -357,9 +355,9 @@
             gap: 12px;
         }
 
-        /* =========================================================
+        /* =========================
            DEVICE
-        ========================================================= */
+        ========================= */
 
         .device-area {
             display: flex;
@@ -390,7 +388,7 @@
                 );
 
             box-shadow:
-                0 30px 80px rgba(15, 23, 42, 0.1);
+                0 30px 80px rgba(15, 23, 42, 0.10);
         }
 
         .device-glow {
@@ -483,9 +481,9 @@
             font-weight: 600;
         }
 
-        /* =========================================================
+        /* =========================
            STATS
-        ========================================================= */
+        ========================= */
 
         .stats {
             position: relative;
@@ -503,7 +501,7 @@
             border: 1px solid var(--border);
             border-radius: 20px;
 
-            background: #fff;
+            background: #ffffff;
 
             box-shadow:
                 0 20px 50px rgba(15, 23, 42, 0.08);
@@ -536,9 +534,9 @@
             font-size: 13px;
         }
 
-        /* =========================================================
+        /* =========================
            SECTIONS
-        ========================================================= */
+        ========================= */
 
         .section {
             padding: 110px 0;
@@ -580,12 +578,12 @@
             font-size: 16px;
         }
 
-        /* =========================================================
+        /* =========================
            FEATURES
-        ========================================================= */
+        ========================= */
 
         .features {
-            background: #fff;
+            background: #ffffff;
         }
 
         .feature-grid {
@@ -614,7 +612,7 @@
         .feature:hover {
             transform: translateY(-5px);
 
-            background: #fff;
+            background: #ffffff;
 
             box-shadow:
                 0 20px 40px rgba(15, 23, 42, 0.07);
@@ -650,9 +648,9 @@
             line-height: 1.65;
         }
 
-        /* =========================================================
+        /* =========================
            RESOURCES
-        ========================================================= */
+        ========================= */
 
         .actions {
             background: var(--background);
@@ -666,8 +664,8 @@
         }
 
         .action-card {
-            min-height: 250px;
             min-width: 0;
+            min-height: 250px;
 
             display: flex;
             flex-direction: column;
@@ -677,7 +675,7 @@
             border: 1px solid var(--border);
             border-radius: 20px;
 
-            background: #fff;
+            background: #ffffff;
 
             transition:
                 transform 0.25s ease,
@@ -742,9 +740,9 @@
             transform: translateX(4px);
         }
 
-        /* =========================================================
+        /* =========================
            CTA
-        ========================================================= */
+        ========================= */
 
         .cta {
             padding: 40px 0 110px;
@@ -763,7 +761,7 @@
 
             text-align: center;
 
-            color: #fff;
+            color: #ffffff;
 
             background:
                 radial-gradient(
@@ -778,7 +776,7 @@
                 );
 
             box-shadow:
-                0 30px 70px rgba(37, 99, 235, 0.2);
+                0 30px 70px rgba(37, 99, 235, 0.20);
         }
 
         .cta-box h2 {
@@ -799,7 +797,7 @@
 
         .cta-button {
             color: var(--blue);
-            background: #fff;
+            background: #ffffff;
 
             box-shadow:
                 0 10px 25px rgba(0, 0, 0, 0.12);
@@ -809,16 +807,16 @@
             background: #f8fafc;
         }
 
-        /* =========================================================
+        /* =========================
            FOOTER
-        ========================================================= */
+        ========================= */
 
         .footer {
             padding: 35px 0;
 
             border-top: 1px solid var(--border);
 
-            background: #fff;
+            background: #ffffff;
         }
 
         .footer-inner {
@@ -858,9 +856,9 @@
             color: var(--blue);
         }
 
-        /* =========================================================
+        /* =========================
            ANIMATIONS
-        ========================================================= */
+        ========================= */
 
         @keyframes fadeUp {
             from {
@@ -886,9 +884,9 @@
             }
         }
 
-        /* =========================================================
+        /* =========================
            TABLET
-        ========================================================= */
+        ========================= */
 
         @media (max-width: 900px) {
             .hero {
@@ -921,9 +919,9 @@
             }
         }
 
-        /* =========================================================
+        /* =========================
            MOBILE
-        ========================================================= */
+        ========================= */
 
         @media (max-width: 650px) {
             .container {
@@ -960,7 +958,6 @@
 
             .device-card {
                 padding: 20px;
-
                 border-radius: 23px;
             }
 
@@ -1006,13 +1003,11 @@
 
             .cta-box {
                 padding: 45px 25px;
-
                 border-radius: 23px;
             }
 
             .footer-inner {
                 flex-direction: column;
-
                 text-align: center;
             }
 
@@ -1022,9 +1017,9 @@
             }
         }
 
-        /* =========================================================
+        /* =========================
            REDUCED MOTION
-        ========================================================= */
+        ========================= */
 
         @media (prefers-reduced-motion: reduce) {
             html {
@@ -1104,10 +1099,11 @@
                     <div class="hero-buttons">
 
                         <a
-                            href="/webtool"
+                            href="./webtool/"
                             class="button button-primary"
                         >
                             Прошивка
+
                             <span
                                 class="button-arrow"
                                 aria-hidden="true"
@@ -1115,7 +1111,7 @@
                         </a>
 
                         <a
-                            href="/documentation.html"
+                            href="./documentation.html"
                             class="button button-secondary"
                         >
                             Документація
@@ -1126,6 +1122,7 @@
                 </div>
 
 
+                <!-- DEVICE -->
                 <div class="device-area">
 
                     <div class="device-card">
@@ -1136,7 +1133,7 @@
                         ></div>
 
                         <img
-                            src="device.png"
+                            src="./device.png"
                             alt="Пристрій TargetiX UA"
                             class="device-image"
                             id="device-image"
@@ -1413,8 +1410,9 @@
 
                 <div class="action-grid">
 
+                    <!-- WEB TOOL -->
                     <a
-                        href="/webtool"
+                        href="./webtool/"
                         class="action-card"
                         aria-label="Відкрити Web Tool"
                     >
@@ -1437,14 +1435,18 @@
 
                         <div class="action-link">
                             Відкрити Web Tool
-                            <span aria-hidden="true">→</span>
+
+                            <span aria-hidden="true">
+                                →
+                            </span>
                         </div>
 
                     </a>
 
 
+                    <!-- DOCUMENTATION -->
                     <a
-                        href="/documentation.html"
+                        href="./documentation.html"
                         class="action-card"
                         aria-label="Відкрити документацію"
                     >
@@ -1467,14 +1469,18 @@
 
                         <div class="action-link">
                             Переглянути документацію
-                            <span aria-hidden="true">→</span>
+
+                            <span aria-hidden="true">
+                                →
+                            </span>
                         </div>
 
                     </a>
 
 
+                    <!-- SUPPORT -->
                     <a
-                        href="/support.html"
+                        href="./support.html"
                         class="action-card"
                         aria-label="Відкрити службу підтримки"
                     >
@@ -1497,7 +1503,10 @@
 
                         <div class="action-link">
                             Отримати допомогу
-                            <span aria-hidden="true">→</span>
+
+                            <span aria-hidden="true">
+                                →
+                            </span>
                         </div>
 
                     </a>
@@ -1525,14 +1534,17 @@
                     </p>
 
                     <a
-                        href="/webtool"
+                        href="./webtool/"
                         class="button cta-button"
                     >
                         Відкрити Web Tool
+
                         <span
                             class="button-arrow"
                             aria-hidden="true"
-                        >→</span>
+                        >
+                            →
+                        </span>
                     </a>
 
                 </div>
@@ -1564,15 +1576,15 @@
 
             <div class="footer-links">
 
-                <a href="/documentation.html">
+                <a href="./documentation.html">
                     Документація
                 </a>
 
-                <a href="/support.html">
+                <a href="./support.html">
                     Підтримка
                 </a>
 
-                <a href="/webtool">
+                <a href="./webtool/">
                     Web Tool
                 </a>
 
@@ -1583,6 +1595,7 @@
     </footer>
 
 
+    <!-- DEVICE IMAGE FALLBACK -->
     <script>
         (() => {
             const image = document.getElementById("device-image");
@@ -1593,19 +1606,19 @@
             }
 
             const sources = [
-                "device.png",
-                "device.jpg",
-                "device.jpeg"
+                "./device.png",
+                "./device.jpg",
+                "./device.jpeg"
             ];
 
             let currentSource = 0;
 
-            const showFallback = () => {
+            function showFallback() {
                 image.style.display = "none";
                 fallback.style.display = "flex";
-            };
+            }
 
-            const tryNextImage = () => {
+            function tryNextImage() {
                 currentSource++;
 
                 if (currentSource >= sources.length) {
@@ -1614,7 +1627,7 @@
                 }
 
                 image.src = sources[currentSource];
-            };
+            }
 
             image.addEventListener("error", tryNextImage);
 
