@@ -1,1559 +1,1628 @@
 <!DOCTYPE html>
-
 <html lang="uk">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>TargetiX UA — офіційний портал</title>
-
-<meta name="description" content="Офіційний портал TargetiX UA. Прошивка, документація, керування та служба підтримки.">
-<meta name="theme-color" content="#ffffff">
-
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-:root {
-    --blue: #2563eb;
-    --blue-dark: #1d4ed8;
-    --indigo: #4f46e5;
-
-    --text: #111827;
-    --secondary: #667085;
-    --muted: #98a2b3;
-
-    --border: #e7ebf0;
-    --border-light: #edf0f4;
-
-    --background: #f7f9fc;
-    --white: #ffffff;
-    --soft-blue: #eff6ff;
-
-    --container: 1120px;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    min-height: 100vh;
-
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Helvetica,
-        Arial,
-        sans-serif;
-
-    color: var(--text);
-    background: var(--background);
-
-    line-height: 1.6;
-    overflow-x: hidden;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TargetiX UA — офіційний портал</title>
+
+    <meta
+        name="description"
+        content="Офіційний портал TargetiX UA. Прошивка, документація, керування та служба підтримки."
+    >
+
+    <meta name="theme-color" content="#ffffff">
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blue: #2563eb;
+            --blue-dark: #1d4ed8;
+            --indigo: #4f46e5;
+
+            --text: #111827;
+            --secondary: #667085;
+            --muted: #98a2b3;
+
+            --border: #e7ebf0;
+            --border-light: #edf0f4;
+
+            --background: #f7f9fc;
+            --white: #ffffff;
+            --soft-blue: #eff6ff;
+
+            --container: 1120px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            color-scheme: light;
+        }
+
+        body {
+            min-height: 100vh;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+
+            color: var(--text);
+            background: var(--background);
+
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        section[id],
+        .hero[id] {
+            scroll-margin-top: 90px;
+        }
+
+        a:focus-visible {
+            outline: 3px solid rgba(37, 99, 235, 0.35);
+            outline-offset: 3px;
+        }
+
+        /* =========================================================
+           CONTAINER
+        ========================================================= */
+
+        .container {
+            width: min(calc(100% - 48px), var(--container));
+            margin: 0 auto;
+        }
+
+        /* =========================================================
+           HEADER
+        ========================================================= */
 
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
-img {
-    display: block;
-    max-width: 100%;
-}
-
-button,
-a {
-    -webkit-tap-highlight-color: transparent;
-}
-
-/* =========================================================
-   CONTAINER
-========================================================= */
-
-.container {
-    width: min(calc(100% - 48px), var(--container));
-    margin: 0 auto;
-}
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
 
-/* =========================================================
-   HEADER
-========================================================= */
+            width: 100%;
 
-.header {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-
-    width: 100%;
-
-    background: rgba(255, 255, 255, .9);
-    border-bottom: 1px solid var(--border);
-
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-}
-
-.header-inner {
-    height: 72px;
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid var(--border);
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
 
-.logo {
-    display: inline-flex;
-    align-items: center;
-    gap: 11px;
+        .header-inner {
+            height: 72px;
 
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: -.5px;
-}
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-.logo-icon {
-    width: 38px;
-    height: 38px;
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
 
-    display: grid;
-    place-items: center;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
 
-    border-radius: 11px;
+        .logo-icon {
+            width: 38px;
+            height: 38px;
 
-    color: #fff;
-    background: linear-gradient(
-        135deg,
-        var(--blue),
-        var(--indigo)
-    );
+            display: grid;
+            place-items: center;
 
-    font-size: 13px;
-    font-weight: 900;
+            border-radius: 11px;
 
-    box-shadow:
-        0 8px 20px rgba(37, 99, 235, .22);
-}
+            color: #fff;
+            background: linear-gradient(
+                135deg,
+                var(--blue),
+                var(--indigo)
+            );
 
-.nav {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.nav a {
-    padding: 9px 13px;
-
-    border-radius: 9px;
-
-    color: #5b6472;
-
-    font-size: 14px;
-    font-weight: 600;
-
-    transition:
-        background .2s ease,
-        color .2s ease;
-}
-
-.nav a:hover {
-    color: var(--text);
-    background: #f1f5f9;
-}
-
-/* =========================================================
-   BUTTONS
-========================================================= */
-
-.button {
-    min-height: 48px;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 9px;
-
-    padding: 0 20px;
+            font-size: 13px;
+            font-weight: 900;
 
-    border-radius: 12px;
-
-    font-size: 14px;
-    font-weight: 700;
+            box-shadow:
+                0 8px 20px rgba(37, 99, 235, 0.22);
+        }
 
-    transition:
-        transform .2s ease,
-        background .2s ease,
-        box-shadow .2s ease,
-        border-color .2s ease;
-}
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-.button:hover {
-    transform: translateY(-2px);
-}
+        .nav a {
+            padding: 9px 13px;
+
+            border-radius: 9px;
+
+            color: #5b6472;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .nav a:hover {
+            color: var(--text);
+            background: #f1f5f9;
+        }
+
+        /* =========================================================
+           BUTTONS
+        ========================================================= */
+
+        .button {
+            min-height: 48px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
 
-.button-primary {
-    color: #fff;
-    background: var(--blue);
+            padding: 0 20px;
 
-    box-shadow:
-        0 10px 25px rgba(37, 99, 235, .20);
-}
+            border-radius: 12px;
 
-.button-primary:hover {
-    background: var(--blue-dark);
+            font-size: 14px;
+            font-weight: 700;
 
-    box-shadow:
-        0 14px 30px rgba(37, 99, 235, .27);
-}
+            transition:
+                transform 0.2s ease,
+                background 0.2s ease,
+                box-shadow 0.2s ease,
+                border-color 0.2s ease;
+        }
 
-.button-secondary {
-    color: #344054;
-    background: #fff;
+        .button:hover {
+            transform: translateY(-2px);
+        }
 
-    border: 1px solid #dfe5ec;
-}
+        .button-primary {
+            color: #fff;
+            background: var(--blue);
 
-.button-secondary:hover {
-    background: #f8fafc;
-    border-color: #cbd5e1;
-}
+            box-shadow:
+                0 10px 25px rgba(37, 99, 235, 0.2);
+        }
 
-.button-arrow {
-    transition: transform .2s ease;
-}
+        .button-primary:hover {
+            background: var(--blue-dark);
 
-.button:hover .button-arrow {
-    transform: translateX(3px);
-}
+            box-shadow:
+                0 14px 30px rgba(37, 99, 235, 0.27);
+        }
 
-/* =========================================================
-   HERO
-========================================================= */
+        .button-secondary {
+            color: #344054;
+            background: #fff;
 
-.hero {
-    padding: 90px 0 115px;
+            border: 1px solid #dfe5ec;
+        }
 
-    background:
-        radial-gradient(
-            circle at 80% 20%,
-            rgba(59, 130, 246, .10),
-            transparent 35%
-        ),
-        radial-gradient(
-            circle at 15% 75%,
-            rgba(99, 102, 241, .07),
-            transparent 35%
-        ),
-        #fff;
-}
+        .button-secondary:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
 
-.hero-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+        .button-arrow {
+            transition: transform 0.2s ease;
+        }
 
-    gap: 70px;
+        .button:hover .button-arrow {
+            transform: translateX(3px);
+        }
 
-    align-items: center;
-}
+        /* =========================================================
+           HERO
+        ========================================================= */
 
-.hero-content {
-    animation: fadeUp .7s ease both;
-}
+        .hero {
+            padding: 90px 0 115px;
 
-.badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
+            background:
+                radial-gradient(
+                    circle at 80% 20%,
+                    rgba(59, 130, 246, 0.1),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at 15% 75%,
+                    rgba(99, 102, 241, 0.07),
+                    transparent 35%
+                ),
+                #fff;
+        }
 
-    margin-bottom: 22px;
-    padding: 7px 12px;
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
 
-    border: 1px solid #dbeafe;
-    border-radius: 100px;
+            gap: 70px;
 
-    color: var(--blue);
-    background: var(--soft-blue);
+            align-items: center;
+        }
 
-    font-size: 13px;
-    font-weight: 700;
-}
+        .hero-content {
+            animation: fadeUp 0.7s ease both;
+            min-width: 0;
+        }
 
-.badge-dot {
-    width: 7px;
-    height: 7px;
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
 
-    border-radius: 50%;
+            margin-bottom: 22px;
+            padding: 7px 12px;
 
-    background: #22c55e;
+            border: 1px solid #dbeafe;
+            border-radius: 100px;
 
-    box-shadow:
-        0 0 0 4px rgba(34, 197, 94, .12);
-}
+            color: var(--blue);
+            background: var(--soft-blue);
 
-.hero h1 {
-    margin-bottom: 24px;
+            font-size: 13px;
+            font-weight: 700;
+        }
 
-    font-size: clamp(46px, 7vw, 76px);
-    line-height: .98;
+        .badge-dot {
+            width: 7px;
+            height: 7px;
 
-    letter-spacing: -4px;
-    font-weight: 850;
-}
+            flex: 0 0 auto;
 
-.gradient-text {
-    color: transparent;
+            border-radius: 50%;
 
-    background:
-        linear-gradient(
-            135deg,
-            var(--blue),
-            #6366f1
-        );
+            background: #22c55e;
 
-    -webkit-background-clip: text;
-    background-clip: text;
-}
+            box-shadow:
+                0 0 0 4px rgba(34, 197, 94, 0.12);
+        }
 
-.hero-description {
-    max-width: 570px;
+        .hero h1 {
+            margin-bottom: 24px;
 
-    margin-bottom: 32px;
+            font-size: clamp(46px, 7vw, 76px);
+            line-height: 0.98;
 
-    color: var(--secondary);
+            letter-spacing: -4px;
+            font-weight: 800;
+        }
 
-    font-size: 18px;
-    line-height: 1.7;
-}
+        .gradient-text {
+            color: transparent;
 
-.hero-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-}
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--blue),
+                    #6366f1
+                );
 
-/* =========================================================
-   DEVICE
-========================================================= */
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
 
-.device-area {
-    display: flex;
-    justify-content: center;
+        .hero-description {
+            max-width: 570px;
 
-    animation: fadeIn .9s ease both;
-}
+            margin-bottom: 32px;
 
-.device-card {
-    position: relative;
+            color: var(--secondary);
 
-    width: min(100%, 500px);
+            font-size: 18px;
+            line-height: 1.7;
+        }
 
-    padding: 35px;
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
 
-    overflow: hidden;
+        /* =========================================================
+           DEVICE
+        ========================================================= */
 
-    border: 1px solid #e5eaf0;
-    border-radius: 30px;
+        .device-area {
+            display: flex;
+            justify-content: center;
 
-    background:
-        linear-gradient(
-            145deg,
-            #ffffff,
-            #f4f7fb
-        );
+            min-width: 0;
 
-    box-shadow:
-        0 30px 80px rgba(15, 23, 42, .10);
-}
+            animation: fadeIn 0.9s ease both;
+        }
 
-.device-glow {
-    position: absolute;
-    top: 50%;
-    left: 50%;
+        .device-card {
+            position: relative;
 
-    width: 250px;
-    height: 250px;
+            width: min(100%, 500px);
 
-    transform: translate(-50%, -50%);
+            padding: 35px;
 
-    border-radius: 50%;
+            overflow: hidden;
 
-    background: #3b82f6;
+            border: 1px solid #e5eaf0;
+            border-radius: 30px;
 
-    filter: blur(100px);
-    opacity: .08;
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffffff,
+                    #f4f7fb
+                );
 
-    pointer-events: none;
-}
+            box-shadow:
+                0 30px 80px rgba(15, 23, 42, 0.1);
+        }
 
-.device-image {
-    position: relative;
-    z-index: 1;
+        .device-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
 
-    width: 100%;
-    height: 350px;
+            width: 250px;
+            height: 250px;
 
-    object-fit: contain;
+            transform: translate(-50%, -50%);
 
-    filter:
-        drop-shadow(
-            0 25px 30px rgba(15, 23, 42, .18)
-        );
+            border-radius: 50%;
 
-    transition: transform .4s ease;
-}
+            background: #3b82f6;
 
-.device-card:hover .device-image {
-    transform: translateY(-7px);
-}
+            filter: blur(100px);
+            opacity: 0.08;
 
-.device-fallback {
-    position: relative;
-    z-index: 1;
+            pointer-events: none;
+        }
 
-    height: 350px;
+        .device-image {
+            position: relative;
+            z-index: 1;
 
-    display: none;
+            width: 100%;
+            height: 350px;
 
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+            object-fit: contain;
 
-    text-align: center;
+            filter:
+                drop-shadow(
+                    0 25px 30px rgba(15, 23, 42, 0.18)
+                );
 
-    color: var(--muted);
-}
+            transition: transform 0.4s ease;
+        }
 
-.device-fallback-icon {
-    margin-bottom: 15px;
+        .device-card:hover .device-image {
+            transform: translateY(-7px);
+        }
 
-    color: var(--blue);
+        .device-fallback {
+            position: relative;
+            z-index: 1;
 
-    font-size: 55px;
-}
+            height: 350px;
 
-.device-fallback strong {
-    margin-bottom: 5px;
+            display: none;
 
-    color: #475467;
-}
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
 
-.device-fallback span {
-    font-size: 13px;
-}
+            text-align: center;
 
-.device-label {
-    position: relative;
-    z-index: 2;
+            color: var(--muted);
+        }
 
-    margin-top: 15px;
+        .device-fallback-icon {
+            margin-bottom: 15px;
 
-    text-align: center;
+            color: var(--blue);
 
-    color: var(--muted);
+            font-size: 55px;
+        }
 
-    font-size: 13px;
-    font-weight: 600;
-}
+        .device-fallback strong {
+            margin-bottom: 5px;
 
-/* =========================================================
-   STATS
-========================================================= */
+            color: #475467;
+        }
 
-.stats {
-    position: relative;
-    z-index: 5;
+        .device-fallback span {
+            font-size: 13px;
+        }
 
-    margin-top: -55px;
-}
+        .device-label {
+            position: relative;
+            z-index: 2;
 
-.stats-box {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+            margin-top: 15px;
 
-    overflow: hidden;
+            text-align: center;
 
-    border: 1px solid var(--border);
-    border-radius: 20px;
+            color: var(--muted);
 
-    background: #fff;
+            font-size: 13px;
+            font-weight: 600;
+        }
 
-    box-shadow:
-        0 20px 50px rgba(15, 23, 42, .08);
-}
+        /* =========================================================
+           STATS
+        ========================================================= */
 
-.stat {
-    padding: 25px;
+        .stats {
+            position: relative;
+            z-index: 5;
 
-    text-align: center;
+            margin-top: -55px;
+        }
 
-    border-right: 1px solid var(--border-light);
-}
+        .stats-box {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
 
-.stat:last-child {
-    border-right: 0;
-}
+            overflow: hidden;
 
-.stat-number {
-    color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 20px;
 
-    font-size: 25px;
-    font-weight: 800;
-}
+            background: #fff;
 
-.stat-title {
-    margin-top: 4px;
+            box-shadow:
+                0 20px 50px rgba(15, 23, 42, 0.08);
+        }
 
-    color: #8a94a3;
+        .stat {
+            padding: 25px;
 
-    font-size: 13px;
-}
+            text-align: center;
 
-/* =========================================================
-   SECTIONS
-========================================================= */
+            border-right: 1px solid var(--border-light);
+        }
 
-.section {
-    padding: 110px 0;
-}
+        .stat:last-child {
+            border-right: 0;
+        }
 
-.section-header {
-    max-width: 700px;
+        .stat-number {
+            color: var(--text);
 
-    margin: 0 auto 50px;
+            font-size: 25px;
+            font-weight: 800;
+        }
 
-    text-align: center;
-}
+        .stat-title {
+            margin-top: 4px;
 
-.section-label {
-    margin-bottom: 10px;
+            color: #8a94a3;
 
-    color: var(--blue);
+            font-size: 13px;
+        }
 
-    font-size: 13px;
-    font-weight: 800;
+        /* =========================================================
+           SECTIONS
+        ========================================================= */
 
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
+        .section {
+            padding: 110px 0;
+        }
 
-.section-title {
-    margin-bottom: 15px;
+        .section-header {
+            max-width: 700px;
 
-    color: var(--text);
+            margin: 0 auto 50px;
 
-    font-size: clamp(32px, 4vw, 46px);
-    line-height: 1.1;
+            text-align: center;
+        }
 
-    letter-spacing: -1.7px;
-}
+        .section-label {
+            margin-bottom: 10px;
 
-.section-description {
-    color: var(--secondary);
-    font-size: 16px;
-}
+            color: var(--blue);
 
-/* =========================================================
-   FEATURES
-========================================================= */
+            font-size: 13px;
+            font-weight: 800;
 
-.features {
-    background: #fff;
-}
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-.feature-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+        .section-title {
+            margin-bottom: 15px;
 
-    gap: 18px;
-}
+            color: var(--text);
 
-.feature {
-    padding: 30px;
+            font-size: clamp(32px, 4vw, 46px);
+            line-height: 1.1;
 
-    border: 1px solid #e8edf3;
-    border-radius: 20px;
+            letter-spacing: -1.7px;
+        }
 
-    background: #f8fafc;
+        .section-description {
+            color: var(--secondary);
+            font-size: 16px;
+        }
 
-    transition:
-        transform .25s ease,
-        box-shadow .25s ease,
-        background .25s ease;
-}
+        /* =========================================================
+           FEATURES
+        ========================================================= */
 
-.feature:hover {
-    transform: translateY(-5px);
+        .features {
+            background: #fff;
+        }
 
-    background: #fff;
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
 
-    box-shadow:
-        0 20px 40px rgba(15, 23, 42, .07);
-}
+            gap: 18px;
+        }
 
-.feature-icon {
-    width: 46px;
-    height: 46px;
+        .feature {
+            min-width: 0;
 
-    display: grid;
-    place-items: center;
+            padding: 30px;
 
-    margin-bottom: 20px;
+            border: 1px solid #e8edf3;
+            border-radius: 20px;
 
-    border-radius: 13px;
+            background: #f8fafc;
 
-    color: var(--blue);
-    background: var(--soft-blue);
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                background 0.25s ease;
+        }
 
-    font-size: 21px;
-}
+        .feature:hover {
+            transform: translateY(-5px);
 
-.feature h3 {
-    margin-bottom: 8px;
+            background: #fff;
 
-    font-size: 17px;
-}
+            box-shadow:
+                0 20px 40px rgba(15, 23, 42, 0.07);
+        }
 
-.feature p {
-    color: var(--secondary);
+        .feature-icon {
+            width: 46px;
+            height: 46px;
 
-    font-size: 14px;
-    line-height: 1.65;
-}
+            display: grid;
+            place-items: center;
 
-/* =========================================================
-   RESOURCES
-========================================================= */
+            margin-bottom: 20px;
 
-.actions {
-    background: var(--background);
-}
+            border-radius: 13px;
 
-.action-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+            color: var(--blue);
+            background: var(--soft-blue);
 
-    gap: 18px;
-}
+            font-size: 21px;
+        }
 
-.action-card {
-    min-height: 250px;
+        .feature h3 {
+            margin-bottom: 8px;
 
-    display: flex;
-    flex-direction: column;
+            font-size: 17px;
+        }
 
-    padding: 30px;
+        .feature p {
+            color: var(--secondary);
 
-    border: 1px solid var(--border);
-    border-radius: 20px;
+            font-size: 14px;
+            line-height: 1.65;
+        }
 
-    background: #fff;
+        /* =========================================================
+           RESOURCES
+        ========================================================= */
 
-    transition:
-        transform .25s ease,
-        box-shadow .25s ease;
-}
+        .actions {
+            background: var(--background);
+        }
 
-.action-card:hover {
-    transform: translateY(-5px);
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
 
-    box-shadow:
-        0 20px 45px rgba(15, 23, 42, .08);
-}
+            gap: 18px;
+        }
 
-.action-icon {
-    width: 50px;
-    height: 50px;
+        .action-card {
+            min-height: 250px;
+            min-width: 0;
 
-    display: grid;
-    place-items: center;
+            display: flex;
+            flex-direction: column;
 
-    margin-bottom: 20px;
+            padding: 30px;
 
-    border-radius: 14px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
 
-    background: #f1f5f9;
+            background: #fff;
 
-    font-size: 23px;
-}
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
 
-.action-card h3 {
-    margin-bottom: 8px;
+        .action-card:hover {
+            transform: translateY(-5px);
 
-    font-size: 19px;
-}
+            box-shadow:
+                0 20px 45px rgba(15, 23, 42, 0.08);
+        }
 
-.action-card p {
-    flex: 1;
+        .action-icon {
+            width: 50px;
+            height: 50px;
 
-    margin-bottom: 22px;
+            display: grid;
+            place-items: center;
 
-    color: var(--secondary);
+            margin-bottom: 20px;
 
-    font-size: 14px;
-}
+            border-radius: 14px;
 
-.action-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
+            background: #f1f5f9;
 
-    color: var(--blue);
+            font-size: 23px;
+        }
 
-    font-size: 14px;
-    font-weight: 700;
-}
+        .action-card h3 {
+            margin-bottom: 8px;
 
-.action-link span {
-    transition: transform .2s ease;
-}
+            font-size: 19px;
+        }
 
-.action-card:hover .action-link span {
-    transform: translateX(4px);
-}
+        .action-card p {
+            flex: 1;
 
-/* =========================================================
-   CTA
-========================================================= */
+            margin-bottom: 22px;
 
-.cta {
-    padding: 40px 0 110px;
+            color: var(--secondary);
 
-    background: var(--background);
-}
+            font-size: 14px;
+        }
 
-.cta-box {
-    max-width: 1000px;
+        .action-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
 
-    margin: 0 auto;
+            color: var(--blue);
 
-    padding: 60px 40px;
+            font-size: 14px;
+            font-weight: 700;
+        }
 
-    border-radius: 28px;
+        .action-link span {
+            transition: transform 0.2s ease;
+        }
 
-    text-align: center;
+        .action-card:hover .action-link span {
+            transform: translateX(4px);
+        }
 
-    color: #fff;
+        /* =========================================================
+           CTA
+        ========================================================= */
 
-    background:
-        radial-gradient(
-            circle at 20% 20%,
-            rgba(255, 255, 255, .15),
-            transparent 30%
-        ),
-        linear-gradient(
-            135deg,
-            var(--blue),
-            var(--indigo)
-        );
+        .cta {
+            padding: 40px 0 110px;
 
-    box-shadow:
-        0 30px 70px rgba(37, 99, 235, .20);
-}
+            background: var(--background);
+        }
 
-.cta-box h2 {
-    margin-bottom: 12px;
+        .cta-box {
+            max-width: 1000px;
 
-    font-size: clamp(30px, 4vw, 44px);
+            margin: 0 auto;
 
-    letter-spacing: -1.5px;
-}
+            padding: 60px 40px;
 
-.cta-box p {
-    max-width: 580px;
+            border-radius: 28px;
 
-    margin: 0 auto 28px;
+            text-align: center;
 
-    color: rgba(255, 255, 255, .82);
-}
+            color: #fff;
 
-.cta-button {
-    color: var(--blue);
-    background: #fff;
+            background:
+                radial-gradient(
+                    circle at 20% 20%,
+                    rgba(255, 255, 255, 0.15),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    var(--blue),
+                    var(--indigo)
+                );
 
-    box-shadow:
-        0 10px 25px rgba(0, 0, 0, .12);
-}
+            box-shadow:
+                0 30px 70px rgba(37, 99, 235, 0.2);
+        }
 
-.cta-button:hover {
-    background: #f8fafc;
-}
+        .cta-box h2 {
+            margin-bottom: 12px;
 
-/* =========================================================
-   FOOTER
-========================================================= */
+            font-size: clamp(30px, 4vw, 44px);
 
-.footer {
-    padding: 35px 0;
+            letter-spacing: -1.5px;
+        }
 
-    border-top: 1px solid var(--border);
+        .cta-box p {
+            max-width: 580px;
 
-    background: #fff;
-}
+            margin: 0 auto 28px;
 
-.footer-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+            color: rgba(255, 255, 255, 0.82);
+        }
 
-    gap: 20px;
-}
+        .cta-button {
+            color: var(--blue);
+            background: #fff;
 
-.footer-logo {
-    margin-bottom: 2px;
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.12);
+        }
 
-    font-weight: 800;
-}
+        .cta-button:hover {
+            background: #f8fafc;
+        }
 
-.footer-text {
-    color: var(--muted);
+        /* =========================================================
+           FOOTER
+        ========================================================= */
 
-    font-size: 13px;
-}
+        .footer {
+            padding: 35px 0;
 
-.footer-links {
-    display: flex;
-    gap: 18px;
-}
+            border-top: 1px solid var(--border);
 
-.footer-links a {
-    color: var(--secondary);
+            background: #fff;
+        }
 
-    font-size: 13px;
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
-    transition: color .2s ease;
-}
+            gap: 20px;
+        }
 
-.footer-links a:hover {
-    color: var(--blue);
-}
+        .footer-logo {
+            margin-bottom: 2px;
 
-/* =========================================================
-   ANIMATIONS
-========================================================= */
+            font-weight: 800;
+        }
 
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
+        .footer-text {
+            color: var(--muted);
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+            font-size: 13px;
+        }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(.97);
-    }
+        .footer-links {
+            display: flex;
+            gap: 18px;
+        }
 
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
+        .footer-links a {
+            color: var(--secondary);
 
-/* =========================================================
-   TABLET
-========================================================= */
+            font-size: 13px;
 
-@media (max-width: 900px) {
+            transition: color 0.2s ease;
+        }
 
-    .hero {
-        padding: 70px 0 100px;
-    }
+        .footer-links a:hover {
+            color: var(--blue);
+        }
 
-    .hero-grid {
-        grid-template-columns: 1fr;
-        gap: 55px;
+        /* =========================================================
+           ANIMATIONS
+        ========================================================= */
 
-        text-align: center;
-    }
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
 
-    .hero-description {
-        margin-left: auto;
-        margin-right: auto;
-    }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    .hero-buttons {
-        justify-content: center;
-    }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.97);
+            }
 
-    .device-card {
-        max-width: 480px;
-    }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
 
-    .feature-grid,
-    .action-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
+        /* =========================================================
+           TABLET
+        ========================================================= */
 
-/* =========================================================
-   MOBILE
-========================================================= */
+        @media (max-width: 900px) {
+            .hero {
+                padding: 70px 0 100px;
+            }
 
-@media (max-width: 650px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 55px;
 
-    .container {
-        width: calc(100% - 36px);
-    }
+                text-align: center;
+            }
 
-    .header-inner {
-        height: 65px;
-    }
+            .hero-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
 
-    .nav {
-        display: none;
-    }
+            .hero-buttons {
+                justify-content: center;
+            }
 
-    .hero {
-        padding: 60px 0 100px;
-    }
+            .device-card {
+                max-width: 480px;
+            }
 
-    .hero h1 {
-        letter-spacing: -2.5px;
-    }
+            .feature-grid,
+            .action-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
 
-    .hero-description {
-        font-size: 16px;
-    }
+        /* =========================================================
+           MOBILE
+        ========================================================= */
 
-    .hero-buttons {
-        flex-direction: column;
-    }
+        @media (max-width: 650px) {
+            .container {
+                width: calc(100% - 36px);
+            }
 
-    .hero-buttons .button {
-        width: 100%;
-    }
+            .header-inner {
+                height: 65px;
+            }
 
-    .device-card {
-        padding: 20px;
+            .nav {
+                display: none;
+            }
 
-        border-radius: 23px;
-    }
+            .hero {
+                padding: 60px 0 100px;
+            }
 
-    .device-image,
-    .device-fallback {
-        height: 270px;
-    }
+            .hero h1 {
+                letter-spacing: -2.5px;
+            }
 
-    .stats {
-        margin-top: -45px;
-    }
+            .hero-description {
+                font-size: 16px;
+            }
 
-    .stats-box {
-        grid-template-columns: 1fr;
-    }
+            .hero-buttons {
+                flex-direction: column;
+            }
 
-    .stat {
-        border-right: 0;
-        border-bottom: 1px solid var(--border-light);
-    }
+            .hero-buttons .button {
+                width: 100%;
+            }
 
-    .stat:last-child {
-        border-bottom: 0;
-    }
+            .device-card {
+                padding: 20px;
 
-    .section {
-        padding: 80px 0;
-    }
+                border-radius: 23px;
+            }
 
-    .feature-grid,
-    .action-grid {
-        grid-template-columns: 1fr;
-    }
+            .device-image,
+            .device-fallback {
+                height: 270px;
+            }
 
-    .feature,
-    .action-card {
-        padding: 25px;
-    }
+            .stats {
+                margin-top: -45px;
+            }
 
-    .cta {
-        padding: 25px 0 80px;
-    }
+            .stats-box {
+                grid-template-columns: 1fr;
+            }
 
-    .cta-box {
-        padding: 45px 25px;
+            .stat {
+                border-right: 0;
+                border-bottom: 1px solid var(--border-light);
+            }
 
-        border-radius: 23px;
-    }
+            .stat:last-child {
+                border-bottom: 0;
+            }
 
-    .footer-inner {
-        flex-direction: column;
+            .section {
+                padding: 80px 0;
+            }
 
-        text-align: center;
-    }
+            .feature-grid,
+            .action-grid {
+                grid-template-columns: 1fr;
+            }
 
-    .footer-links {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-}
+            .feature,
+            .action-card {
+                padding: 25px;
+            }
 
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
+            .cta {
+                padding: 25px 0 80px;
+            }
 
-@media (prefers-reduced-motion: reduce) {
+            .cta-box {
+                padding: 45px 25px;
 
-    html {
-        scroll-behavior: auto;
-    }
+                border-radius: 23px;
+            }
 
-    *,
-    *::before,
-    *::after {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
-    }
-}
-</style>
+            .footer-inner {
+                flex-direction: column;
 
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        /* =========================================================
+           REDUCED MOTION
+        ========================================================= */
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<header class="header">
-
-```
-<div class="container header-inner">
-
-    <a
-        href="#device"
-        class="logo"
-        aria-label="TargetiX UA"
-    >
-        <span class="logo-icon">TX</span>
-        <span>TargetiX UA</span>
-    </a>
-
-    <nav
-        class="nav"
-        aria-label="Основна навігація"
-    >
-        <a href="#device">Пристрій</a>
-        <a href="#features">Можливості</a>
-        <a href="#resources">Ресурси</a>
-    </nav>
-
-</div>
-```
-
-</header>
-
-<main>
-
-<section
-    class="hero"
-    id="device"
->
-
-```
-<div class="container hero-grid">
-
-    <div class="hero-content">
-
-        <div class="badge">
-
-            <span class="badge-dot"></span>
-
-            Офіційний портал TargetiX UA
-
-        </div>
-
-        <h1>
-            TargetiX
-            <span class="gradient-text">UA</span>
-        </h1>
-
-        <p class="hero-description">
-            Сучасна платформа для роботи з пристроєм TargetiX.
-            Прошивка, документація, налаштування та служба
-            підтримки — усе необхідне в одному місці.
-        </p>
-
-        <div class="hero-buttons">
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container header-inner">
 
             <a
-                href="/webtool"
-                class="button button-primary"
+                href="#device"
+                class="logo"
+                aria-label="TargetiX UA"
             >
-                Прошивка
-                <span class="button-arrow">→</span>
+                <span class="logo-icon">TX</span>
+                <span>TargetiX UA</span>
             </a>
 
-            <a
-                href="/documentation.html"
-                class="button button-secondary"
+            <nav
+                class="nav"
+                aria-label="Основна навігація"
             >
-                Документація
-            </a>
+                <a href="#device">Пристрій</a>
+                <a href="#features">Можливості</a>
+                <a href="#resources">Ресурси</a>
+            </nav>
 
         </div>
+    </header>
 
-    </div>
 
+    <main>
 
-    <div class="device-area">
+        <!-- HERO -->
+        <section
+            class="hero"
+            id="device"
+        >
+            <div class="container hero-grid">
 
-        <div class="device-card">
+                <div class="hero-content">
 
-            <div class="device-glow"></div>
+                    <div class="badge">
+                        <span
+                            class="badge-dot"
+                            aria-hidden="true"
+                        ></span>
 
-            <img
-                src="device.png"
-                alt="Пристрій TargetiX UA"
-                class="device-image"
-                id="device-image"
-            >
+                        Офіційний портал TargetiX UA
+                    </div>
 
-            <div
-                class="device-fallback"
-                id="device-fallback"
-            >
+                    <h1>
+                        TargetiX
+                        <span class="gradient-text">UA</span>
+                    </h1>
 
-                <div class="device-fallback-icon">
-                    ◇
+                    <p class="hero-description">
+                        Сучасна платформа для роботи з пристроєм TargetiX.
+                        Прошивка, документація, налаштування та служба
+                        підтримки — усе необхідне в одному місці.
+                    </p>
+
+                    <div class="hero-buttons">
+
+                        <a
+                            href="/webtool"
+                            class="button button-primary"
+                        >
+                            Прошивка
+                            <span
+                                class="button-arrow"
+                                aria-hidden="true"
+                            >→</span>
+                        </a>
+
+                        <a
+                            href="/documentation.html"
+                            class="button button-secondary"
+                        >
+                            Документація
+                        </a>
+
+                    </div>
+
                 </div>
 
-                <strong>
+
+                <div class="device-area">
+
+                    <div class="device-card">
+
+                        <div
+                            class="device-glow"
+                            aria-hidden="true"
+                        ></div>
+
+                        <img
+                            src="device.png"
+                            alt="Пристрій TargetiX UA"
+                            class="device-image"
+                            id="device-image"
+                        >
+
+                        <div
+                            class="device-fallback"
+                            id="device-fallback"
+                        >
+
+                            <div
+                                class="device-fallback-icon"
+                                aria-hidden="true"
+                            >
+                                ◇
+                            </div>
+
+                            <strong>
+                                TargetiX UA
+                            </strong>
+
+                            <span>
+                                Додайте файл device.png
+                                <br>
+                                поруч із index.html
+                            </span>
+
+                        </div>
+
+                        <div class="device-label">
+                            TargetiX UA
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- STATS -->
+        <div class="stats">
+
+            <div class="container">
+
+                <div class="stats-box">
+
+                    <div class="stat">
+
+                        <div class="stat-number">
+                            TargetiX
+                        </div>
+
+                        <div class="stat-title">
+                            Назва пристрою
+                        </div>
+
+                    </div>
+
+                    <div class="stat">
+
+                        <div class="stat-number">
+                            Web Tool
+                        </div>
+
+                        <div class="stat-title">
+                            Керування та прошивка
+                        </div>
+
+                    </div>
+
+                    <div class="stat">
+
+                        <div class="stat-number">
+                            UA
+                        </div>
+
+                        <div class="stat-title">
+                            Український інтерфейс
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- FEATURES -->
+        <section
+            class="section features"
+            id="features"
+        >
+            <div class="container">
+
+                <div class="section-header">
+
+                    <div class="section-label">
+                        Можливості
+                    </div>
+
+                    <h2 class="section-title">
+                        Все необхідне в одному місці
+                    </h2>
+
+                    <p class="section-description">
+                        Зручний доступ до основних інструментів
+                        та інформації для роботи з TargetiX UA.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-grid">
+
+                    <article class="feature">
+
+                        <div
+                            class="feature-icon"
+                            aria-hidden="true"
+                        >
+                            ⚡
+                        </div>
+
+                        <h3>
+                            Швидке оновлення
+                        </h3>
+
+                        <p>
+                            Оновлюйте програмне забезпечення
+                            пристрою через Web Tool.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature">
+
+                        <div
+                            class="feature-icon"
+                            aria-hidden="true"
+                        >
+                            ⚙
+                        </div>
+
+                        <h3>
+                            Зручне керування
+                        </h3>
+
+                        <p>
+                            Керуйте основними параметрами
+                            пристрою через сучасний веб-інтерфейс.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature">
+
+                        <div
+                            class="feature-icon"
+                            aria-hidden="true"
+                        >
+                            ◈
+                        </div>
+
+                        <h3>
+                            Документація
+                        </h3>
+
+                        <p>
+                            Усі інструкції та корисна інформація
+                            доступні в окремому розділі.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature">
+
+                        <div
+                            class="feature-icon"
+                            aria-hidden="true"
+                        >
+                            ✓
+                        </div>
+
+                        <h3>
+                            Простий інтерфейс
+                        </h3>
+
+                        <p>
+                            Світлий, зрозумілий та адаптивний
+                            інтерфейс для комп'ютера і смартфона.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature">
+
+                        <div
+                            class="feature-icon"
+                            aria-hidden="true"
+                        >
+                            🔒
+                        </div>
+
+                        <h3>
+                            Налаштування
+                        </h3>
+
+                        <p>
+                            Отримуйте доступ до необхідних
+                            параметрів та конфігурації пристрою.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature">
+
+                        <div
+                            class="feature-icon"
+                            aria-hidden="true"
+                        >
+                            ?
+                        </div>
+
+                        <h3>
+                            Підтримка
+                        </h3>
+
+                        <p>
+                            Якщо виникли питання — зверніться
+                            до служби підтримки TargetiX.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- RESOURCES -->
+        <section
+            class="section actions"
+            id="resources"
+        >
+            <div class="container">
+
+                <div class="section-header">
+
+                    <div class="section-label">
+                        Ресурси
+                    </div>
+
+                    <h2 class="section-title">
+                        Потрібний розділ поруч
+                    </h2>
+
+                    <p class="section-description">
+                        Оберіть потрібний інструмент для роботи
+                        з вашим пристроєм.
+                    </p>
+
+                </div>
+
+
+                <div class="action-grid">
+
+                    <a
+                        href="/webtool"
+                        class="action-card"
+                        aria-label="Відкрити Web Tool"
+                    >
+
+                        <div
+                            class="action-icon"
+                            aria-hidden="true"
+                        >
+                            ⚡
+                        </div>
+
+                        <h3>
+                            Прошивка
+                        </h3>
+
+                        <p>
+                            Відкрийте Web Tool для оновлення
+                            та керування пристроєм TargetiX.
+                        </p>
+
+                        <div class="action-link">
+                            Відкрити Web Tool
+                            <span aria-hidden="true">→</span>
+                        </div>
+
+                    </a>
+
+
+                    <a
+                        href="/documentation.html"
+                        class="action-card"
+                        aria-label="Відкрити документацію"
+                    >
+
+                        <div
+                            class="action-icon"
+                            aria-hidden="true"
+                        >
+                            📖
+                        </div>
+
+                        <h3>
+                            Документація
+                        </h3>
+
+                        <p>
+                            Інструкції з підключення, налаштування,
+                            використання та оновлення пристрою.
+                        </p>
+
+                        <div class="action-link">
+                            Переглянути документацію
+                            <span aria-hidden="true">→</span>
+                        </div>
+
+                    </a>
+
+
+                    <a
+                        href="/support.html"
+                        class="action-card"
+                        aria-label="Відкрити службу підтримки"
+                    >
+
+                        <div
+                            class="action-icon"
+                            aria-hidden="true"
+                        >
+                            💬
+                        </div>
+
+                        <h3>
+                            Служба підтримки
+                        </h3>
+
+                        <p>
+                            Отримайте допомогу щодо роботи,
+                            налаштування або оновлення TargetiX.
+                        </p>
+
+                        <div class="action-link">
+                            Отримати допомогу
+                            <span aria-hidden="true">→</span>
+                        </div>
+
+                    </a>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- CTA -->
+        <section class="cta">
+
+            <div class="container">
+
+                <div class="cta-box">
+
+                    <h2>
+                        Готові налаштувати TargetiX?
+                    </h2>
+
+                    <p>
+                        Перейдіть до Web Tool, щоб почати роботу
+                        з вашим пристроєм.
+                    </p>
+
+                    <a
+                        href="/webtool"
+                        class="button cta-button"
+                    >
+                        Відкрити Web Tool
+                        <span
+                            class="button-arrow"
+                            aria-hidden="true"
+                        >→</span>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="footer">
+
+        <div class="container footer-inner">
+
+            <div>
+
+                <div class="footer-logo">
                     TargetiX UA
-                </strong>
+                </div>
 
-                <span>
-                    Додайте файл device.png
-                    <br>
-                    поруч із index.html
-                </span>
+                <div class="footer-text">
+                    © 2026 TargetiX UA. Усі права захищені.
+                </div>
 
             </div>
 
-            <div class="device-label">
-                TargetiX UA
-            </div>
 
-        </div>
+            <div class="footer-links">
 
-    </div>
+                <a href="/documentation.html">
+                    Документація
+                </a>
 
-</div>
-```
+                <a href="/support.html">
+                    Підтримка
+                </a>
 
-</section>
+                <a href="/webtool">
+                    Web Tool
+                </a>
 
-<div class="stats">
-
-```
-<div class="container">
-
-    <div class="stats-box">
-
-        <div class="stat">
-
-            <div class="stat-number">
-                TargetiX
-            </div>
-
-            <div class="stat-title">
-                Назва пристрою
             </div>
 
         </div>
 
-        <div class="stat">
+    </footer>
 
-            <div class="stat-number">
-                Web Tool
-            </div>
 
-            <div class="stat-title">
-                Керування та прошивка
-            </div>
+    <script>
+        (() => {
+            const image = document.getElementById("device-image");
+            const fallback = document.getElementById("device-fallback");
 
-        </div>
+            if (!image || !fallback) {
+                return;
+            }
 
-        <div class="stat">
+            const sources = [
+                "device.png",
+                "device.jpg",
+                "device.jpeg"
+            ];
 
-            <div class="stat-number">
-                UA
-            </div>
+            let currentSource = 0;
 
-            <div class="stat-title">
-                Український інтерфейс
-            </div>
+            const showFallback = () => {
+                image.style.display = "none";
+                fallback.style.display = "flex";
+            };
 
-        </div>
+            const tryNextImage = () => {
+                currentSource++;
 
-    </div>
+                if (currentSource >= sources.length) {
+                    showFallback();
+                    return;
+                }
 
-</div>
-```
+                image.src = sources[currentSource];
+            };
 
-</div>
+            image.addEventListener("error", tryNextImage);
 
-<section
-    class="section features"
-    id="features"
->
-
-```
-<div class="container">
-
-    <div class="section-header">
-
-        <div class="section-label">
-            Можливості
-        </div>
-
-        <h2 class="section-title">
-            Все необхідне в одному місці
-        </h2>
-
-        <p class="section-description">
-            Зручний доступ до основних інструментів
-            та інформації для роботи з TargetiX UA.
-        </p>
-
-    </div>
-
-
-    <div class="feature-grid">
-
-        <article class="feature">
-
-            <div class="feature-icon">
-                ⚡
-            </div>
-
-            <h3>
-                Швидке оновлення
-            </h3>
-
-            <p>
-                Оновлюйте програмне забезпечення
-                пристрою через Web Tool.
-            </p>
-
-        </article>
-
-
-        <article class="feature">
-
-            <div class="feature-icon">
-                ⚙
-            </div>
-
-            <h3>
-                Зручне керування
-            </h3>
-
-            <p>
-                Керуйте основними параметрами
-                пристрою через сучасний веб-інтерфейс.
-            </p>
-
-        </article>
-
-
-        <article class="feature">
-
-            <div class="feature-icon">
-                ◈
-            </div>
-
-            <h3>
-                Документація
-            </h3>
-
-            <p>
-                Усі інструкції та корисна інформація
-                доступні в окремому розділі.
-            </p>
-
-        </article>
-
-
-        <article class="feature">
-
-            <div class="feature-icon">
-                ✓
-            </div>
-
-            <h3>
-                Простий інтерфейс
-            </h3>
-
-            <p>
-                Світлий, зрозумілий та адаптивний
-                інтерфейс для комп'ютера і смартфона.
-            </p>
-
-        </article>
-
-
-        <article class="feature">
-
-            <div class="feature-icon">
-                🔒
-            </div>
-
-            <h3>
-                Налаштування
-            </h3>
-
-            <p>
-                Отримуйте доступ до необхідних
-                параметрів та конфігурації пристрою.
-            </p>
-
-        </article>
-
-
-        <article class="feature">
-
-            <div class="feature-icon">
-                ?
-            </div>
-
-            <h3>
-                Підтримка
-            </h3>
-
-            <p>
-                Якщо виникли питання — зверніться
-                до служби підтримки TargetiX.
-            </p>
-
-        </article>
-
-    </div>
-
-</div>
-```
-
-</section>
-
-<section
-    class="section actions"
-    id="resources"
->
-
-```
-<div class="container">
-
-    <div class="section-header">
-
-        <div class="section-label">
-            Ресурси
-        </div>
-
-        <h2 class="section-title">
-            Потрібний розділ поруч
-        </h2>
-
-        <p class="section-description">
-            Оберіть потрібний інструмент для роботи
-            з вашим пристроєм.
-        </p>
-
-    </div>
-
-
-    <div class="action-grid">
-
-        <a
-            href="/webtool"
-            class="action-card"
-            aria-label="Відкрити Web Tool"
-        >
-
-            <div class="action-icon">
-                ⚡
-            </div>
-
-            <h3>
-                Прошивка
-            </h3>
-
-            <p>
-                Відкрийте Web Tool для оновлення
-                та керування пристроєм TargetiX.
-            </p>
-
-            <div class="action-link">
-                Відкрити Web Tool
-                <span>→</span>
-            </div>
-
-        </a>
-
-
-        <a
-            href="/documentation.html"
-            class="action-card"
-            aria-label="Відкрити документацію"
-        >
-
-            <div class="action-icon">
-                📖
-            </div>
-
-            <h3>
-                Документація
-            </h3>
-
-            <p>
-                Інструкції з підключення, налаштування,
-                використання та оновлення пристрою.
-            </p>
-
-            <div class="action-link">
-                Переглянути документацію
-                <span>→</span>
-            </div>
-
-        </a>
-
-
-        <a
-            href="/support.html"
-            class="action-card"
-            aria-label="Відкрити службу підтримки"
-        >
-
-            <div class="action-icon">
-                💬
-            </div>
-
-            <h3>
-                Служба підтримки
-            </h3>
-
-            <p>
-                Отримайте допомогу щодо роботи,
-                налаштування або оновлення TargetiX.
-            </p>
-
-            <div class="action-link">
-                Отримати допомогу
-                <span>→</span>
-            </div>
-
-        </a>
-
-    </div>
-
-</div>
-```
-
-</section>
-
-<section class="cta">
-
-```
-<div class="container">
-
-    <div class="cta-box">
-
-        <h2>
-            Готові налаштувати TargetiX?
-        </h2>
-
-        <p>
-            Перейдіть до Web Tool, щоб почати роботу
-            з вашим пристроєм.
-        </p>
-
-        <a
-            href="/webtool"
-            class="button cta-button"
-        >
-            Відкрити Web Tool
-            <span class="button-arrow">→</span>
-        </a>
-
-    </div>
-
-</div>
-```
-
-</section>
-
-</main>
-
-<footer class="footer">
-
-```
-<div class="container footer-inner">
-
-    <div>
-
-        <div class="footer-logo">
-            TargetiX UA
-        </div>
-
-        <div class="footer-text">
-            © 2026 TargetiX UA. Усі права захищені.
-        </div>
-
-    </div>
-
-
-    <div class="footer-links">
-
-        <a href="/documentation.html">
-            Документація
-        </a>
-
-        <a href="/support.html">
-            Підтримка
-        </a>
-
-        <a href="/webtool">
-            Web Tool
-        </a>
-
-    </div>
-
-</div>
-```
-
-</footer>
-
-<script>
-(function () {
-
-    const image = document.getElementById("device-image");
-    const fallback = document.getElementById("device-fallback");
-
-    if (!image || !fallback) {
-        return;
-    }
-
-    function showFallback() {
-        image.style.display = "none";
-        fallback.style.display = "flex";
-    }
-
-    image.addEventListener("error", showFallback);
-
-    if (image.complete && image.naturalWidth === 0) {
-        showFallback();
-    }
-
-})();
-</script>
+            if (image.complete && image.naturalWidth === 0) {
+                tryNextImage();
+            }
+        })();
+    </script>
 
 </body>
 </html>
