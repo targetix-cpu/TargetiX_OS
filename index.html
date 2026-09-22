@@ -1,5 +1,5 @@
-```html
 <!DOCTYPE html>
+
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
@@ -11,14 +11,29 @@
 <meta name="theme-color" content="#ffffff">
 
 <style>
-/* =========================================================
-   RESET
-========================================================= */
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+:root {
+    --blue: #2563eb;
+    --blue-dark: #1d4ed8;
+    --indigo: #4f46e5;
+
+    --text: #111827;
+    --secondary: #667085;
+    --muted: #98a2b3;
+
+    --border: #e7ebf0;
+    --border-light: #edf0f4;
+
+    --background: #f7f9fc;
+    --white: #ffffff;
+    --soft-blue: #eff6ff;
+
+    --container: 1120px;
 }
 
 html {
@@ -26,6 +41,8 @@ html {
 }
 
 body {
+    min-height: 100vh;
+
     font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -35,8 +52,9 @@ body {
         Arial,
         sans-serif;
 
-    color: #111827;
-    background: #f7f9fc;
+    color: var(--text);
+    background: var(--background);
+
     line-height: 1.6;
     overflow-x: hidden;
 }
@@ -46,50 +64,14 @@ a {
     text-decoration: none;
 }
 
-button,
-a {
-    -webkit-tap-highlight-color: transparent;
-}
-
 img {
+    display: block;
     max-width: 100%;
 }
 
-/* =========================================================
-   VARIABLES
-========================================================= */
-
-:root {
-    --blue: #2563eb;
-    --blue-dark: #1d4ed8;
-    --indigo: #4f46e5;
-
-    --text: #111827;
-    --text-secondary: #667085;
-    --text-muted: #98a2b3;
-
-    --border: #e7ebf0;
-    --border-light: #edf0f4;
-
-    --white: #ffffff;
-    --background: #f7f9fc;
-    --soft-blue: #eff6ff;
-
-    --radius-sm: 10px;
-    --radius-md: 16px;
-    --radius-lg: 22px;
-    --radius-xl: 30px;
-
-    --shadow-sm:
-        0 10px 30px rgba(15, 23, 42, .05);
-
-    --shadow-md:
-        0 20px 50px rgba(15, 23, 42, .08);
-
-    --shadow-lg:
-        0 30px 80px rgba(15, 23, 42, .10);
-
-    --container: 1120px;
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* =========================================================
@@ -97,8 +79,8 @@ img {
 ========================================================= */
 
 .container {
-    width: min(100% - 48px, var(--container));
-    margin-inline: auto;
+    width: min(calc(100% - 48px), var(--container));
+    margin: 0 auto;
 }
 
 /* =========================================================
@@ -110,7 +92,9 @@ img {
     top: 0;
     z-index: 1000;
 
-    background: rgba(255,255,255,.88);
+    width: 100%;
+
+    background: rgba(255, 255, 255, .9);
     border-bottom: 1px solid var(--border);
 
     backdrop-filter: blur(18px);
@@ -145,18 +129,17 @@ img {
     border-radius: 11px;
 
     color: #fff;
+    background: linear-gradient(
+        135deg,
+        var(--blue),
+        var(--indigo)
+    );
+
     font-size: 13px;
     font-weight: 900;
 
-    background:
-        linear-gradient(
-            135deg,
-            var(--blue),
-            var(--indigo)
-        );
-
     box-shadow:
-        0 8px 20px rgba(37,99,235,.22);
+        0 8px 20px rgba(37, 99, 235, .22);
 }
 
 .nav {
@@ -220,19 +203,18 @@ img {
     background: var(--blue);
 
     box-shadow:
-        0 10px 25px rgba(37,99,235,.20);
+        0 10px 25px rgba(37, 99, 235, .20);
 }
 
 .button-primary:hover {
     background: var(--blue-dark);
 
     box-shadow:
-        0 14px 30px rgba(37,99,235,.27);
+        0 14px 30px rgba(37, 99, 235, .27);
 }
 
 .button-secondary {
     color: #344054;
-
     background: #fff;
 
     border: 1px solid #dfe5ec;
@@ -261,12 +243,12 @@ img {
     background:
         radial-gradient(
             circle at 80% 20%,
-            rgba(59,130,246,.10),
+            rgba(59, 130, 246, .10),
             transparent 35%
         ),
         radial-gradient(
             circle at 15% 75%,
-            rgba(99,102,241,.07),
+            rgba(99, 102, 241, .07),
             transparent 35%
         ),
         #fff;
@@ -282,7 +264,7 @@ img {
 }
 
 .hero-content {
-    animation: fade-up .7s ease both;
+    animation: fadeUp .7s ease both;
 }
 
 .badge {
@@ -290,8 +272,8 @@ img {
     align-items: center;
     gap: 9px;
 
-    padding: 7px 12px;
     margin-bottom: 22px;
+    padding: 7px 12px;
 
     border: 1px solid #dbeafe;
     border-radius: 100px;
@@ -308,10 +290,11 @@ img {
     height: 7px;
 
     border-radius: 50%;
+
     background: #22c55e;
 
     box-shadow:
-        0 0 0 4px rgba(34,197,94,.12);
+        0 0 0 4px rgba(34, 197, 94, .12);
 }
 
 .hero h1 {
@@ -325,6 +308,8 @@ img {
 }
 
 .gradient-text {
+    color: transparent;
+
     background:
         linear-gradient(
             135deg,
@@ -334,15 +319,14 @@ img {
 
     -webkit-background-clip: text;
     background-clip: text;
-
-    color: transparent;
 }
 
 .hero-description {
     max-width: 570px;
+
     margin-bottom: 32px;
 
-    color: var(--text-secondary);
+    color: var(--secondary);
 
     font-size: 18px;
     line-height: 1.7;
@@ -362,7 +346,7 @@ img {
     display: flex;
     justify-content: center;
 
-    animation: fade-in .9s ease both;
+    animation: fadeIn .9s ease both;
 }
 
 .device-card {
@@ -375,21 +359,23 @@ img {
     overflow: hidden;
 
     border: 1px solid #e5eaf0;
-    border-radius: var(--radius-xl);
+    border-radius: 30px;
 
     background:
         linear-gradient(
             145deg,
-            #fff,
+            #ffffff,
             #f4f7fb
         );
 
-    box-shadow: var(--shadow-lg);
+    box-shadow:
+        0 30px 80px rgba(15, 23, 42, .10);
 }
 
 .device-glow {
     position: absolute;
-    inset: 50% auto auto 50%;
+    top: 50%;
+    left: 50%;
 
     width: 250px;
     height: 250px;
@@ -413,13 +399,11 @@ img {
     width: 100%;
     height: 350px;
 
-    display: block;
-
     object-fit: contain;
 
     filter:
         drop-shadow(
-            0 25px 30px rgba(15,23,42,.18)
+            0 25px 30px rgba(15, 23, 42, .18)
         );
 
     transition: transform .4s ease;
@@ -436,12 +420,14 @@ img {
     height: 350px;
 
     display: none;
+
     align-items: center;
     justify-content: center;
     flex-direction: column;
 
     text-align: center;
-    color: var(--text-muted);
+
+    color: var(--muted);
 }
 
 .device-fallback-icon {
@@ -470,7 +456,7 @@ img {
 
     text-align: center;
 
-    color: var(--text-muted);
+    color: var(--muted);
 
     font-size: 13px;
     font-weight: 600;
@@ -498,7 +484,8 @@ img {
 
     background: #fff;
 
-    box-shadow: var(--shadow-md);
+    box-shadow:
+        0 20px 50px rgba(15, 23, 42, .08);
 }
 
 .stat {
@@ -568,7 +555,7 @@ img {
 }
 
 .section-description {
-    color: var(--text-secondary);
+    color: var(--secondary);
     font-size: 16px;
 }
 
@@ -607,7 +594,7 @@ img {
     background: #fff;
 
     box-shadow:
-        0 20px 40px rgba(15,23,42,.07);
+        0 20px 40px rgba(15, 23, 42, .07);
 }
 
 .feature-icon {
@@ -634,14 +621,14 @@ img {
 }
 
 .feature p {
-    color: var(--text-secondary);
+    color: var(--secondary);
 
     font-size: 14px;
     line-height: 1.65;
 }
 
 /* =========================================================
-   ACTIONS
+   RESOURCES
 ========================================================= */
 
 .actions {
@@ -677,7 +664,7 @@ img {
     transform: translateY(-5px);
 
     box-shadow:
-        0 20px 45px rgba(15,23,42,.08);
+        0 20px 45px rgba(15, 23, 42, .08);
 }
 
 .action-icon {
@@ -707,7 +694,7 @@ img {
 
     margin-bottom: 22px;
 
-    color: var(--text-secondary);
+    color: var(--secondary);
 
     font-size: 14px;
 }
@@ -744,7 +731,7 @@ img {
 .cta-box {
     max-width: 1000px;
 
-    margin: auto;
+    margin: 0 auto;
 
     padding: 60px 40px;
 
@@ -757,7 +744,7 @@ img {
     background:
         radial-gradient(
             circle at 20% 20%,
-            rgba(255,255,255,.15),
+            rgba(255, 255, 255, .15),
             transparent 30%
         ),
         linear-gradient(
@@ -767,7 +754,7 @@ img {
         );
 
     box-shadow:
-        0 30px 70px rgba(37,99,235,.20);
+        0 30px 70px rgba(37, 99, 235, .20);
 }
 
 .cta-box h2 {
@@ -783,7 +770,7 @@ img {
 
     margin: 0 auto 28px;
 
-    color: rgba(255,255,255,.82);
+    color: rgba(255, 255, 255, .82);
 }
 
 .cta-button {
@@ -791,7 +778,7 @@ img {
     background: #fff;
 
     box-shadow:
-        0 10px 25px rgba(0,0,0,.12);
+        0 10px 25px rgba(0, 0, 0, .12);
 }
 
 .cta-button:hover {
@@ -825,7 +812,7 @@ img {
 }
 
 .footer-text {
-    color: var(--text-muted);
+    color: var(--muted);
 
     font-size: 13px;
 }
@@ -836,7 +823,7 @@ img {
 }
 
 .footer-links a {
-    color: var(--text-secondary);
+    color: var(--secondary);
 
     font-size: 13px;
 
@@ -851,7 +838,7 @@ img {
    ANIMATIONS
 ========================================================= */
 
-@keyframes fade-up {
+@keyframes fadeUp {
     from {
         opacity: 0;
         transform: translateY(20px);
@@ -863,7 +850,7 @@ img {
     }
 }
 
-@keyframes fade-in {
+@keyframes fadeIn {
     from {
         opacity: 0;
         transform: scale(.97);
@@ -893,7 +880,8 @@ img {
     }
 
     .hero-description {
-        margin-inline: auto;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .hero-buttons {
@@ -917,7 +905,7 @@ img {
 @media (max-width: 650px) {
 
     .container {
-        width: min(100% - 36px, var(--container));
+        width: calc(100% - 36px);
     }
 
     .header-inner {
@@ -950,6 +938,7 @@ img {
 
     .device-card {
         padding: 20px;
+
         border-radius: 23px;
     }
 
@@ -995,11 +984,13 @@ img {
 
     .cta-box {
         padding: 45px 25px;
+
         border-radius: 23px;
     }
 
     .footer-inner {
         flex-direction: column;
+
         text-align: center;
     }
 
@@ -1028,183 +1019,128 @@ img {
     }
 }
 </style>
+
 </head>
 
 <body>
 
-<!-- =======================================================
-     HEADER
-======================================================= -->
-
 <header class="header">
 
-    <div class="container header-inner">
+```
+<div class="container header-inner">
 
-        <a href="#device" class="logo" aria-label="TargetiX UA">
+    <a
+        href="#device"
+        class="logo"
+        aria-label="TargetiX UA"
+    >
+        <span class="logo-icon">TX</span>
+        <span>TargetiX UA</span>
+    </a>
 
-            <span class="logo-icon">TX</span>
+    <nav
+        class="nav"
+        aria-label="Основна навігація"
+    >
+        <a href="#device">Пристрій</a>
+        <a href="#features">Можливості</a>
+        <a href="#resources">Ресурси</a>
+    </nav>
 
-            <span>TargetiX UA</span>
-
-        </a>
-
-        <nav class="nav" aria-label="Основна навігація">
-
-            <a href="#device">Пристрій</a>
-            <a href="#features">Можливості</a>
-            <a href="#resources">Ресурси</a>
-
-        </nav>
-
-    </div>
+</div>
+```
 
 </header>
 
-
 <main>
 
-<!-- =======================================================
-     HERO
-======================================================= -->
+<section
+    class="hero"
+    id="device"
+>
 
-<section class="hero" id="device">
+```
+<div class="container hero-grid">
 
-    <div class="container hero-grid">
+    <div class="hero-content">
 
-        <div class="hero-content">
+        <div class="badge">
 
-            <div class="badge">
+            <span class="badge-dot"></span>
 
-                <span class="badge-dot"></span>
-
-                Офіційний портал TargetiX UA
-
-            </div>
-
-            <h1>
-                TargetiX
-                <span class="gradient-text">UA</span>
-            </h1>
-
-            <p class="hero-description">
-                Сучасна платформа для роботи з пристроєм TargetiX.
-                Прошивка, документація, налаштування та служба
-                підтримки — усе необхідне в одному місці.
-            </p>
-
-            <div class="hero-buttons">
-
-                <a
-                    href="/webtool"
-                    class="button button-primary"
-                >
-                    Прошивка
-                    <span class="button-arrow">→</span>
-                </a>
-
-                <a
-                    href="/documentation.html"
-                    class="button button-secondary"
-                >
-                    Документація
-                </a>
-
-            </div>
+            Офіційний портал TargetiX UA
 
         </div>
 
+        <h1>
+            TargetiX
+            <span class="gradient-text">UA</span>
+        </h1>
 
-        <div class="device-area">
+        <p class="hero-description">
+            Сучасна платформа для роботи з пристроєм TargetiX.
+            Прошивка, документація, налаштування та служба
+            підтримки — усе необхідне в одному місці.
+        </p>
 
-            <div class="device-card">
+        <div class="hero-buttons">
 
-                <div class="device-glow"></div>
+            <a
+                href="/webtool"
+                class="button button-primary"
+            >
+                Прошивка
+                <span class="button-arrow">→</span>
+            </a>
 
-                <img
-                    src="device.png"
-                    alt="Пристрій TargetiX UA"
-                    class="device-image"
-                    id="device-image"
-                >
-
-                <div
-                    class="device-fallback"
-                    id="device-fallback"
-                >
-
-                    <div class="device-fallback-icon">
-                        ◇
-                    </div>
-
-                    <strong>
-                        TargetiX UA
-                    </strong>
-
-                    <span>
-                        Додайте файл device.png
-                        <br>
-                        поруч із index.html
-                    </span>
-
-                </div>
-
-                <div class="device-label">
-                    TargetiX UA
-                </div>
-
-            </div>
+            <a
+                href="/documentation.html"
+                class="button button-secondary"
+            >
+                Документація
+            </a>
 
         </div>
 
     </div>
 
-</section>
 
+    <div class="device-area">
 
-<!-- =======================================================
-     STATS
-======================================================= -->
+        <div class="device-card">
 
-<div class="stats">
+            <div class="device-glow"></div>
 
-    <div class="container">
+            <img
+                src="device.png"
+                alt="Пристрій TargetiX UA"
+                class="device-image"
+                id="device-image"
+            >
 
-        <div class="stats-box">
+            <div
+                class="device-fallback"
+                id="device-fallback"
+            >
 
-            <div class="stat">
-
-                <div class="stat-number">
-                    TargetiX
+                <div class="device-fallback-icon">
+                    ◇
                 </div>
 
-                <div class="stat-title">
-                    Назва пристрою
-                </div>
+                <strong>
+                    TargetiX UA
+                </strong>
+
+                <span>
+                    Додайте файл device.png
+                    <br>
+                    поруч із index.html
+                </span>
 
             </div>
 
-            <div class="stat">
-
-                <div class="stat-number">
-                    Web Tool
-                </div>
-
-                <div class="stat-title">
-                    Керування та прошивка
-                </div>
-
-            </div>
-
-            <div class="stat">
-
-                <div class="stat-number">
-                    UA
-                </div>
-
-                <div class="stat-title">
-                    Український інтерфейс
-                </div>
-
+            <div class="device-label">
+                TargetiX UA
             </div>
 
         </div>
@@ -1212,355 +1148,412 @@ img {
     </div>
 
 </div>
+```
 
+</section>
 
-<!-- =======================================================
-     FEATURES
-======================================================= -->
+<div class="stats">
 
-<section class="section features" id="features">
+```
+<div class="container">
 
-    <div class="container">
+    <div class="stats-box">
 
-        <div class="section-header">
+        <div class="stat">
 
-            <div class="section-label">
-                Можливості
+            <div class="stat-number">
+                TargetiX
             </div>
 
-            <h2 class="section-title">
-                Все необхідне в одному місці
-            </h2>
-
-            <p class="section-description">
-                Зручний доступ до основних інструментів
-                та інформації для роботи з TargetiX UA.
-            </p>
+            <div class="stat-title">
+                Назва пристрою
+            </div>
 
         </div>
 
+        <div class="stat">
 
-        <div class="feature-grid">
+            <div class="stat-number">
+                Web Tool
+            </div>
 
-            <article class="feature">
+            <div class="stat-title">
+                Керування та прошивка
+            </div>
 
-                <div class="feature-icon">⚡</div>
+        </div>
 
-                <h3>
-                    Швидке оновлення
-                </h3>
+        <div class="stat">
 
-                <p>
-                    Оновлюйте програмне забезпечення
-                    пристрою через Web Tool.
-                </p>
+            <div class="stat-number">
+                UA
+            </div>
 
-            </article>
-
-
-            <article class="feature">
-
-                <div class="feature-icon">⚙</div>
-
-                <h3>
-                    Зручне керування
-                </h3>
-
-                <p>
-                    Керуйте основними параметрами
-                    пристрою через сучасний веб-інтерфейс.
-                </p>
-
-            </article>
-
-
-            <article class="feature">
-
-                <div class="feature-icon">◈</div>
-
-                <h3>
-                    Документація
-                </h3>
-
-                <p>
-                    Усі інструкції та корисна інформація
-                    доступні в окремому розділі.
-                </p>
-
-            </article>
-
-
-            <article class="feature">
-
-                <div class="feature-icon">✓</div>
-
-                <h3>
-                    Простий інтерфейс
-                </h3>
-
-                <p>
-                    Світлий, зрозумілий та адаптивний
-                    інтерфейс для комп'ютера і смартфона.
-                </p>
-
-            </article>
-
-
-            <article class="feature">
-
-                <div class="feature-icon">🔒</div>
-
-                <h3>
-                    Налаштування
-                </h3>
-
-                <p>
-                    Отримуйте доступ до необхідних
-                    параметрів та конфігурації пристрою.
-                </p>
-
-            </article>
-
-
-            <article class="feature">
-
-                <div class="feature-icon">?</div>
-
-                <h3>
-                    Підтримка
-                </h3>
-
-                <p>
-                    Якщо виникли питання — зверніться
-                    до служби підтримки TargetiX.
-                </p>
-
-            </article>
+            <div class="stat-title">
+                Український інтерфейс
+            </div>
 
         </div>
 
     </div>
 
-</section>
+</div>
+```
 
+</div>
 
-<!-- =======================================================
-     RESOURCES
-======================================================= -->
+<section
+    class="section features"
+    id="features"
+>
 
-<section class="section actions" id="resources">
+```
+<div class="container">
 
-    <div class="container">
+    <div class="section-header">
 
-        <div class="section-header">
-
-            <div class="section-label">
-                Ресурси
-            </div>
-
-            <h2 class="section-title">
-                Потрібний розділ поруч
-            </h2>
-
-            <p class="section-description">
-                Оберіть потрібний інструмент для роботи
-                з вашим пристроєм.
-            </p>
-
+        <div class="section-label">
+            Можливості
         </div>
 
+        <h2 class="section-title">
+            Все необхідне в одному місці
+        </h2>
 
-        <div class="action-grid">
-
-            <a
-                href="/webtool"
-                class="action-card"
-                aria-label="Відкрити Web Tool"
-            >
-
-                <div class="action-icon">
-                    ⚡
-                </div>
-
-                <h3>
-                    Прошивка
-                </h3>
-
-                <p>
-                    Відкрийте Web Tool для оновлення
-                    та керування пристроєм TargetiX.
-                </p>
-
-                <div class="action-link">
-                    Відкрити Web Tool
-                    <span>→</span>
-                </div>
-
-            </a>
-
-
-            <a
-                href="/documentation.html"
-                class="action-card"
-                aria-label="Відкрити документацію"
-            >
-
-                <div class="action-icon">
-                    📖
-                </div>
-
-                <h3>
-                    Документація
-                </h3>
-
-                <p>
-                    Інструкції з підключення, налаштування,
-                    використання та оновлення пристрою.
-                </p>
-
-                <div class="action-link">
-                    Переглянути документацію
-                    <span>→</span>
-                </div>
-
-            </a>
-
-
-            <a
-                href="/support.html"
-                class="action-card"
-                aria-label="Відкрити службу підтримки"
-            >
-
-                <div class="action-icon">
-                    💬
-                </div>
-
-                <h3>
-                    Служба підтримки
-                </h3>
-
-                <p>
-                    Отримайте допомогу щодо роботи,
-                    налаштування або оновлення TargetiX.
-                </p>
-
-                <div class="action-link">
-                    Отримати допомогу
-                    <span>→</span>
-                </div>
-
-            </a>
-
-        </div>
+        <p class="section-description">
+            Зручний доступ до основних інструментів
+            та інформації для роботи з TargetiX UA.
+        </p>
 
     </div>
 
+
+    <div class="feature-grid">
+
+        <article class="feature">
+
+            <div class="feature-icon">
+                ⚡
+            </div>
+
+            <h3>
+                Швидке оновлення
+            </h3>
+
+            <p>
+                Оновлюйте програмне забезпечення
+                пристрою через Web Tool.
+            </p>
+
+        </article>
+
+
+        <article class="feature">
+
+            <div class="feature-icon">
+                ⚙
+            </div>
+
+            <h3>
+                Зручне керування
+            </h3>
+
+            <p>
+                Керуйте основними параметрами
+                пристрою через сучасний веб-інтерфейс.
+            </p>
+
+        </article>
+
+
+        <article class="feature">
+
+            <div class="feature-icon">
+                ◈
+            </div>
+
+            <h3>
+                Документація
+            </h3>
+
+            <p>
+                Усі інструкції та корисна інформація
+                доступні в окремому розділі.
+            </p>
+
+        </article>
+
+
+        <article class="feature">
+
+            <div class="feature-icon">
+                ✓
+            </div>
+
+            <h3>
+                Простий інтерфейс
+            </h3>
+
+            <p>
+                Світлий, зрозумілий та адаптивний
+                інтерфейс для комп'ютера і смартфона.
+            </p>
+
+        </article>
+
+
+        <article class="feature">
+
+            <div class="feature-icon">
+                🔒
+            </div>
+
+            <h3>
+                Налаштування
+            </h3>
+
+            <p>
+                Отримуйте доступ до необхідних
+                параметрів та конфігурації пристрою.
+            </p>
+
+        </article>
+
+
+        <article class="feature">
+
+            <div class="feature-icon">
+                ?
+            </div>
+
+            <h3>
+                Підтримка
+            </h3>
+
+            <p>
+                Якщо виникли питання — зверніться
+                до служби підтримки TargetiX.
+            </p>
+
+        </article>
+
+    </div>
+
+</div>
+```
+
 </section>
 
+<section
+    class="section actions"
+    id="resources"
+>
 
-<!-- =======================================================
-     CTA
-======================================================= -->
+```
+<div class="container">
+
+    <div class="section-header">
+
+        <div class="section-label">
+            Ресурси
+        </div>
+
+        <h2 class="section-title">
+            Потрібний розділ поруч
+        </h2>
+
+        <p class="section-description">
+            Оберіть потрібний інструмент для роботи
+            з вашим пристроєм.
+        </p>
+
+    </div>
+
+
+    <div class="action-grid">
+
+        <a
+            href="/webtool"
+            class="action-card"
+            aria-label="Відкрити Web Tool"
+        >
+
+            <div class="action-icon">
+                ⚡
+            </div>
+
+            <h3>
+                Прошивка
+            </h3>
+
+            <p>
+                Відкрийте Web Tool для оновлення
+                та керування пристроєм TargetiX.
+            </p>
+
+            <div class="action-link">
+                Відкрити Web Tool
+                <span>→</span>
+            </div>
+
+        </a>
+
+
+        <a
+            href="/documentation.html"
+            class="action-card"
+            aria-label="Відкрити документацію"
+        >
+
+            <div class="action-icon">
+                📖
+            </div>
+
+            <h3>
+                Документація
+            </h3>
+
+            <p>
+                Інструкції з підключення, налаштування,
+                використання та оновлення пристрою.
+            </p>
+
+            <div class="action-link">
+                Переглянути документацію
+                <span>→</span>
+            </div>
+
+        </a>
+
+
+        <a
+            href="/support.html"
+            class="action-card"
+            aria-label="Відкрити службу підтримки"
+        >
+
+            <div class="action-icon">
+                💬
+            </div>
+
+            <h3>
+                Служба підтримки
+            </h3>
+
+            <p>
+                Отримайте допомогу щодо роботи,
+                налаштування або оновлення TargetiX.
+            </p>
+
+            <div class="action-link">
+                Отримати допомогу
+                <span>→</span>
+            </div>
+
+        </a>
+
+    </div>
+
+</div>
+```
+
+</section>
 
 <section class="cta">
 
-    <div class="container">
+```
+<div class="container">
 
-        <div class="cta-box">
+    <div class="cta-box">
 
-            <h2>
-                Готові налаштувати TargetiX?
-            </h2>
+        <h2>
+            Готові налаштувати TargetiX?
+        </h2>
 
-            <p>
-                Перейдіть до Web Tool, щоб почати роботу
-                з вашим пристроєм.
-            </p>
+        <p>
+            Перейдіть до Web Tool, щоб почати роботу
+            з вашим пристроєм.
+        </p>
 
-            <a
-                href="/webtool"
-                class="button cta-button"
-            >
-                Відкрити Web Tool
-                <span class="button-arrow">→</span>
-            </a>
-
-        </div>
+        <a
+            href="/webtool"
+            class="button cta-button"
+        >
+            Відкрити Web Tool
+            <span class="button-arrow">→</span>
+        </a>
 
     </div>
+
+</div>
+```
 
 </section>
 
 </main>
 
-
-<!-- =======================================================
-     FOOTER
-======================================================= -->
-
 <footer class="footer">
 
-    <div class="container footer-inner">
+```
+<div class="container footer-inner">
 
-        <div>
+    <div>
 
-            <div class="footer-logo">
-                TargetiX UA
-            </div>
-
-            <div class="footer-text">
-                © 2026 TargetiX UA. Усі права захищені.
-            </div>
-
+        <div class="footer-logo">
+            TargetiX UA
         </div>
 
-
-        <div class="footer-links">
-
-            <a href="/documentation.html">
-                Документація
-            </a>
-
-            <a href="/support.html">
-                Підтримка
-            </a>
-
-            <a href="/webtool">
-                Web Tool
-            </a>
-
+        <div class="footer-text">
+            © 2026 TargetiX UA. Усі права захищені.
         </div>
 
     </div>
 
+
+    <div class="footer-links">
+
+        <a href="/documentation.html">
+            Документація
+        </a>
+
+        <a href="/support.html">
+            Підтримка
+        </a>
+
+        <a href="/webtool">
+            Web Tool
+        </a>
+
+    </div>
+
+</div>
+```
+
 </footer>
 
-
 <script>
-/* =========================================================
-   DEVICE IMAGE FALLBACK
-========================================================= */
+(function () {
 
-(() => {
     const image = document.getElementById("device-image");
     const fallback = document.getElementById("device-fallback");
 
-    if (!image || !fallback) return;
+    if (!image || !fallback) {
+        return;
+    }
 
-    const showFallback = () => {
+    function showFallback() {
         image.style.display = "none";
         fallback.style.display = "flex";
-    };
+    }
 
     image.addEventListener("error", showFallback);
 
     if (image.complete && image.naturalWidth === 0) {
         showFallback();
     }
+
 })();
 </script>
 
 </body>
 </html>
-```
